@@ -1,20 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
+  background-image: url("./images/bg2.jpg");
+  background-color: #cccccc;
+  background-size: cover;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,11 +22,127 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+* {
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+}
+
+.container {
+  margin: 1rem;
+  text-align: center;
+}
+
+.nav {
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2rem;
+  padding: 0 1.5rem;
+}
+
+.site-title {
+  font-size: 1.5rem;
+}
+
+.link-title {
+  font-size: 0.9rem;
+}
+
+.nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.nav a {
+  color: inherit;
+  text-decoration: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: .25rem;
+}
+
+.nav li.active {
+  background-color: #555;
+}
+
+.nav li:hover {
+  background-color: #777;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  text-align: left;
+  color: #000000
+}
+  
+.wrapper .form-control:focus {
+  border-color: #167bff;
+  box-shadow: none;
+}
+
+.wrapper h3 {
+  text-align: center;
+  margin: 0;
+  line-height: 1;
+  padding-bottom: 20px;
+}
+
+.inner {
+  font-size: 1rem;
+  width: 600px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-radius: 7px;
+  transition: all .3s;
+}
+
+.generic-text {
+  text-decoration: none;
+  text-align: left;
+  font-size: 13px;
+  padding-top: 10px;
+  color: #585858;
+  margin: 0;
+}
+
+.reset-link {
+  text-decoration: none;
+  text-align: left;
+  font-size: 13px;
+  padding-top: 10px;
+  color: #167bff;
+  margin: 0;
+}
+
+.reset-link a {
+  text-decoration: none;
+}
+
+.show-btn {
+  width: 45px;
+  margin: auto;
+  background: #ffffff;
+  padding: 10px 15px 10px 15px;
+  border: 1px solid rgb(190, 190, 190);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  text-align: right;
 }
