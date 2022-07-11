@@ -31,6 +31,7 @@ function Login() {
     const onSubmit = (data) => console.log(data);
 
     console.log("errors", errors);
+    console.log(password);
 
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
