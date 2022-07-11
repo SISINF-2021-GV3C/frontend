@@ -81,7 +81,7 @@ body {
   background-color: #777;
 }
 
-.wrapper {
+.log-wrapper {
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -89,19 +89,19 @@ body {
   color: #000000
 }
   
-.wrapper .form-control:focus {
+.log-wrapper .form-control:focus {
   border-color: #167bff;
   box-shadow: none;
 }
 
-.wrapper h3 {
+.log-wrapper h3 {
   text-align: center;
   margin: 0;
   line-height: 1;
   padding-bottom: 20px;
 }
 
-.inner {
+.log-inner {
   font-size: 1rem;
   width: 600px;
   margin: auto;
@@ -111,6 +111,38 @@ body {
   border-radius: 7px;
   transition: all .3s;
 }
+
+.reg-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  text-align: left;
+  color: #000000
+}
+  
+.reg-wrapper .form-control:focus {
+  border-color: #167bff;
+  box-shadow: none;
+}
+
+.reg-wrapper h3 {
+  text-align: center;
+  margin: 0;
+  line-height: 1;
+  padding-bottom: 20px;
+}
+
+.reg-inner {
+  font-size: 1rem;
+  width: 600px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-radius: 7px;
+  transition: all .3s;
+}
+
 
 .generic-text {
   text-decoration: none;
@@ -145,4 +177,12 @@ body {
   justify-content: center;
   flex-direction: row;
   text-align: right;
+}
+
+.reg-warning {
+  font-size: 0.8rem;
+  margin-top: 0;
+  color: rgb(172, 37, 37);
+  text-align: left;
+  justify-content: left;
 }

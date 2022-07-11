@@ -30,8 +30,8 @@ function Login() {
     }
 
     return (
-        <div className="wrapper">
-            <div className="inner">
+        <div className="log-wrapper">
+            <div className="log-inner">
                 <form onSubmit={handleLogin}>
                     <h3>Inicia sesión con tu cuenta</h3>
                     <div className="form-group">
