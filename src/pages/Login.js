@@ -50,7 +50,7 @@ function Login() {
                     </div>
                     <p></p>
                     <br></br>
-                    <div class="d-grid gap-2"> 
+                    <div className="d-grid gap-2"> 
                         <button type="submit" className="btn btn-primary btn-block btn-lg">Iniciar sesión</button>
                     </div>
                     <br></br>

@@ -181,8 +181,20 @@ body {
 
 .reg-warning {
   font-size: 0.8rem;
-  margin-top: 0;
+  margin-top: 0px;
   color: rgb(172, 37, 37);
   text-align: left;
   justify-content: left;
+}
+
+.reg-warning-pass {
+  font-size: 0.8rem;
+  margin-top: -15px;
+  color: rgb(172, 37, 37);
+  text-align: left;
+  justify-content: left;
+}
+
+.form-control {
+  font-size: 0.8rem
 }
