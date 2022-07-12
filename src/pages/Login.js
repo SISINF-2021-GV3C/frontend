@@ -32,7 +32,7 @@ function Login() {
     return (
         <div className="log-wrapper">
             <div className="log-inner">
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleLogin} autoComplete="off">
                     <h3>Inicia sesión con tu cuenta</h3>
                     <div className="form-group">
                         <label>Nombre de usuario</label>
