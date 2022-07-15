@@ -1,25 +1,14 @@
-import Spinner from "react-bootstrap/esm/Spinner";
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Loading () {
-
-    const handleLoading = () => {
-        setTimeout(() => {
-            window.location.href = '/coins'
-        },2000)
-
-        return(
-            <h2>Cargando...
-                <div className="spinner">
-                    <p>
-                        <Spinner animation="border"/>
-                    </p>
-                </div>
-            </h2>
-        )
-    }
-
     return (
-        handleLoading()
+        <h2>Cargando...
+            <div className="spinner">
+                <p>
+                    <CircularProgress color="inherit"/>
+                </p>
+            </div>
+        </h2>
     )
 }
 

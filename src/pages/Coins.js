@@ -1,13 +1,17 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ReactPaginate from 'react-paginate';
+import Loading from "../components/Loader"
 
 const coinListUrl = "https://api.coingecko.com/api/v3/coins/list"
 
+
 function Coins (props) {
+    
+    const [loading, setLoading] = useState(true)
     const [coin, setCoin] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
-
+    
     const coinsPerPage = 20;
     const pagesVisited = pageNumber * coinsPerPage;
 
@@ -16,7 +20,8 @@ function Coins (props) {
             const { data } = await axios.get(coinListUrl)
             setCoin(data);
           }; 
-          fetchCoins();
+        fetchCoins();
+        setTimeout(() => setLoading(false), 2000)
     }, []);
 
     const displayCoins = coin
@@ -42,12 +47,14 @@ function Coins (props) {
 
     const changePage = ({ selected }) => {
         setPageNumber(selected);
-    };
+    }
 
     return (
-        <div className="ui grid container">
-            <h1>Cypto Prices</h1>
-            <p></p>
+        <>
+        {loading === false ? (
+            <div className="ui grid container">
+                <h1>Crypto Prices</h1>
+                <p></p>
                 <table className="table table-striped table-dark table-bordered table-hover">
                     <thead>
                         <tr>
@@ -58,22 +65,26 @@ function Coins (props) {
                     </thead>
                 </table>
                 {displayCoins}
-            <br></br>
-            <div className="pagination-grid">
-                <ReactPaginate
-                previousLabel={"<<<"}
-                nextLabel={">>>"}
-                pageCount={pageCount}
-                onPageChange={changePage}
-                containerClassName={"paginationBttns"}
-                previousLinkClassName={"previousBttn"}
-                nextLinkClassName={"nextBttn"}
-                disabledClassName={"paginationDisabled"}
-                activeClassName={"paginationActive"}
-                />
+                <br></br>
+                <div className="pagination-grid">
+                    <ReactPaginate
+                    previousLabel={"<<<"}
+                    nextLabel={">>>"}
+                    pageCount={pageCount}
+                    onPageChange={changePage}
+                    containerClassName={"paginationBttns"}
+                    previousLinkClassName={"previousBttn"}
+                    nextLinkClassName={"nextBttn"}
+                    disabledClassName={"paginationDisabled"}
+                    activeClassName={"paginationActive"}
+                    />
+                </div>
             </div>
-        </div>
-      );
+        ) : (
+            <Loading />
+        )}
+        </>
+    );
 }
 
 export default Coins

@@ -6,7 +6,7 @@ export default function Navbar() {
     <nav className="nav">
       <Link to="/" className="site-title"> <img src={logo} alt="Cryptoaholic Logo" width="35" height="35"></img> Cryptoaholic </Link>
       <ul className="link-title">
-        <CustomLink to="/loading">Explorar</CustomLink>
+        <CustomLink to="/coins">Explorar</CustomLink>
         <CustomLink to="/login">Iniciar sesión</CustomLink>
         <CustomLink to="/register">Registrar</CustomLink>
       </ul>
