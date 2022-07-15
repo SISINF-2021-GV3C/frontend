@@ -55,9 +55,6 @@ function Login() {
                     </div>
                     <br></br>
                     <h1 className="generic-text">
-                        ¿Has olvidado tu contraseña? <Link className="reset-link" to="/reset">Recuperar</Link>
-                    </h1>
-                    <h1 className="generic-text">
                         ¿Todavía no tienes cuenta? <Link className="reset-link" to="/register">Registrar</Link>
                     </h1>
                 </form>

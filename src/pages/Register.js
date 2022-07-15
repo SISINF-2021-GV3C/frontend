@@ -23,7 +23,7 @@ const regExpTlf = RegExp(
     /^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{3})$/
 )
 
-function Login() {
+function Register() {
 
     const {
         register,
@@ -221,4 +221,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Register;

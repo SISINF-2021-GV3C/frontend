@@ -71,10 +71,13 @@ body {
   display: flex;
   align-items: center;
   padding: .25rem;
+  cursor: pointer;
 }
 
 .nav li.active {
   background-color: #555;
+  cursor: default;
+  pointer-events: none;
 }
 
 .nav li:hover {
@@ -197,4 +200,77 @@ body {
 
 .form-control {
   font-size: 0.8rem
+}
+
+.button-return {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.pagination-grid {
+  width: 300px;
+  margin: auto;
+  padding: 10px 15px 10px 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  text-align: center;
+}
+
+.paginationBttns {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+  width: 80%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  color: white;
+}
+
+.paginationBttns a {
+  text-decoration: none;
+  padding: 10px;
+  margin: 8px;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color:rgb(115, 122, 161);
+  color: white;
+  cursor: pointer;
+}
+
+.paginationBttns a:hover {
+  text-decoration: none;
+  background:rgb(63, 166, 234)
+}
+
+.paginationActive a {
+  text-decoration: none;
+  color: rgb(128, 128, 128);
+  background-color:rgb(20, 63, 92);
+}
+
+.paginationDisabled a {
+  text-decoration: none;
+  color: black;
+  background-color: rgb(75, 75, 75);
+  cursor: default;
+  background: rgb(75, 75, 75);
+}
+
+.paginationDisabled a:hover {
+  cursor: default;
+  background: rgb(75, 75, 75);
+}
+
+.spinner {
+  position: relative;
+  top:0; left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
