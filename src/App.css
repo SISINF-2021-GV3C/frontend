@@ -275,3 +275,36 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.symbol-crypto {
+  text-size-adjust: 10%;
+  color: grey;
+}
+
+.text-success {
+  color: green
+}
+
+.text-danger {
+  color: red
+}
+
+.table-alignment {
+  text-align: left;
+}
+
+.search-box {
+  align-content: center;
+  justify-content: center;
+  border-radius: 15px;
+  padding: 4px 10px 5px 10px;
+  font-size: 1.5rem;
+}
+
+.grid-container {
+  
+  justify-content: center;
+  position: sticky;
+   top: 0;
+   z-index: 100;
+}
