@@ -40,6 +40,9 @@ body {
 
 .nav {
   background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -301,10 +304,20 @@ body {
   font-size: 1.5rem;
 }
 
-.grid-container {
-  
-  justify-content: center;
-  position: sticky;
-   top: 0;
-   z-index: 100;
+.top-index {
+  margin-top: 20px;
+  padding-top: 50px;
+}
+
+.link-deco {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.fixed-content {
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
