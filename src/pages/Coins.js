@@ -10,6 +10,7 @@ const coinListUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=
 function Coins (props) {
     
     const [loading, setLoading] = useState(true)
+    const [isPositive, setIsPositive] = useState(false);
     const [coin, setCoin] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
     const [filter, setFilter] = useState('');
@@ -21,10 +22,21 @@ function Coins (props) {
         const fetchCoins = async () => {
             const { data } = await axios.get(coinListUrl)
             setCoin(data);
+            for (let i = 0; i < coin.length; i++){
+                if(coin[i].price_change_percentage_24h > 0){
+                    let valor = "Valor positivo"
+                    console.log(valor)
+                }
+                else{
+                    let valor = "Valor negativo"
+                    console.log(valor)
+                }
+                console.log("El valor es: ", coin[i].price_change_percentage_24h, isPositive[i]);
+            }
           }; 
         fetchCoins();
         setTimeout(() => setLoading(false), 2000)
-    }, []);
+    }, [coin]);
 
     const displayCoins = coin
         .filter((value) => { 
@@ -65,7 +77,7 @@ function Coins (props) {
                                     </th>
                                     <td className="table-alignment" width="15%">${current_price.toLocaleString()}</td>
                                     <td className="table-alignment" width="20%">${Math.trunc(market_cap/1000000).toLocaleString()}M</td>
-                                    <td className="table-alignment" width="15%">{price_change_percentage_24h} %</td>
+                                    <td className={`table-alignment ${isPositive ? 'text-success' : 'text-danger'}`} width="15%">{price_change_percentage_24h} %</td>
                                     <td className="table-alignment" width="15%">{Math.trunc(total_volume/1000000).toLocaleString()}M</td>
                                     <td className="table-alignment" width="15%">{Math.trunc(circulating_supply/1000000).toLocaleString()}M</td>
                             </tr> 
@@ -90,12 +102,13 @@ function Coins (props) {
                     <h1>Crypto Prices</h1>
                     <p></p>
                     <div>                  
-                        <input 
-                        type="search" 
+                        <input
+                        id="search" 
+                        type="text" 
                         className="search-box" 
-                        placeholder="Busca una divisa aquí..." 
                         value={filter} 
                         onChange={(e) => setFilter(e.target.value)}
+                        autoComplete="off"
                         />
                     </div>
                 </div>

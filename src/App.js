@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Coins from "./pages/Coins"
+import Asset from "./pages/Asset"
 import NotFound from './components/NotFound';
 import Loading from './components/Loader';
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/coins" element={<Coins />} />
+          <Route path="/coins/:id" element={<Asset />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
