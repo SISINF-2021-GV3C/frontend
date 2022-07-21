@@ -411,7 +411,8 @@ body {
 }
 
 .table {
-  font-size: 90%;
+  font-size: 70%;
+  width: 105;
 }
 
 .table-alignment {
