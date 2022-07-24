@@ -1,22 +1,20 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import ReactPaginate from 'react-paginate';
 import { Link } from "react-router-dom"
 import Loading from "../components/Loader"
+import { FaAngleDoubleUp, FaPlus } from "react-icons/fa";
 
 const coinListUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
 
-
-function Coins (props) {
+function Coins () {
     
+    const coinsPerPage = 20;
     const [loading, setLoading] = useState(true);
     const [coin, setCoin] = useState([]);
-    const [pageNumber, setPageNumber] = useState(0);
-    const [filter, setFilter] = useState('');
+    const [paginate, setPaginate] = useState(coinsPerPage);
+    const [query, setQuery] = useState('');
     
     var isPositive = [];
-    const coinsPerPage = 20;
-    const pagesVisited = pageNumber * coinsPerPage;
 
     useEffect(() => {
         const fetchCoins = async () => {
@@ -24,29 +22,37 @@ function Coins (props) {
             setCoin(data);
           }; 
         fetchCoins();
-        setTimeout(() => setLoading(false), 2000)
+        setTimeout(() => setLoading(false), 1500)
     }, []);
+
+    const loadMore = () => {
+        setPaginate((prevValue) => prevValue + coinsPerPage);
+    };
+
+    const scrollToTop = () => {
+        const element = document.getElementById("top-index");
+        element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+    };
 
     const displayCoins = coin
         .filter((value) => { 
-            if(filter === ""){
+            if(query === ""){
                 return value;
             } else if (
-                value.name.toLowerCase().includes(filter.toLocaleLowerCase()) ||
-                value.symbol.toLowerCase().includes(filter.toLocaleLowerCase())
+                value.name.toLowerCase().includes(query.toLocaleLowerCase()) ||
+                value.symbol.toLowerCase().includes(query.toLocaleLowerCase())
             ) {
                 return value;
             }
         })
-        .slice(pagesVisited, pagesVisited + coinsPerPage)
+        .slice(0,paginate)
         .map((coin) => {
             const { id, 
                     symbol, 
                     name, 
                     image, 
                     current_price, 
-                    market_cap, 
-                    market_cap_rank, 
+                    market_cap,  
                     total_volume, 
                     price_change_percentage_24h,
                     circulating_supply 
@@ -86,17 +92,12 @@ function Coins (props) {
             )
         })
 
-    const pageCount = Math.ceil(coin.length / coinsPerPage);
-
-    const changePage = ({ selected }) => {
-        setPageNumber(selected);
-    }
 
     return (
         <>
         {loading === false ? (
             <div className="ui grid container">
-                <div className="top-index">
+                <div id="top-index" className="top-index">
                     <h1>Crypto Prices</h1>
                     <p></p>
                     <div>                  
@@ -104,8 +105,8 @@ function Coins (props) {
                         id="search" 
                         type="text" 
                         className="search-box" 
-                        value={filter} 
-                        onChange={(e) => setFilter(e.target.value)}
+                        value={query} 
+                        onChange={(e) => setQuery(e.target.value)}
                         autoComplete="off"
                         />
                     </div>
@@ -124,20 +125,21 @@ function Coins (props) {
                     </thead>
                 </table>
                 {displayCoins}
-                <br></br>
-                <div className="pagination-grid">
-                    <ReactPaginate
-                    previousLabel={"<<<"}
-                    nextLabel={">>>"}
-                    pageCount={pageCount}
-                    onPageChange={changePage}
-                    containerClassName={"paginationBttns"}
-                    previousLinkClassName={"previousBttn"}
-                    nextLinkClassName={"nextBttn"}
-                    disabledClassName={"paginationDisabled"}
-                    activeClassName={"paginationActive"}
-                    />
-                </div>
+                {paginate < coin?.length && (
+                    <button type="button" 
+                            className="btn btn-warn"
+                            onClick={loadMore}
+                    >
+                        <FaPlus />
+                    </button>
+                )}
+                <p></p>
+                <button type="button" 
+                        className="btn btn-warn-top"
+                        onClick={scrollToTop}
+                >
+                    <FaAngleDoubleUp />
+                </button>
             </div>
         ) : (
             <Loading />

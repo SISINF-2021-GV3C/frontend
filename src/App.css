@@ -3,10 +3,12 @@
 :root{
   --green:#008000;
   --dark-green:#034b00;
+  --yellow:#fff700;
+  --dark-yellow:#9d8300;
   --red:#ff0000;
   --dark-red:#990000;
   --blue:#008c9f;
-  --dark-color:#4be3f7;
+  --dark-blue:#186487;
   --black:#444;
   --light-color:#666;
   --border:.1rem solid rgba(0,0,0,.1);
@@ -83,7 +85,7 @@
 
 .ui.grid.container {
   margin-top: 44px;
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   overflow-y: scroll;
@@ -267,6 +269,19 @@ body {
   transition: all .3s;
 }
 
+.btn-light {
+  border-radius: 25%;
+}
+
+.btn-light:hover {
+  background-color: rgb(160, 160, 160);
+  border-color: rgb(160, 160, 160);
+}
+
+.bi-plus-lg {
+  color: black;
+  font-size: large;
+}
 
 .generic-text {
   text-decoration: none;
@@ -468,4 +483,48 @@ div#content {
   background-clip: padding-box;
   border-radius: 9999px;
   background-color: #AAAAAA;
+}
+
+.icon-position{
+  bottom: 40px;
+  right: 25px;
+  z-index: 20;
+}
+.icon-style{
+  background-color: #551B54;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  color: #fff;
+  cursor: pointer;
+  animation: movebtn 3s ease-in-out infinite;
+  transition: all .5s ease-in-out;
+}
+.icon-style:hover{
+  animation: none;
+  background: #fff;
+  color: #551B54;
+  border: 2px solid #551B54;
+}
+
+.btn-warn {
+  color: var(--dark-blue);
+  border-radius: 15px;
+  padding-bottom: 9px;
+  padding-top: 7px;
+}
+
+.btn-warn-top {
+  color: var(--dark-yellow);
+  border-radius: 15px;
+  padding-bottom: 9px;
+  padding-top: 7px;
+  position: fixed;
+  right:    10px;
+  bottom:   10px;
+}
+
+.btn-warn-top-hidden {
+  visibility: hidden;
 }
