@@ -4,7 +4,7 @@ function Asset () {
     return (
         <div>
             <h1>
-                ASSET
+                {ASSET}
             </h1>
         </div>
     )
