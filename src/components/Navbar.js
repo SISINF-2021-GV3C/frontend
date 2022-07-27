@@ -8,7 +8,6 @@ export default function Navbar() {
       <ul className="link-title">
         <CustomLink to="/coins">Explorar</CustomLink>
         <CustomLink to="/login">Iniciar sesión</CustomLink>
-        <CustomLink to="/register">Registrar</CustomLink>
       </ul>
     </nav>
   )

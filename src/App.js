@@ -21,7 +21,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/coins" element={<Coins />} />
-          <Route path="/coins/:id" element={<Asset />} />
+          <Route path="/coins/:symbol" element={<Asset />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

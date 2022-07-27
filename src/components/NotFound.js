@@ -6,7 +6,7 @@ const NotFound = () => {
             <h1>Error 404: Página no encontrada</h1>
             <div className="button-return">
                 <Link to="/" className="btn btn-outline-light">
-                    Volver a inicio
+                    Volver al inicio
                 </Link>
             </div>
         </div>

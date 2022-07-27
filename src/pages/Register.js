@@ -47,6 +47,7 @@ function Register() {
     const [iconPass, setIconPass] = useState(faEyeSlash)
     const [iconCPass, setIconCPass] = useState(faEyeSlash)
 
+    // Mostrar contraseña
     const handleToggle = () => {
         if (typePass === 'password') {
             setIconPass(faEye)
@@ -58,6 +59,7 @@ function Register() {
         }
     }
 
+    // Mostrar contraseña
     const handleToggle2 = () => {
         if (typeCPass === 'password') {
             setIconCPass(faEye)
@@ -89,7 +91,7 @@ function Register() {
                             <p className="reg-warning">{errors.firstName?.message}</p>
                         </div>
                         <div className="col">
-                            <label>Nombre</label>
+                            <label>Apellido</label>
                             <input
                                 {...register("lastName", {
                                     required: "Campo obligatorio.",

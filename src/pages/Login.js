@@ -14,10 +14,12 @@ function Login() {
     const [type, setType] = useState('password')
     const [icon, setIcon] = useState(faEyeSlash)
 
+    // Función de inicio de sesión
     const handleLogin = (event) => {
         event.preventDefault()
     }
     
+    // Mostrar contraseña
     const handleToggle = () => {
         if (type === 'password') {
             setIcon(faEye)
