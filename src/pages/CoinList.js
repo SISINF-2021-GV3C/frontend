@@ -7,12 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faSortUp } from "@fortawesome/free-solid-svg-icons";
-
-const coinListUrl = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+import { CoinList } from "../data/CoinGecko_API";
+import "../css/coinList.css"
 
 function Coins () {
     
-    const coinsPerPage = 20;
+    // Constantes de manejo de datos y paginación
+    const currency = "usd";
+    const coinsPerPage = 25;
     const [loading, setLoading] = useState(true);
     const [coin, setCoin] = useState([]);
     const [paginate, setPaginate] = useState(coinsPerPage);
@@ -40,21 +42,22 @@ function Coins () {
     const numberFormat = new Intl.NumberFormat('en-US', options);
     const supplyFormat = new Intl.NumberFormat('en-US');
 
+    // Descargar datos a través de la API de CoinGecko
     useEffect(() => {
         const fetchCoins = async () => {
-            const { data } = await axios.get(coinListUrl)
+            const { data } = await axios.get(CoinList(currency))
             setCoin(data);
-          }; 
+        }; 
         fetchCoins();
-        setTimeout(() => setLoading(false), 1500)
+        setTimeout(() => setLoading(false), 1500);
     }, []);
 
-    // Botón para cargar más monedas
+    // Función para cargar más monedas
     const loadMore = () => {
         setPaginate((prevValue) => prevValue + coinsPerPage);
     };
 
-    // Botón para volver al principio de la página
+    // Función para volver al principio de la página
     const scrollToTop = () => {
         const element = document.getElementById("top-index");
         element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
@@ -300,7 +303,7 @@ function Coins () {
             }
             return (
                 <div key={id}>
-                    <Link className="link-deco" to={`/coins/${symbol}`}>
+                    <Link className="link-deco" to={`/coins/${id}`}>
                     <table className="table table-striped table-dark table-bordered table-hover align-middle">
                         <tbody>
                             <tr>
@@ -327,6 +330,7 @@ function Coins () {
     return (
         <>
         {loading === false ? (
+        <div className="coinlist-container">
             <div className="ui grid container">
                 <div id="top-index" className="top-index">
                     <h1>Crypto Prices</h1>
@@ -361,6 +365,7 @@ function Coins () {
                     <FaAngleDoubleUp />
                 </button>
             </div>
+        </div>
         ) : (
             <Loading />
         )}

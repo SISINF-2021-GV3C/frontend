@@ -1,31 +1,28 @@
+import React from 'react';
 import { Route, Routes } from 'react-router-dom'
-import './App.css';
+import Home from './pages/Home';
 import Navbar from './components/Navbar';
-
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-import Coins from "./pages/Coins"
+import CoinList from "./pages/CoinList"
 import Asset from "./pages/Asset"
 import NotFound from './components/NotFound';
 import Loading from './components/Loader';
-
-const Home = () => <h1>Home</h1>
+import './css/App.css';
 
 function App() {
   return (
     <>
       <Navbar />
-      <div className='App-header'>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/coins" element={<Coins />} />
-          <Route path="/coins/:symbol" element={<Asset />} />
+          <Route path="/coins" element={<CoinList />} />
+          <Route path="/coins/:id" element={<Asset />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
     </>
   );
 }
