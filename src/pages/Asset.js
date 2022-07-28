@@ -12,14 +12,15 @@ function Asset () {
     const { id } = useParams();
     const [coin, setCoin] = useState();
     const [loading, setLoading] = useState(true);
-    const [description, setDescription] = useState("Leer descripción");
+    const [descText, setDescText] = useState("Leer descripción");
+    const [description, setDescription] = useState("");
 
     // Descargar datos a través de la API de CoinGecko
     useEffect(() => {
         const fetchCoins = async () => {
             const { data } = await axios.get(SingleCoin(id))
             setCoin(data);
-            console.log(data);
+            setDescription(data.description.en);
         }; 
         fetchCoins();
         setTimeout(() => setLoading(false), 750);
@@ -27,15 +28,15 @@ function Asset () {
 
     // Abrir la descripción
     const openDescription = () => {
-        if (description === "Leer descripción") {
-            setDescription("Cerrar descripción");
+        if (descText === "Leer descripción") {
+            setDescText("Cerrar descripción");
         } 
     }
 
     // Cerrar la descripción
     const closeDescription = () => {
-        if (description === "Cerrar descripción") {
-            setDescription("Leer descripción");
+        if (descText === "Cerrar descripción") {
+            setDescText("Leer descripción");
         } 
     }
 
@@ -62,9 +63,9 @@ function Asset () {
     const displayBody = () => {
         return (
             <div className="btn-read-more">
-                <Collapsible onTriggerOpening={openDescription} onTriggerClosing={closeDescription} trigger={description}>
-                    <p className="description-container">
-                        {coin.description.en}
+                <Collapsible onTriggerOpening={openDescription} onTriggerClosing={closeDescription} trigger={descText}>
+                    <p className="description-container">            
+                        <div dangerouslySetInnerHTML={{ __html:description}}></div>
                     </p>
                 </Collapsible>
             </div>
