@@ -8,7 +8,7 @@ import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { CoinList } from "../data/CoinGecko_API";
-import "../css/coinList.css"
+import "../css/coinList.css";
 
 function Coins () {
     
@@ -339,7 +339,8 @@ function Coins () {
                         <input
                         id="search" 
                         type="text" 
-                        className="search-box" 
+                        className="search-box"
+                        placeholder="Busca aquí..."
                         value={query} 
                         onChange={(e) => setQuery(e.target.value)}
                         autoComplete="off"

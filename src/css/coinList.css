@@ -81,18 +81,33 @@ a:active { text-decoration: none; }
 }
 
 .search-box {
-    width: 300px;
-    border-radius: 15px;
-    padding: 4px 10px 5px 10px;
+    width: 400px;
+    height: 50px;
+    border-radius: 7px;
+    padding-left: 15px;
     font-size: 1rem;
-    background-image: url("../bootstrap-icons/search.svg");
+    background-color: #c57492;
     background-position: 95%;
     background-repeat: no-repeat;
+    border: none;
+    color: white;
+    font-size: 65%;
     opacity: 85%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .search-box:focus {
-    background-image: none;
+    padding-left: 12px;
+    outline: none !important;
+    border: 3px solid white;
+}
+
+.search-box:hover {
+    background-color: #9d4c6a;
+}
+
+::placeholder {
+    color: white;
 }
 
 .top-index {

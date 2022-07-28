@@ -38,12 +38,12 @@
     border-right: 3px solid whitesmoke;
 }
 
-.crypto-name {
-    padding-top: 12px;
+.crypto-image {
+    padding-right: 7px;
 }
 
 .crypto-symbol {
-    padding-top: 12px;
+    padding-left: 7px;
     color: #00bfff;
 }
 
@@ -80,10 +80,9 @@
     font-size: 60%;
 }
 
-.col-sm_l {
-    padding-left: 150px;
-}
-
-.col-sm_r {
-    padding-right: 150px;
+.crypto-title {
+    clear: both;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
 }

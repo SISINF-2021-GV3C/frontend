@@ -43,18 +43,10 @@ function Asset () {
     // Mostrar la cabecera de la moneda
     const displayTitle = () => {
         return (
-            <div>
-                <div className="row g-3">
-                    <div className="col-sm col-sm_l">
-                        <img src={coin.image.large} alt={coin.name} width="60px" />
-                    </div>
-                    <div className="col-sm crypto-name">
-                        {coin.name}
-                    </div>
-                    <div className="col-sm col-sm_r crypto-symbol">
-                        {(coin.symbol).toUpperCase()}
-                    </div>
-                </div>
+            <div className="crypto-title">
+                <img className="crypto-image" src={coin.image.large} alt={coin.name} width="60px" />  
+                | {coin.name} | 
+                <span className="crypto-symbol">{(coin.symbol).toUpperCase()}</span>
             </div>
         )
     }
