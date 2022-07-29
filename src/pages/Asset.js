@@ -16,6 +16,8 @@ function Asset () {
     const [descText, setDescText] = useState("Leer descripción");
     const [description, setDescription] = useState("");
     const [market_data, setMarket_Data] = useState([]);
+    const [fav, setFav] = useState("NO");
+    const [favCN, setFavCN] = useState("bi-star");
     var isPositive = [];
 
     // Opciones de formato de número (USD)
@@ -32,8 +34,18 @@ function Asset () {
             setDescription(data.description.en);
         }; 
         fetchSingleCoin();
-        setTimeout(() => setLoading(false), 1500);
+        setTimeout(() => setLoading(false), 1000);
     }, [id]);         
+
+    const addCoin = () => {
+        if (fav === "NO") {
+            setFavCN("bi-star-fill");
+            setFav("YES");
+        } else if (fav === "YES") {
+            setFavCN("bi-star");
+            setFav("NO");
+        } else { return fav; }
+    }
 
     // Abrir la descripción
     const openDescription = () => {
@@ -47,17 +59,6 @@ function Asset () {
         if (descText === "Cerrar descripción") {
             setDescText("Leer descripción");
         } 
-    }
-
-    // Mostrar la cabecera de la moneda
-    const displayTitle = () => {
-        return (
-            <div className="crypto-title">
-                <img className="crypto-image" src={coin.image.large} alt={coin.name} width="50px" />  
-                | {coin.name} | 
-                <span className="crypto-symbol">{(coin.symbol).toUpperCase()}</span>
-            </div>
-        )
     }
 
     // Funciones para comprobar el porcentaje de cambio para aplicar CSS
@@ -133,17 +134,29 @@ function Asset () {
         }
     }
 
+    // Mostrar la cabecera de la moneda
+    const displayTitle = () => {
+        return (
+            <div className="title-container">
+                <div className="crypto-title">
+                    <img className="crypto-image" src={coin.image.large} alt={coin.name} width="50px" />  
+                    | {coin.name} | 
+                    <span className="crypto-symbol">{(coin.symbol).toUpperCase()}</span>
+                    <i onClick={addCoin} className={`bi ${favCN} star-icon`}></i>
+                </div>
+            </div>
+        )
+    }
+
     // Mostrar la descripción de la moneda
     const displayDescription = () => {
         return (
-            <div className="row">
-                <div className="read-more-container">
-                    <Collapsible onTriggerOpening={openDescription} onTriggerClosing={closeDescription} trigger={descText}>
-                        <div className="description-container">            
-                            <div dangerouslySetInnerHTML={{ __html:description}}></div>
-                        </div>
-                    </Collapsible>
-                </div>
+            <div className="read-more-container">
+                <Collapsible onTriggerOpening={openDescription} onTriggerClosing={closeDescription} trigger={descText}>
+                    <div className="description-container">            
+                        <div dangerouslySetInnerHTML={{ __html:description}}></div>
+                    </div>
+                </Collapsible>
             </div>
         )
     }
@@ -160,7 +173,7 @@ function Asset () {
         checkChange24h();
         return (
             <div>
-                <div className="row align-items-start">
+                <div className="row g-3 align-items-start">
                     <div className="col-sm mktdata-container">
                         <label className="label">
                             Rango: 
@@ -176,7 +189,7 @@ function Asset () {
                         <span className="mktdata-prop">{numberFormat.format(coin.market_data.current_price.usd)}</span>
                     </div>
                 </div>
-                <div className="row align-items-start">
+                <div className="row g-3 align-items-start">
                     <div className="col-sm mktdata-container">
                         <label className="label">
                             Capitalización: 
@@ -192,7 +205,7 @@ function Asset () {
                         <span className="mktdata-prop">{numberFormat.format(Math.trunc(coin.market_data.total_volume.usd)/1000000)} M</span>
                     </div>
                 </div>
-                <div className="row align-items-start">
+                <div className="row g-3 align-items-start">
                     <div className="col-sm mktdata-container">
                         <label className="label">
                             Suministro total: 
@@ -208,7 +221,7 @@ function Asset () {
                         <span className="mktdata-prop">{supplyFormat.format(coin.market_data.circulating_supply)}</span>
                     </div>
                 </div>
-                <div className="row align-items-start">
+                <div className="row g-3 align-items-start">
                     <div className="col-sm mktdata-container">
                         <label className="label">
                             Máximo 24h: 
@@ -224,7 +237,7 @@ function Asset () {
                         <span className="mktdata-prop">{numberFormat.format(coin.market_data.low_24h.usd)}</span>
                     </div>
                 </div>
-                <div className="row align-items-start">
+                <div className="row g-3 align-items-start">
                     <div className="col-sm mktdata-container-pte">
                         <label className="label">
                             Cambio en el precio (24h): 
@@ -240,7 +253,7 @@ function Asset () {
                         <span className={`${isPositive[0] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_24h} % </span>
                     </div>
                 </div>
-                <div className="row align-items-start">
+                <div className="row g-3 align-items-start">
                     <div className="col-sm mktdata-container-pte">
                         <label className="label">
                             Pte. cambio (7d): 
@@ -263,7 +276,7 @@ function Asset () {
                         <span className={`${isPositive[3] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_30d} %</span>
                     </div>
                 </div>
-                <div className="row align-items-start">                   
+                <div className="row g-3 align-items-start">                   
                     <div className="col-sm mktdata-container-pte">
                         <label className="label">
                             Pte. cambio (60d): 

@@ -1,0 +1,11 @@
+.div-profile-container {
+    background: linear-gradient(220.55deg, #c73068 0%, #03132e 100%);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    min-height: 100vh;
+    color: white;
+    user-select: none;
+}

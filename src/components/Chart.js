@@ -4,26 +4,35 @@ import { HistoricalChart } from "../data/CoinGecko_API";
 import { Line } from "react-chartjs-2";
 import { CircularProgress, createTheme, ThemeProvider } from "@mui/material";
 import { chartDays } from "../data/ChartDays";
-import SelectButton from "./SelectButton"
+import { FaArrowCircleLeft } from "react-icons/fa";
+import SelectButton from "./SelectButton";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
     
 ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend );
 
 const CoinChart = ({coin}) => {
+    // Constantes para manejar los datos extraídos
     const [historicData, setHistoricData] = useState([]);
     const [days, setDays] = useState(1);
     const [loading, setLoading] = useState(false);
     const currency = "usd";
 
+    // Extraer datos del gráfico a través de la API de CoinGecko
     useEffect(() => {
         const fetchHistoricData = async () => {
             const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
             setHistoricData(data.prices);
         }; 
         fetchHistoricData();
-        setTimeout(() => setLoading(false), 1500);
+        setTimeout(() => setLoading(false), 1000);
     }, [coin.id, days]);
 
+    // Botón para volver al menú de las monedas
+    const getBack = () => {
+        window.location.href = "/coins"
+    }
+
+    // Tema oscuro
     const darkTheme = createTheme({
         palette: {
           primary: {
@@ -88,6 +97,12 @@ const CoinChart = ({coin}) => {
                             ))}
                         </div>
                     </div>
+                    <button type="button" 
+                        className="btn btn-warn-back"
+                        onClick={getBack}
+                    >
+                        <FaArrowCircleLeft />
+                    </button>
                 </div>
             </ThemeProvider>
         ) : (

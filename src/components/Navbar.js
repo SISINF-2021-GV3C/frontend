@@ -8,8 +8,8 @@ export default function Navbar() {
     <nav className="nav">
       <Link to="/" className="site-title"> <img src={logo} alt="Cryptoaholic Logo" width="35" height="35"></img> Cryptoaholic </Link>
       <ul className="link-title">
-        <CustomLink to="/coins">Explorar</CustomLink>
-        <CustomLink to="/login">Iniciar sesión</CustomLink>
+        <CustomLink to="/coins"><i className="bi bi-currency-bitcoin icon"></i></CustomLink>
+        <CustomLink to="/login"><i className="bi bi-person-circle icon"></i></CustomLink>
       </ul>
     </nav>
   )

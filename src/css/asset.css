@@ -79,11 +79,8 @@
 
 .read-more-container {
     user-select: none;
-    margin-right: 7px;
-    margin-left: 7px;
     margin-top: 10px;
     margin-bottom: 5px;
-    width: 560px;
     border: 1px solid grey;
     padding-left: 10px;
     padding-right: 10px;
@@ -184,6 +181,9 @@
 
 .row {
     user-select: none;
+    padding-top: 0.6rem;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
 }
 
 .mktdata-prop {
@@ -246,6 +246,22 @@
 }
 
 .chart-title {
+    user-select: none;
     text-align: center;
     font-size: 90%;
+}
+
+.btn-warn-back {
+    color: var(--yellow);
+    border-radius: 15px;
+    position: fixed;
+    right:    25px;
+    bottom:   10px;
+    font-size: 90%;
+}
+
+.star-icon {
+    color: gold;
+    padding-left: 320px;
+    cursor: pointer;
 }
