@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-Instala el paquete **react-scripts** primero en caso de ser necesario para arrancar la aplicación, mediante:
+Instala el paquete *react-scripts* primero en caso de ser necesario para arrancar la aplicación, mediante:
 
 ### `npm install react-scripts`
 
