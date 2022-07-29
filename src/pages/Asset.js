@@ -124,6 +124,15 @@ function Asset () {
         }
     }
 
+    // Comprobar el cambio de precio en 1 día
+    const checkChange24h = () => {
+        if (market_data.price_change_24h > 0) {
+            isPositive[7] = true;
+        } else {
+            isPositive[7] = false;
+        }
+    }
+
     // Mostrar la descripción de la moneda
     const displayDescription = () => {
         return (
@@ -148,6 +157,7 @@ function Asset () {
         checkPte60d();
         checkPte200d();
         checkPte1y();
+        checkChange24h();
         return (
             <div>
                 <div className="row align-items-start">
@@ -220,7 +230,7 @@ function Asset () {
                             Cambio en el precio (24h): 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{numberFormat.format(coin.market_data.price_change_24h)}</span>
+                        <span className={`${isPositive[7] ? 'pte-success' : 'pte-danger'}`}>{numberFormat.format(coin.market_data.price_change_24h)}</span>
                     </div>
                     <div className="col-sm mktdata-container-pte">
                         <label className="label">
