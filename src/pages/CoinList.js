@@ -37,7 +37,7 @@ function Coins () {
     const [iconVol, setIconVol] = useState(faSort);
     const [iconSupply, setIconSupply] = useState(faSort);
 
-    // Opciones de formato de número
+    // Opciones de formato de número (USD)
     const options = { style: 'currency', currency: 'USD' };
     const numberFormat = new Intl.NumberFormat('en-US', options);
     const supplyFormat = new Intl.NumberFormat('en-US');

@@ -39,12 +39,12 @@
 }
 
 .nav li.active {
-    background-color: #555;
     cursor: default;
     pointer-events: none;
     font-weight: 700;
 }
 
 .nav li:hover {
-    background-color: #777;
+    padding-top: 3px;
+    border-bottom: 3px solid white;
 }

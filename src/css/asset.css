@@ -52,10 +52,10 @@
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 5px;
-    margin-top: 20px;
+    margin-top: 10px;
     display: flex;
     max-height: 200px;
-    width: 500px;
+    width: 620px;
     font-size: 90%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -66,7 +66,10 @@
     color: white;
 }
 
-.btn-read-more {
+.read-more-container {
+    margin-right: 5px;
+    margin-left: 5px;
+    width: 660px;
     margin-top: 20px;
     border: 1px solid grey;
     padding-left: 10px;
@@ -76,7 +79,37 @@
     border-radius: 15px;
     padding-bottom: 9px;
     padding-top: 7px;
-    position: relative;
+    font-size: 60%;
+}
+
+.mktdata-container {
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 10px;
+    border: 1px solid grey;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    color: var(white);
+    border-radius: 15px;
+    padding-bottom: 9px;
+    padding-top: 7px;
+    font-size: 60%;
+}
+
+.mktdata-container-pte{
+    user-select: none;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 10px;
+    border: 1px solid grey;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    color: var(white);
+    border-radius: 15px;
+    padding-bottom: 9px;
+    padding-top: 7px;
     font-size: 60%;
 }
 
@@ -85,4 +118,20 @@
     display: inline-block;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.label {
+    font-size: 70%;
+}
+
+.pte-danger {
+    color: red;
+}
+
+.pte-success {
+    color: green;
+}
+
+.row {
+    user-select: none;
 }
