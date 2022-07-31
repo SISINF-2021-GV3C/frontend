@@ -61,7 +61,7 @@ const CoinChart = ({coin}) => {
                                 }),
                                 datasets: [
                                 {
-                                    data: historicData.map((coin) => coin[1]),
+                                    data: historicData.map((coin) => coin[1].toFixed(3)),
                                     label: `Precio ( Pasados ${days} Días ) en ${currency.toLocaleUpperCase()}`,
                                     borderColor: "#0B7DBF",
                                 },

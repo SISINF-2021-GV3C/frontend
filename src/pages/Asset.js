@@ -161,6 +161,19 @@ function Asset () {
         )
     }
 
+    // Función para cambiar al SI
+    function convertToICS (labelValue) {
+        return Math.abs(Number(labelValue)) >= 1.0e+9
+            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2)) + " B"
+            // Six Zeroes for Millions 
+            : Math.abs(Number(labelValue)) >= 1.0e+6
+            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2)) + " M"
+            // Three Zeroes for Thousands
+            : Math.abs(Number(labelValue)) >= 1.0e+3
+            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2)) + " K"
+            : Math.abs(Number(labelValue));
+    }
+        
     // Mostrar valores de mercado de la moneda
     const displayMarket = () => {
         checkPte24h();
@@ -195,14 +208,14 @@ function Asset () {
                             Capitalización: 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{numberFormat.format(Math.trunc(coin.market_data.market_cap.usd)/1000000)} M</span>
+                        <span className="mktdata-prop">${convertToICS(coin.market_data.market_cap.usd)}</span>
                     </div>
                     <div className="col-sm mktdata-container">
                         <label className="label">
                             Volumen total: 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{numberFormat.format(Math.trunc(coin.market_data.total_volume.usd)/1000000)} M</span>
+                        <span className="mktdata-prop">${convertToICS(coin.market_data.total_volume.usd)}</span>
                     </div>
                 </div>
                 <div className="row g-3 align-items-start">
@@ -211,14 +224,14 @@ function Asset () {
                             Suministro total: 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{supplyFormat.format(coin.market_data.total_supply)}</span>
+                        <span className="mktdata-prop">{convertToICS(coin.market_data.total_supply)}</span>
                     </div>
                     <div className="col-sm mktdata-container">
                         <label className="label">
                             Suministro en circulación: 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{supplyFormat.format(coin.market_data.circulating_supply)}</span>
+                        <span className="mktdata-prop">{convertToICS(coin.market_data.circulating_supply)}</span>
                     </div>
                 </div>
                 <div className="row g-3 align-items-start">
