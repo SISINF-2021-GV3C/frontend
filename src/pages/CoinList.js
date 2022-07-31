@@ -1,24 +1,29 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
-import Loading from "../components/Loader"
 import { FaAngleDoubleUp, FaPlus } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { CoinList } from "../data/CoinGecko_API";
+import { currencyTable } from "../data/Currencies";
+import { createTheme, ThemeProvider } from "@mui/material";
+import Loading from "../components/Loader"
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import "../css/coinList.css";
 
 function Coins () {
-    
+
     // Constantes de manejo de datos y paginación
-    const currency = "usd";
     const coinsPerPage = 25;
     const [loading, setLoading] = useState(true);
     const [coin, setCoin] = useState([]);
     const [paginate, setPaginate] = useState(coinsPerPage);
     const [query, setQuery] = useState('');
+    const [currency, setCurrency] = useState("usd");
+    const [symbol, setSymbol] = useState("$");
     var isPositive = [];
 
     // Constantes de dirección del orden en la tabla
@@ -42,6 +47,16 @@ function Coins () {
     const numberFormat = new Intl.NumberFormat('en-US', options);
     const supplyFormat = new Intl.NumberFormat('en-US');
 
+    // Tema para el Navbar
+    const darkTheme = createTheme({
+        palette: {
+          primary: {
+            main: "#000",
+          },
+          type: "light",
+        },
+    });
+
     // Descargar datos a través de la API de CoinGecko
     useEffect(() => {
         const fetchCoins = async () => {
@@ -50,7 +65,7 @@ function Coins () {
         }; 
         fetchCoins();
         setTimeout(() => setLoading(false), 1500);
-    }, []);
+    }, [currency]);
 
     // Función para cargar más monedas
     const loadMore = () => {
@@ -237,6 +252,19 @@ function Coins () {
         setIconVol(faSort);
     } 
 
+    // Función para cambiar al SI
+    function convertToICS (labelValue) {
+        return Math.abs(Number(labelValue)) >= 1.0e+9
+            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2)) + " B"
+            // Six Zeroes for Millions 
+            : Math.abs(Number(labelValue)) >= 1.0e+6
+            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2)) + " M"
+            // Three Zeroes for Thousands
+            : Math.abs(Number(labelValue)) >= 1.0e+3
+            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2)) + " K"
+            : Math.abs(Number(labelValue));
+    }
+
     // Mostrar cabecera
     const displayHeader = () => {
         return (
@@ -269,6 +297,7 @@ function Coins () {
 
     // Mostrar monedas
     const displayCoins = coin
+        // eslint-disable-next-line
         .filter((value) => { 
             if(query === ""){
                 return value;
@@ -315,10 +344,10 @@ function Coins () {
                                         <span className="symbol-crypto">{symbol.toUpperCase()}</span>
                                     </th>
                                     <td className="table-alignment" width="15%">{numberFormat.format(current_price)}</td>
-                                    <td className="table-alignment" width="20%">{numberFormat.format(Math.trunc(market_cap/1000000))} M</td>
+                                    <td className="table-alignment" width="20%">{convertToICS(market_cap)}</td>
                                     <td className={`table-alignment ${isPositive.pop() ? 'text-success' : 'text-danger'}`} width="15%">{price_change_percentage_24h} %</td>
-                                    <td className="table-alignment" width="15%">{numberFormat.format(Math.trunc(total_volume/1000000))} M</td>
-                                    <td className="table-alignment" width="15%">{supplyFormat.format(Math.trunc(circulating_supply)/1000000)} M</td>
+                                    <td className="table-alignment" width="15%">{convertToICS(total_volume)}</td>
+                                    <td className="table-alignment" width="15%">{convertToICS(circulating_supply)}</td>
                             </tr> 
                         </tbody>
                     </table>
@@ -332,6 +361,26 @@ function Coins () {
         {loading === false ? (
         <div className="coinlist-container">
             <div className="ui grid container">
+                <div className="btn-currency">
+                <ThemeProvider theme={darkTheme}>
+                    <Select
+                        variant="outlined"
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={currency}
+                        style={{ width: 100, height: 40, marginLeft: 15 }}
+                        onChange={(e) => setCurrency(e.target.value)}
+                    >
+                        {currencyTable.map(({label, symbol}) => (
+                            <MenuItem
+                                value={label}
+                            >
+                            {label.toLocaleUpperCase()}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </ThemeProvider>
+                </div>
                 <div id="top-index" className="top-index">
                     <h1>Crypto Prices</h1>
                     <p></p>

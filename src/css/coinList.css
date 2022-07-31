@@ -186,6 +186,20 @@ div#content {
     bottom:   10px;
 }
 
+.btn-currency {
+    border-radius: 15px;
+    padding-bottom: 9px;
+    padding-top: 7px;
+    position: fixed;
+    right:    20px;
+    top:   50px;
+}
+
+.btn-currency-style {
+    background-color: #444;
+    color: white;
+}
+
 .btn-warn-top-hidden {
     visibility: hidden;
 }
