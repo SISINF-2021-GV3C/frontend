@@ -2,11 +2,9 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { SingleCoin } from "../data/CoinGecko_API";
-import { currencyTable } from "../data/Currencies";
 import CoinChart from "../components/Chart"
 import Loading from "../components/Loader";
 import Collapsible from 'react-collapsible';
-import SelectButton from "../components/SelectButton";
 import "../css/asset.css"
 
 function Asset () {
@@ -20,12 +18,16 @@ function Asset () {
     const [market_data, setMarket_Data] = useState([]);
     const [fav, setFav] = useState("NO");
     const [favCN, setFavCN] = useState("bi-star");
-    const [divisa, setDivisa] = useState("usd");
-    const [symbol, setSymbol] = useState("$");
+    const [currency, setCurrency] = useState("usd");
+    const [simbolo, setSimbolo] = useState("$");
     var isPositive = [];
 
     // Opciones de formato de número (USD)
-    const supplyFormat = new Intl.NumberFormat('en-US');
+    const numberFormat = new Intl.NumberFormat('en-US');
+
+    // Constantes para cargar la divisa y el símbolo
+    const loadCurrency = localStorage.getItem('currency');
+    const loadSymbol = localStorage.getItem('simbolo');
 
     // Descargar datos a través de la API de CoinGecko
     useEffect(() => {
@@ -36,8 +38,10 @@ function Asset () {
             setDescription(data.description.en);
         }; 
         fetchSingleCoin();
+        setCurrency(loadCurrency);
+        setSimbolo(loadSymbol);
         setTimeout(() => setLoading(false), 1000);
-    }, [id]);         
+    }, [id, loadCurrency, loadSymbol]);
 
     // Añadir moneda a favotitos
     const addCoin = () => {
@@ -167,13 +171,13 @@ function Asset () {
     // Función para cambiar al SI
     function convertToICS (labelValue) {
         return Math.abs(Number(labelValue)) >= 1.0e+9
-            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2)) + " B"
+            ? numberFormat.format((Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2)) + " B"
             // Six Zeroes for Millions 
             : Math.abs(Number(labelValue)) >= 1.0e+6
-            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2)) + " M"
+            ? numberFormat.format((Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2)) + " M"
             // Three Zeroes for Thousands
             : Math.abs(Number(labelValue)) >= 1.0e+3
-            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2)) + " K"
+            ? numberFormat.format((Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2)) + " K"
             // Negative value
             : Number(labelValue) < 0
             ? (Number(labelValue))
@@ -192,29 +196,6 @@ function Asset () {
         checkChange24h();
         return (
             <div>
-                <div
-                    style={{
-                        display: "flex",
-                        marginTop: 20,
-                        justifyContent: "space-around",
-                        width: "100%",
-                    }}
-                    >
-                    {currencyTable.map((currency) => (
-                        <SelectButton
-                            key={currency.label}
-                            onClick={() => {
-                                setDivisa(currency.label);
-                                setSymbol(currency.symbol);
-                                localStorage.clear();
-                                localStorage.setItem('currency',divisa);
-                            }}
-                            selected={currency.label === divisa}
-                            >
-                            {currency.label.toUpperCase()}
-                        </SelectButton>
-                    ))}
-                </div>
                 <div className="row g-3 align-items-start">
                     <div className="col-sm mktdata-container">
                         <label className="label">
@@ -228,7 +209,7 @@ function Asset () {
                             Precio: 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{symbol}{coin.market_data.current_price[divisa].toLocaleString('en-US')}</span>
+                        <span className="mktdata-prop">{simbolo} {numberFormat.format(coin.market_data.current_price[currency])}</span>
                     </div>
                 </div>
                 <div className="row g-3 align-items-start">
@@ -237,14 +218,14 @@ function Asset () {
                             Capitalización: 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{symbol}{convertToICS(coin.market_data.market_cap[divisa])}</span>
+                        <span className="mktdata-prop">{simbolo} {convertToICS(coin.market_data.market_cap[currency])}</span>
                     </div>
                     <div className="col-sm mktdata-container">
                         <label className="label">
                             Volumen total: 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{symbol}{convertToICS(coin.market_data.total_volume[divisa])}</span>
+                        <span className="mktdata-prop">{simbolo} {convertToICS(coin.market_data.total_volume[currency])}</span>
                     </div>
                 </div>
                 <div className="row g-3 align-items-start">
@@ -269,14 +250,14 @@ function Asset () {
                             Máximo 24h: 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{symbol}{coin.market_data.high_24h[divisa].toLocaleString('en-US')}</span>
+                        <span className="mktdata-prop">{simbolo} {coin.market_data.high_24h[currency].toLocaleString('en-US')}</span>
                     </div>
                     <div className="col-sm mktdata-container">
                         <label className="label">
                             Mínimo 24h: 
                         </label>
                         <br></br>
-                        <span className="mktdata-prop">{symbol}{coin.market_data.low_24h[divisa].toLocaleString('en-US')}</span>
+                        <span className="mktdata-prop">{simbolo} {coin.market_data.low_24h[currency].toLocaleString('en-US')}</span>
                     </div>
                 </div>
                 <div className="row g-3 align-items-start">
@@ -285,14 +266,14 @@ function Asset () {
                             Cambio en el precio (24h): 
                         </label>
                         <br></br>
-                        <span className={`${isPositive[7] ? 'pte-success' : 'pte-danger'}`}>{symbol}{convertToICS(coin.market_data.price_change_24h_in_currency[divisa]).toLocaleString('en-US')}</span>
+                        <span className={`${isPositive[7] ? 'pte-success' : 'pte-danger'}`}>{simbolo} {convertToICS(coin.market_data.price_change_24h_in_currency[currency]).toLocaleString('en-US')}</span>
                     </div>
                     <div className="col-sm mktdata-container-pte">
                         <label className="label">
                             Pte. cambio (24h):  
                         </label>
                         <br></br>
-                        <span className={`${isPositive[0] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_24h_in_currency[divisa].toFixed(2)} % </span>
+                        <span className={`${isPositive[0] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_24h_in_currency[currency].toFixed(2)} % </span>
                     </div>
                 </div>
                 <div className="row g-3 align-items-start">
@@ -301,21 +282,21 @@ function Asset () {
                             Pte. cambio (7d): 
                         </label>
                         <br></br>
-                        <span className={`${isPositive[1] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_7d_in_currency[divisa].toFixed(2)} %</span>
+                        <span className={`${isPositive[1] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_7d_in_currency[currency].toFixed(2)} %</span>
                     </div>
                     <div className="col-sm mktdata-container-pte">
                         <label className="label">
                             Pte. cambio (14d): 
                         </label>
                         <br></br>
-                        <span className={`${isPositive[2] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_14d_in_currency[divisa].toFixed(2)} %</span>
+                        <span className={`${isPositive[2] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_14d_in_currency[currency].toFixed(2)} %</span>
                     </div>
                     <div className="col-sm mktdata-container-pte">
                         <label className="label">
                             Pte. cambio (30d): 
                         </label>
                         <br></br>
-                        <span className={`${isPositive[3] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_30d_in_currency[divisa].toFixed(2)} %</span>
+                        <span className={`${isPositive[3] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_30d_in_currency[currency].toFixed(2)} %</span>
                     </div>
                 </div>
                 <div className="row g-3 align-items-start">                   
@@ -324,21 +305,21 @@ function Asset () {
                             Pte. cambio (60d): 
                         </label>
                         <br></br>
-                        <span className={`${isPositive[4] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_60d_in_currency[divisa].toFixed(2)} %</span>
+                        <span className={`${isPositive[4] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_60d_in_currency[currency].toFixed(2)} %</span>
                     </div>
                     <div className="col-sm mktdata-container-pte">
                         <label className="label">
                             Pte. cambio (200d): 
                         </label>
                         <br></br>
-                        <span className={`${isPositive[5] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_200d_in_currency[divisa].toFixed(2)} %</span>
+                        <span className={`${isPositive[5] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_200d_in_currency[currency].toFixed(2)} %</span>
                     </div>
                     <div className="col-sm mktdata-container-pte">
                         <label className="label">
                             Pte. cambio (1y): 
                         </label>
                         <br></br>
-                        <span className={`${isPositive[6] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_1y_in_currency[divisa].toFixed(2)} %</span>
+                        <span className={`${isPositive[6] ? 'pte-success' : 'pte-danger'}`}>{coin.market_data.price_change_percentage_1y_in_currency[currency].toFixed(2)} %</span>
                     </div>
                 </div>
             </div>

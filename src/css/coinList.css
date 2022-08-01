@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
+
 :root{
     --green:#008000;
     --dark-green:#034b00;
@@ -20,6 +22,7 @@ a:hover { text-decoration: none; }
 a:active { text-decoration: none; }
 
 .ui.grid.container {
+    width: 1200px;
     margin-top: 44px;
     position: absolute;
     top: 0;

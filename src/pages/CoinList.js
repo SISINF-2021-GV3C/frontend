@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import "../css/coinList.css";
 
 function Coins () {
-
+    
     // Constantes de manejo de datos y paginación
     const coinsPerPage = 25;
     const [loading, setLoading] = useState(true);
@@ -23,7 +23,7 @@ function Coins () {
     const [paginate, setPaginate] = useState(coinsPerPage);
     const [query, setQuery] = useState('');
     const [currency, setCurrency] = useState("usd");
-    const [symbol, setSymbol] = useState("$");
+    const [simbolo, setSimbolo] = useState("$");
     var isPositive = [];
 
     // Constantes de dirección del orden en la tabla
@@ -43,9 +43,7 @@ function Coins () {
     const [iconSupply, setIconSupply] = useState(faSort);
 
     // Opciones de formato de número (USD)
-    const options = { style: 'currency', currency: 'USD' };
-    const numberFormat = new Intl.NumberFormat('en-US', options);
-    const supplyFormat = new Intl.NumberFormat('en-US');
+    const numberFormat = new Intl.NumberFormat('en-US');
 
     // Tema para el Navbar
     const darkTheme = createTheme({
@@ -64,8 +62,10 @@ function Coins () {
             setCoin(data);
         }; 
         fetchCoins();
+        localStorage.setItem('currency', currency);
+        localStorage.setItem('simbolo', simbolo);
         setTimeout(() => setLoading(false), 1500);
-    }, [currency]);
+    }, [currency, simbolo]);
 
     // Función para cargar más monedas
     const loadMore = () => {
@@ -255,14 +255,27 @@ function Coins () {
     // Función para cambiar al SI
     function convertToICS (labelValue) {
         return Math.abs(Number(labelValue)) >= 1.0e+9
-            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2)) + " B"
+            ? numberFormat.format((Math.abs(Number(labelValue)) / 1.0e+9).toFixed(2)) + " B"
             // Six Zeroes for Millions 
             : Math.abs(Number(labelValue)) >= 1.0e+6
-            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2)) + " M"
+            ? numberFormat.format((Math.abs(Number(labelValue)) / 1.0e+6).toFixed(2)) + " M"
             // Three Zeroes for Thousands
             : Math.abs(Number(labelValue)) >= 1.0e+3
-            ? supplyFormat.format((Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2)) + " K"
+            ? numberFormat.format((Math.abs(Number(labelValue)) / 1.0e+3).toFixed(2)) + " K"
             : Math.abs(Number(labelValue));
+    }
+
+    // Cambiar la divisa y el símbolo
+    const setCurrencyNSymbol = (event) => {
+        setCurrency(event.target.value);
+        currencyTable.forEach(element => {
+            if (event.target.value === element.divisa) {
+                setSimbolo(element.simbolo);
+            }
+        });
+        localStorage.clear();
+        localStorage.setItem('currency', currency);
+        localStorage.setItem('simbolo', simbolo);
     }
 
     // Mostrar cabecera
@@ -343,10 +356,10 @@ function Coins () {
                                         <br></br>
                                         <span className="symbol-crypto">{symbol.toUpperCase()}</span>
                                     </th>
-                                    <td className="table-alignment" width="15%">{numberFormat.format(current_price)}</td>
-                                    <td className="table-alignment" width="20%">{convertToICS(market_cap)}</td>
-                                    <td className={`table-alignment ${isPositive.pop() ? 'text-success' : 'text-danger'}`} width="15%">{price_change_percentage_24h} %</td>
-                                    <td className="table-alignment" width="15%">{convertToICS(total_volume)}</td>
+                                    <td className="table-alignment" width="15%">{simbolo} {numberFormat.format(current_price)}</td>
+                                    <td className="table-alignment" width="20%">{simbolo} {convertToICS(market_cap)}</td>
+                                    <td className={`table-alignment ${isPositive.pop() ? 'text-success' : 'text-danger'}`} width="15%">{price_change_percentage_24h.toFixed(2)} %</td>
+                                    <td className="table-alignment" width="15%">{simbolo} {convertToICS(total_volume)}</td>
                                     <td className="table-alignment" width="15%">{convertToICS(circulating_supply)}</td>
                             </tr> 
                         </tbody>
@@ -362,24 +375,25 @@ function Coins () {
         <div className="coinlist-container">
             <div className="ui grid container">
                 <div className="btn-currency">
-                <ThemeProvider theme={darkTheme}>
-                    <Select
-                        variant="outlined"
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={currency}
-                        style={{ width: 100, height: 40, marginLeft: 15 }}
-                        onChange={(e) => setCurrency(e.target.value)}
-                    >
-                        {currencyTable.map(({label, symbol}) => (
-                            <MenuItem
-                                value={label}
-                            >
-                            {label.toLocaleUpperCase()}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </ThemeProvider>
+                    <ThemeProvider theme={darkTheme}>
+                        <Select
+                            variant="outlined"
+                            label="Cambiar divisa"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={currency}
+                            style={{ position: "relative", width: 140, height: 40 }}
+                            onChange={setCurrencyNSymbol}
+                        >
+                            {currencyTable.map(({divisa, simbolo}) => (
+                                <MenuItem
+                                    value={divisa}
+                                >
+                                {simbolo} | {divisa.toLocaleUpperCase()}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </ThemeProvider>
                 </div>
                 <div id="top-index" className="top-index">
                     <h1>Crypto Prices</h1>

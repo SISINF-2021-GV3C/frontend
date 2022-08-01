@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { HistoricalChart } from "../data/CoinGecko_API";
-import { currencyTable } from "../data/Currencies";
 import { Line } from "react-chartjs-2";
 import { CircularProgress, createTheme, ThemeProvider } from "@mui/material";
 import { chartDays } from "../data/ChartDays";
@@ -18,6 +17,9 @@ const CoinChart = ({coin}) => {
     const [loading, setLoading] = useState(false);
     const [currency, setCurrency] = useState("usd");
 
+    // Constante para cargar la divisa
+    const loadCurrency = localStorage.getItem('currency');
+
     // Extraer datos del gráfico a través de la API de CoinGecko
     useEffect(() => {
         const fetchHistoricData = async () => {
@@ -25,8 +27,9 @@ const CoinChart = ({coin}) => {
             setHistoricData(data.prices);
         };
         fetchHistoricData();
+        setCurrency(loadCurrency);
         setTimeout(() => setLoading(false), 1000);
-    }, [coin.id, days, currency]);
+    }, [coin.id, days, currency, loadCurrency]);
 
     // Botón para volver al menú de las monedas
     const getBack = () => {

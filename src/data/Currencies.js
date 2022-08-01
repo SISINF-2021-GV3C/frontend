@@ -1,42 +1,42 @@
 export const currencyTable = [
   {
-    label: "usd",
-    symbol: "$"
+    divisa: "usd",
+    simbolo: "$"
   },
   {
-    label: "aud",
-    symbol: "AUD$"
+    divisa: "aud",
+    simbolo: "AUD$"
   },
   {
-    label: "cad",
-    symbol: "CAD$"
+    divisa: "cad",
+    simbolo: "CAD$"
   },
   {
-    label: "eur",
-    symbol: "€"
+    divisa: "eur",
+    simbolo: "€"
   },
   {
-    label: "jpy",
-    symbol: "¥"
+    divisa: "jpy",
+    simbolo: "¥"
   },
   {
-    label: "cny",
-    symbol: "CN¥"
+    divisa: "cny",
+    simbolo: "CN¥"
   },
   {
-    label: "gbp",
-    symbol: "£"
+    divisa: "gbp",
+    simbolo: "£"
   },
   {
-    label: "inr",
-    symbol: "₹"
+    divisa: "inr",
+    simbolo: "₹"
   },
   {
-    label: "chf",
-    symbol: "Fr."
+    divisa: "chf",
+    simbolo: "Fr."
   },
   {
-    label: "rub",
-    symbol: "₽"
+    divisa: "rub",
+    simbolo: "₽"
   }
 ];
