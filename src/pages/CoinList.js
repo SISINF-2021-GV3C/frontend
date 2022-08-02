@@ -7,8 +7,8 @@ import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { CoinList } from "../data/CoinGecko_API";
-import { currencyTable } from "../data/Currencies";
 import { createTheme, ThemeProvider } from "@mui/material";
+import currencyTable from "../data/Currencies.json";
 import Loading from "../components/Loader"
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -66,7 +66,7 @@ function Coins () {
         localStorage.setItem('simbolo', simbolo);
         setTimeout(() => setLoading(false), 1500);
     }, [currency, simbolo]);
-
+    
     // Función para cargar más monedas
     const loadMore = () => {
         setPaginate((prevValue) => prevValue + coinsPerPage);
@@ -387,6 +387,7 @@ function Coins () {
                         >
                             {currencyTable.map(({divisa, simbolo}) => (
                                 <MenuItem
+                                    key={divisa}
                                     value={divisa}
                                 >
                                 {simbolo} | {divisa.toLocaleUpperCase()}

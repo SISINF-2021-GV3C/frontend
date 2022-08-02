@@ -2,13 +2,21 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { SingleCoin } from "../data/CoinGecko_API";
+import { createTheme, ThemeProvider } from "@mui/material";
+import currencyTable from "../data/Currencies.json";
 import CoinChart from "../components/Chart"
 import Loading from "../components/Loader";
 import Collapsible from 'react-collapsible';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import "../css/asset.css"
 
 function Asset () {
     
+    // Constantes para cargar la divisa y el símbolo
+    const loadCurrency = localStorage.getItem('currency');
+    const loadSymbol = localStorage.getItem('simbolo');
+
     // Constantes de manejo de datos
     const { id } = useParams();
     const [coin, setCoin] = useState();
@@ -18,16 +26,22 @@ function Asset () {
     const [market_data, setMarket_Data] = useState([]);
     const [fav, setFav] = useState("NO");
     const [favCN, setFavCN] = useState("bi-star");
-    const [currency, setCurrency] = useState("usd");
-    const [simbolo, setSimbolo] = useState("$");
+    const [currency, setCurrency] = useState(loadCurrency);
+    const [simbolo, setSimbolo] = useState(loadSymbol);
     var isPositive = [];
-
+    
     // Opciones de formato de número (USD)
     const numberFormat = new Intl.NumberFormat('en-US');
 
-    // Constantes para cargar la divisa y el símbolo
-    const loadCurrency = localStorage.getItem('currency');
-    const loadSymbol = localStorage.getItem('simbolo');
+    // Tema para el Navbar
+    const darkTheme = createTheme({
+        palette: {
+          primary: {
+            main: "#000",
+          },
+          type: "light",
+        },
+    });
 
     // Descargar datos a través de la API de CoinGecko
     useEffect(() => {
@@ -38,10 +52,11 @@ function Asset () {
             setDescription(data.description.en);
         }; 
         fetchSingleCoin();
-        setCurrency(loadCurrency);
-        setSimbolo(loadSymbol);
+        localStorage.clear();
+        localStorage.setItem('currencyNew', currency);
+        localStorage.setItem('simboloNew', simbolo);
         setTimeout(() => setLoading(false), 1000);
-    }, [id, loadCurrency, loadSymbol]);
+    }, [id, loadCurrency, loadSymbol, currency, simbolo]);
 
     // Añadir moneda a favotitos
     const addCoin = () => {
@@ -141,6 +156,20 @@ function Asset () {
         }
     }
 
+    // Cambiar la divisa y el símbolo
+    const setCurrencyNSymbol = (event) => {
+        setCurrency(event.target.value);
+        currencyTable.forEach(element => {
+            if (event.target.value === element.divisa) {
+                setSimbolo(element.simbolo);
+            }
+        });
+        localStorage.removeItem('currencyNew');
+        localStorage.removeItem('simboloNew');
+        localStorage.setItem('currencyNew', currency);
+        localStorage.setItem('simboloNew', simbolo);
+    }
+
     // Mostrar la cabecera de la moneda
     const displayTitle = () => {
         return (
@@ -150,6 +179,28 @@ function Asset () {
                     | {coin.name} | 
                     <span className="crypto-symbol">{(coin.symbol).toUpperCase()}</span>
                     <i onMouseOver={addCoin} onMouseOut={addCoin} onClick={addCoin} className={`bi ${favCN} star-icon`}></i>
+                    <div className="btn-currency">
+                        <ThemeProvider theme={darkTheme}>
+                            <Select
+                                variant="outlined"
+                                label="Cambiar divisa"
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={currency}
+                                style={{ position: "relative", width: 140, height: 40 }}
+                                onChange={setCurrencyNSymbol}
+                            >
+                                {currencyTable.map(({divisa, simbolo}) => (
+                                    <MenuItem
+                                        key={divisa}
+                                        value={divisa}
+                                    >
+                                    {simbolo} | {divisa.toLocaleUpperCase()}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </ThemeProvider>
+                    </div>
                 </div>
             </div>
         )

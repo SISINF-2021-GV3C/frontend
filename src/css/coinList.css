@@ -114,6 +114,7 @@ a:active { text-decoration: none; }
 }
 
 .top-index {
+    user-select: none;
     margin-top: 20px;
     padding-top: 50px;
 }
