@@ -211,3 +211,23 @@ div#content {
 .sort {
     padding-left: 5px;
 }
+
+.btn-compare {
+    color: white;
+    border-color: rgb(127, 76, 99);
+    background-color:  rgb(127, 76, 99);
+    border-radius: 7px;
+    padding-bottom: 9px;
+    padding-top: 7px;
+    position: fixed;
+    margin-top: 7px;
+    left:    20px;
+    top:   50px;
+}
+
+.btn-compare:hover {
+    color: white;
+    border-color: rgb(140, 27, 78);
+    background-color:  rgb(140, 27, 78);
+}
+

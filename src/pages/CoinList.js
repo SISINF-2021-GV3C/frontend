@@ -8,6 +8,7 @@ import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { CoinList } from "../data/CoinGecko_API";
 import { createTheme, ThemeProvider } from "@mui/material";
+import { MdCompareArrows } from "react-icons/md";
 import currencyTable from "../data/Currencies.json";
 import Loading from "../components/Loader"
 import Select from '@mui/material/Select';
@@ -374,9 +375,16 @@ function Coins () {
         {loading === false ? (
         <div className="coinlist-container">
             <div className="ui grid container">
+                <Link to="/compare">
+                    <button type="button" 
+                            className="btn btn-compare"
+                    >
+                        Comparar <MdCompareArrows />  
+                    </button>
+                </Link>
                 <div className="btn-currency">
                     <ThemeProvider theme={darkTheme}>
-                        <Select
+                        <Select className="select-currency"
                             variant="outlined"
                             label="Cambiar divisa"
                             labelId="demo-simple-select-label"
