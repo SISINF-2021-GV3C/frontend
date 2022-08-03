@@ -6,7 +6,7 @@ import "../css/navBar.css"
 export default function Navbar() {  
   return (
     <nav className="nav">
-      <Link to="/" className="site-title"> <img src={logo} alt="Cryptoaholic Logo" width="35" height="35"></img> Cryptoaholic </Link>
+      <Link to="/" className="site-title"> <img className='logo-pic' src={logo} alt="Cryptoaholic Logo" width="35" height="35"></img> Cryptoaholic </Link>
       <ul className="link-title">
         <CustomLink to="/coins"><i className="bi bi-currency-bitcoin icon"></i></CustomLink>
         <CustomLink to="/login"><i className="bi bi-person-circle icon"></i></CustomLink>

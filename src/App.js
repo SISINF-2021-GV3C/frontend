@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Login from "./pages/Login";
@@ -14,6 +15,11 @@ import './css/App.css';
 function App() {
   return (
     <>
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Cryptoaholic</title>
+          <link rel="canonical" href="" />
+      </Helmet>
       <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
