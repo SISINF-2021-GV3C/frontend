@@ -10,6 +10,7 @@ import Asset from "./pages/Asset";
 import Profile from "./pages/Profile";
 import NotFound from './components/NotFound';
 import Loading from './components/Loader';
+import Compare from './pages/CompareCoins';
 import './css/App.css';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/coins/:id" element={<Asset />} />
           <Route path="/loading" element={<Loading />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/compare" element={<Compare />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
     </>
