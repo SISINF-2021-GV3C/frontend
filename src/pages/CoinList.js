@@ -9,6 +9,7 @@ import { faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { CoinList } from "../data/CoinGecko_API";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { MdCompareArrows } from "react-icons/md";
+import { Close } from "@mui/icons-material";
 import currencyTable from "../data/Currencies.json";
 import Loading from "../components/Loader"
 import Select from '@mui/material/Select';
@@ -25,6 +26,7 @@ function Coins () {
     const [query, setQuery] = useState('');
     const [currency, setCurrency] = useState("usd");
     const [simbolo, setSimbolo] = useState("$");
+    const [closeVisibility, setCloseVisibility] = useState(false);
     var isPositive = [];
 
     // Constantes de dirección del orden en la tabla
@@ -68,6 +70,18 @@ function Coins () {
         setTimeout(() => setLoading(false), 1500);
     }, [currency, simbolo]);
     
+    // Función para introducir la búsqueda en la barra
+    const inputQuery = (e) => {
+        setQuery(e.target.value);
+        setCloseVisibility(true);
+    }
+
+    // Función para limpiar la búsqueda de la barra
+    const clearInput = () => {
+        setQuery('');
+        setCloseVisibility(false);
+    }
+
     // Función para cargar más monedas
     const loadMore = () => {
         setPaginate((prevValue) => prevValue + coinsPerPage);
@@ -407,16 +421,21 @@ function Coins () {
                 <div id="top-index" className="top-index">
                     <h1>Crypto Prices</h1>
                     <p></p>
-                    <div>                  
+                    <div className="inline-coinlist">                  
                         <input
                         id="search" 
                         type="text" 
                         className="search-box"
                         placeholder="Busca aquí..."
                         value={query} 
-                        onChange={(e) => setQuery(e.target.value)}
+                        onChange={inputQuery}
                         autoComplete="off"
                         />
+                        <i 
+                            className={closeVisibility===false ? "close-btn-hidden-coinlist" : "close-btn-visible-coinlist"} 
+                            onClick={clearInput}>
+                            <Close />
+                        </i>
                     </div>
                 </div>
                 <br></br>

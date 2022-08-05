@@ -1,16 +1,20 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import "../css/home.css";
 
-const Home = () => {
+function Home() {
+
+    const handleExplore = () => {
+        window.location.href = '/coins';
+    }
+
     return (
         <div className="home-container">
             <h1 className="title">¡Bienvenido/a a Cryptoaholic!</h1>
             <p></p>
             <h1 className="header">
                 Sé el primero/a en enterarte de las <p></p>
-                noticias de criptomonedas
+                últimas noticias de criptomonedas
                 <strong className="strong-text"> cada día</strong>.
             </h1>
             <p className="mid-line"></p>
@@ -23,13 +27,12 @@ const Home = () => {
                     <strong className="word-bonita"> bonita </strong>.
             </h2>
             <p></p>
-            <Link to="/coins">
-                <button type="button" 
+                <button type="button"
+                        onClick={handleExplore} 
                         className="btn btn-explore"
                 >
                     Comenzar a explorar <FaArrowRight />  
                 </button>
-            </Link>
         </div>
     )
 }

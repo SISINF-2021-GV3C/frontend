@@ -1,15 +1,17 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import "../css/App.css"
 
-const NotFound = () => {
+function NotFound() {
+    const navigate = useNavigate();
+
     return (
         <div className='App-header'>
             <h1>Error 404: Página no encontrada</h1>
             <div className="button-return">
-                <Link to="/" className="btn btn-outline-light">
-                    Volver al inicio
-                </Link>
+                <button onClick={() => navigate(-1)} className="btn btn-outline-light">
+                    Volver atrás
+                </button>
             </div>
         </div>
     );

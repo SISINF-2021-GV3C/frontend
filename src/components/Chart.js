@@ -29,7 +29,7 @@ const CoinChart = ({coin}) => {
         };
         fetchHistoricData();
         setCurrency(loadCurrency);
-        setTimeout(() => setLoading(false), 10);
+        setTimeout(() => setLoading(false), 100);
     }, [coin.id, days, currency, loadCurrency]);
 
     // Tema oscuro

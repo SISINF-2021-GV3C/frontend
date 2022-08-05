@@ -1,12 +1,7 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
 import { ButtonUnstyled } from "@mui/base";
-import { useForm } from "react-hook-form";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye } from "@fortawesome/free-regular-svg-icons";
-import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from 'react-router-dom';
 import "../css/profile.css"
-import { Button } from "bootstrap";
 
 function Profile() {
 
@@ -15,6 +10,8 @@ function Profile() {
     const [tlf, setTlf] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+
+    const navigate = useNavigate();
 
     return (
         <div className="userform-container">
@@ -74,7 +71,7 @@ function Profile() {
                                     type="text" 
                                     className="form-control" 
                                     name="userName" 
-                                    placeholder="Nombre de usuario" 
+                                    placeholder="Fecha de nacimiento" 
                                 />                    
                             </div>
                             <div className="col">
@@ -84,7 +81,7 @@ function Profile() {
                                     type="text" 
                                     className="form-control" 
                                     name="tlf" 
-                                    placeholder="Número de teléfono" 
+                                    placeholder="Nacionalidad" 
                                 />                    
                             </div>
                         </div>
@@ -101,7 +98,9 @@ function Profile() {
                         </div>
                         <br></br>
                         <div className="d-grid gap-2"> 
-                            <ButtonUnstyled className="btn btn-primary btn-block btn-lg">Volver atrás</ButtonUnstyled>
+                            <ButtonUnstyled 
+                                onClick={() => navigate(-1)}
+                                className="btn btn-primary btn-block btn-lg">Volver atrás</ButtonUnstyled>
                         </div>
                     </form>
                 </div>

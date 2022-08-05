@@ -55,7 +55,7 @@ function Asset () {
         localStorage.clear();
         localStorage.setItem('currencyNew', currency);
         localStorage.setItem('simboloNew', simbolo);
-        setTimeout(() => setLoading(false), 1000);
+        setTimeout(() => setLoading(false), 1500);
     }, [id, loadCurrency, loadSymbol, currency, simbolo]);
 
     // Añadir moneda a favotitos

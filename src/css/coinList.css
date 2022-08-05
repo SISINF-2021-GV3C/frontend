@@ -24,7 +24,7 @@ a:active { text-decoration: none; }
 .ui.grid.container {
     width: 1200px;
     margin-top: 44px;
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     overflow-y: scroll;
@@ -32,6 +32,7 @@ a:active { text-decoration: none; }
 }
 
 .coinlist-container {
+    user-select: none;
     background: linear-gradient(220.55deg, #c73068 0%, #03132e 100%);
     background-size: cover;
     min-height: 100vh;
@@ -231,3 +232,18 @@ div#content {
     background-color:  rgb(140, 27, 78);
 }
 
+.close-btn-visible-coinlist {
+    position: relative;
+}
+
+.close-btn-hidden-coinlist {
+    visibility: hidden;
+    position: relative;
+}
+
+.inline-coinlist {
+    user-select: none;
+    margin-left: 30px;
+    width: 430px;
+    display: inline;
+}
