@@ -1,0 +1,65 @@
+:root {
+  --green: #008000;
+  --dark-green: #034b00;
+  --yellow: #fff700;
+  --dark-yellow: #9d8300;
+  --red: #ff0000;
+  --dark-red: #990000;
+  --blue: #00bdd6;
+  --dark-blue: #186487;
+  --black: #444;
+  --light-color: #666;
+  --border: 0.1rem solid rgba(0, 0, 0, 0.1);
+  --border-hover: 0.1rem solid var(--black);
+  --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.div-versus-container {
+  background: linear-gradient(220.55deg, #c73068 0%, #03132e 100%);
+  background-size: cover;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.left-coin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  min-height: 85vh;
+}
+
+.right-coin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  min-height: 85vh;
+}
+
+.sidebar_left {
+  margin-top: 55px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 3px solid whitesmoke;
+}
+
+.sidebar_right {
+  margin-top: 55px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
