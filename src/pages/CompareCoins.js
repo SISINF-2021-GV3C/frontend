@@ -69,12 +69,18 @@ function CompareCoins() {
       }
     } else {
       coin.forEach((element) => {
-        if (element.symbol.toLowerCase() === queryFirst.toLowerCase()) {
+        if (
+          element.symbol.toLowerCase() === queryFirst.toLowerCase() ||
+          element.id.toLowerCase() === queryFirst.toLowerCase()
+        ) {
           setOutlineFirst(false);
-          localStorage.setItem("symFirstQuery", queryFirst);
-        } else if (element.symbol.toLowerCase() === querySecond.toLowerCase()) {
+          localStorage.setItem("symFirstQuery", element.id);
+        } else if (
+          element.symbol.toLowerCase() === querySecond.toLowerCase() ||
+          element.id.toLowerCase() === querySecond.toLowerCase()
+        ) {
           setOutlineSecond(false);
-          localStorage.setItem("symSecondQuery", querySecond);
+          localStorage.setItem("symSecondQuery", element.id);
         } else {
           /* no hacer nada al respecto */
         }
