@@ -3,6 +3,7 @@ import axios from "axios";
 import { Close } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { CoinList } from "../data/CoinGecko_API";
+import ReturnButton from "../components/BackButton";
 import Swal from "sweetalert2";
 import "../css/compare.css";
 
@@ -74,13 +75,15 @@ function CompareCoins() {
           element.id.toLowerCase() === queryFirst.toLowerCase()
         ) {
           setOutlineFirst(false);
-          localStorage.setItem("symFirstQuery", element.id);
+          localStorage.setItem("idFirstQuery", element.id);
+          console.log(element.id);
         } else if (
           element.symbol.toLowerCase() === querySecond.toLowerCase() ||
           element.id.toLowerCase() === querySecond.toLowerCase()
         ) {
           setOutlineSecond(false);
-          localStorage.setItem("symSecondQuery", element.id);
+          localStorage.setItem("idSecondQuery", element.id);
+          console.log(element.id);
         } else {
           /* no hacer nada al respecto */
         }
@@ -92,9 +95,10 @@ function CompareCoins() {
         showConfirmButton: false,
         timer: 1500,
       });
+
       setTimeout(() => {
         window.location.href = "/compare/versus";
-      }, 1000);
+      }, 1500);
     }
   };
 
@@ -182,9 +186,10 @@ function CompareCoins() {
         </i>
       </div>
       <br></br>
-      <Link onClick={handleSearch} className="btn btn-compare-go" to="">
+      <Link onClick={() => handleSearch()} className="btn btn-compare-go" to="">
         COMPARAR
       </Link>
+      <ReturnButton />
     </div>
   );
 }

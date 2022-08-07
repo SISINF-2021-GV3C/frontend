@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { SingleCoin } from "../data/CoinGecko_API";
 import { createTheme, ThemeProvider } from "@mui/material";
+import ReturnButton from "../components/BackButton";
 import currencyTable from "../data/Currencies.json";
 import CoinChart from "../components/Chart";
 import Loading from "../components/Loader";
@@ -47,6 +48,8 @@ function Asset() {
     const fetchSingleCoin = async () => {
       const { data } = await axios.get(SingleCoin(id));
       setCoin(data);
+      console.log(data);
+      console.log(coin);
       setMarket_Data(data.market_data);
       setDescription(data.description.en);
     };
@@ -435,6 +438,7 @@ function Asset() {
               <CoinChart coin={coin} />
             </div>
           </div>
+          <ReturnButton />
         </div>
       ) : (
         <Loading />

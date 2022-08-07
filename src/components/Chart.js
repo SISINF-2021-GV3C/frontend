@@ -118,9 +118,6 @@ const CoinChart = ({ coin }) => {
                 ))}
               </div>
             </div>
-            <Link className="btn btn-warn-back" to="/coins">
-              <FaArrowCircleLeft />
-            </Link>
           </div>
         </ThemeProvider>
       ) : (

@@ -1,0 +1,15 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { FaArrowCircleLeft } from "react-icons/fa";
+
+const ReturnButton = () => {
+  return (
+    <div>
+      <Link className="btn btn-warn-back" to="/coins">
+        <FaArrowCircleLeft />
+      </Link>
+    </div>
+  );
+};
+
+export default ReturnButton;
