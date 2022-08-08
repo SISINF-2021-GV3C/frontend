@@ -9,7 +9,6 @@ import CoinChart from "../components/Chart";
 import VersusData from "../components/VersusData";
 import AssetTitle from "../components/AssetTitle";
 import Loading from "../components/Loader";
-import Collapsible from "react-collapsible";
 
 import "../css/asset.css";
 
@@ -46,7 +45,7 @@ function Versus() {
     };
     fetchSecondCoin();
     setTimeout(() => setLoading(false), 1500);
-  }, []);
+  });
 
   return (
     <>

@@ -76,14 +76,12 @@ function CompareCoins() {
         ) {
           setOutlineFirst(false);
           localStorage.setItem("idFirstQuery", element.id);
-          console.log(element.id);
         } else if (
           element.symbol.toLowerCase() === querySecond.toLowerCase() ||
           element.id.toLowerCase() === querySecond.toLowerCase()
         ) {
           setOutlineSecond(false);
           localStorage.setItem("idSecondQuery", element.id);
-          console.log(element.id);
         } else {
           /* no hacer nada al respecto */
         }

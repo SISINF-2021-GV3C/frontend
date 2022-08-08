@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loader";
-import Collapsible from "react-collapsible";
 import "../css/versus.css";
 
 const VersusData = ({ coin }) => {
@@ -9,8 +8,6 @@ const VersusData = ({ coin }) => {
   const [loading, setLoading] = useState(true);
 
   // Constantes de manejo de datos
-  const [descText, setDescText] = useState("Leer descripción");
-  const [description, setDescription] = useState("");
   const currency = "usd";
   const simbolo = "$";
   var isPositive = [];
@@ -18,25 +15,12 @@ const VersusData = ({ coin }) => {
   // Opciones de formato de número (USD)
   const numberFormat = new Intl.NumberFormat("en-US");
 
+  // eslint-disable-next-line
   useEffect(() => {
     setMarket_Data(coin.market_data);
-    setDescription(coin.description.en);
     setTimeout(() => setLoading(false), 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Abrir la descripción
-  const openDescription = () => {
-    if (descText === "Leer descripción") {
-      setDescText("Cerrar descripción");
-    }
-  };
-
-  // Cerrar la descripción
-  const closeDescription = () => {
-    if (descText === "Cerrar descripción") {
-      setDescText("Leer descripción");
-    }
-  };
 
   // Funciones para comprobar el porcentaje de cambio para aplicar CSS
   // Comprobar porcentaje de cambio en 24h
