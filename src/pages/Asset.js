@@ -48,8 +48,6 @@ function Asset() {
     const fetchSingleCoin = async () => {
       const { data } = await axios.get(SingleCoin(id));
       setCoin(data);
-      console.log(data);
-      console.log(coin);
       setMarket_Data(data.market_data);
       setDescription(data.description.en);
     };

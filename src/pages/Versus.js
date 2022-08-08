@@ -19,8 +19,6 @@ function Versus() {
   const [coinR, setCoinR] = useState([]);
 
   const [market_data, setMarket_Data] = useState([]);
-  const [historicData, setHistoricData] = useState([]);
-  const [days, setDays] = useState(1);
   const [loading, setLoading] = useState(true);
 
   // Constantes para cargar la divisa y el símbolo
@@ -29,8 +27,6 @@ function Versus() {
 
   const firstCoin = localStorage.getItem("idFirstQuery");
   const secondCoin = localStorage.getItem("idSecondQuery");
-  console.log(firstCoin);
-  console.log(secondCoin);
 
   // Constantes de manejo de datos
   const [descText, setDescText] = useState("Leer descripción");
@@ -63,14 +59,12 @@ function Versus() {
         .get(SingleCoin(firstCoin))
         .then((response) => {
           setCoinL(response.data);
+          setMarket_Data(response.data.market_data);
+          setDescription(response.data.description.en);
         })
         .catch((err) => {
           console.log(err);
         });
-      console.log(coinL);
-      //setMarket_Data(data.market_data);
-      //setDescription(data.description.en);
-      //setMarket_Data(data.market_data);
     };
     fetchFirstCoin();
     const fetchSecondCoin = async () => {
@@ -82,14 +76,12 @@ function Versus() {
         .catch((err) => {
           console.log(err);
         });
-      console.log(coinR);
       //setMarket_Data(data.market_data);
     };
     fetchSecondCoin();
     setTimeout(() => setLoading(false), 1500);
   }, []);
 
-  /*
   // Añadir moneda a favotitos
   const addCoin = () => {
     if (fav === "NO") {
@@ -449,7 +441,6 @@ function Versus() {
       </div>
     );
   };
-  */
 
   return (
     <>
@@ -457,7 +448,10 @@ function Versus() {
         <div className="div-versus-container">
           <div className="left-coin-container">
             <div className="sidebar_left">
+              {displayTitle()}
               <CoinChart coin={coinL} />
+              {displayDescription()}
+              {displayMarket()}
             </div>
           </div>
           <div className="right-coin-container">

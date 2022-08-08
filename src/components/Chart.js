@@ -1,10 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { HistoricalChart } from "../data/CoinGecko_API";
 import { Line } from "react-chartjs-2";
 import { CircularProgress, createTheme, ThemeProvider } from "@mui/material";
-import { FaArrowCircleLeft } from "react-icons/fa";
 import chartDays from "../data/ChartDays.json";
 import SelectButton from "./SelectButton";
 import {
