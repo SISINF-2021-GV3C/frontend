@@ -143,7 +143,7 @@ function CompareCoins() {
           className={
             outlineFirst === true ? "search-box-top-error" : "search-box-top"
           }
-          placeholder="Introduce el primer símbolo (p.ej BTC)"
+          placeholder="Nombre o símbolo de la 1ª moneda (p.ej Bitcoin o BTC)"
           value={queryFirst}
           onChange={inputQuery1}
           autoComplete="off"
@@ -169,7 +169,7 @@ function CompareCoins() {
               ? "search-box-bottom-error"
               : "search-box-bottom"
           }
-          placeholder="Introduce el segundo símbolo (p.ej ETH)"
+          placeholder="Nombre o símbolo de la 2ª moneda (p.ej Ethereum o ETH)"
           value={querySecond}
           onChange={inputQuery2}
           autoComplete="off"

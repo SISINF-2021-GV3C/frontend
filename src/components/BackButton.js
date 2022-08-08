@@ -4,7 +4,7 @@ import { FaArrowCircleLeft } from "react-icons/fa";
 
 const ReturnButton = () => {
   return (
-    <div>
+    <div className="ReturnButton">
       <Link className="btn btn-warn-back" to="/coins">
         <FaArrowCircleLeft />
       </Link>

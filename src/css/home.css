@@ -66,3 +66,7 @@
   border-color: rgb(182, 95, 13);
   background-color: rgb(182, 95, 13);
 }
+
+.ReturnButton {
+  font-size: 75%;
+}

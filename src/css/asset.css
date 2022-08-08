@@ -68,6 +68,13 @@
   align-items: center;
 }
 
+.crypto-title {
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 .crypto-image {
   padding-right: 7px;
 }
@@ -158,13 +165,6 @@
 
 .mktdata-container-pte:hover {
   transform: scale(1.07);
-}
-
-.crypto-title {
-  clear: both;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .label {
@@ -276,4 +276,12 @@
   color: gold;
   padding-left: 10px;
   cursor: pointer;
+}
+
+.return-container {
+  font-size: 150%;
+}
+
+.return-container-vs {
+  font-size: 120%;
 }

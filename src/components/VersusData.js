@@ -1,75 +1,28 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { SingleCoin } from "../data/CoinGecko_API";
-import { createTheme, ThemeProvider } from "@mui/material";
-import ReturnButton from "../components/BackButton";
-import currencyTable from "../data/Currencies.json";
-import CoinChart from "../components/Chart";
+import React from "react";
+import { useEffect, useState } from "react";
 import Loading from "../components/Loader";
 import Collapsible from "react-collapsible";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import "../css/asset.css";
+import "../css/versus.css";
 
-function Asset() {
-  // Constantes para cargar la divisa y el símbolo
-  const loadCurrency = localStorage.getItem("currency");
-  const loadSymbol = localStorage.getItem("simbolo");
+const VersusData = ({ coin }) => {
+  const [market_data, setMarket_Data] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Constantes de manejo de datos
-  const { id } = useParams();
-  const [coin, setCoin] = useState();
-  const [loading, setLoading] = useState(true);
   const [descText, setDescText] = useState("Leer descripción");
   const [description, setDescription] = useState("");
-  const [market_data, setMarket_Data] = useState([]);
-  const [fav, setFav] = useState("NO");
-  const [favCN, setFavCN] = useState("bi-star");
-  const [currency, setCurrency] = useState(loadCurrency);
-  const [simbolo, setSimbolo] = useState(loadSymbol);
+  const currency = "usd";
+  const simbolo = "$";
   var isPositive = [];
 
   // Opciones de formato de número (USD)
   const numberFormat = new Intl.NumberFormat("en-US");
 
-  // Tema para el Navbar
-  const darkTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#000",
-      },
-      type: "light",
-    },
-  });
-
-  // Descargar datos a través de la API de CoinGecko
   useEffect(() => {
-    const fetchSingleCoin = async () => {
-      const { data } = await axios.get(SingleCoin(id));
-      setCoin(data);
-      setMarket_Data(data.market_data);
-      setDescription(data.description.en);
-    };
-    fetchSingleCoin();
-    localStorage.clear();
-    localStorage.setItem("currencyNew", currency);
-    localStorage.setItem("simboloNew", simbolo);
-    setTimeout(() => setLoading(false), 1500);
-  }, [id, loadCurrency, loadSymbol, currency, simbolo]);
-
-  // Añadir moneda a favotitos
-  const addCoin = () => {
-    if (fav === "NO") {
-      setFavCN("bi-star-fill");
-      setFav("YES");
-    } else if (fav === "YES") {
-      setFavCN("bi-star");
-      setFav("NO");
-    } else {
-      return fav;
-    }
-  };
+    setMarket_Data(coin.market_data);
+    setDescription(coin.description.en);
+    setTimeout(() => setLoading(false), 100);
+  }, []);
 
   // Abrir la descripción
   const openDescription = () => {
@@ -158,80 +111,6 @@ function Asset() {
     }
   };
 
-  // Cambiar la divisa y el símbolo
-  const setCurrencyNSymbol = (event) => {
-    setCurrency(event.target.value);
-    currencyTable.forEach((element) => {
-      if (event.target.value === element.divisa) {
-        setSimbolo(element.simbolo);
-      }
-    });
-    localStorage.removeItem("currencyNew");
-    localStorage.removeItem("simboloNew");
-    localStorage.setItem("currencyNew", currency);
-    localStorage.setItem("simboloNew", simbolo);
-  };
-
-  // Mostrar la cabecera de la moneda
-  const displayTitle = () => {
-    return (
-      <div className="title-container">
-        <div className="crypto-title">
-          <img
-            className="crypto-image"
-            src={coin.image.large}
-            alt={coin.name}
-            width="50px"
-          />
-          | {coin.name} |
-          <span className="crypto-symbol">{coin.symbol.toUpperCase()}</span>
-          <i
-            onMouseOver={addCoin}
-            onMouseOut={addCoin}
-            onClick={addCoin}
-            className={`bi ${favCN} star-icon`}
-          ></i>
-          <div className="btn-currency">
-            <ThemeProvider theme={darkTheme}>
-              <Select
-                variant="outlined"
-                label="Cambiar divisa"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={currency}
-                style={{ position: "relative", width: 140, height: 40 }}
-                onChange={setCurrencyNSymbol}
-              >
-                {currencyTable.map(({ divisa, simbolo }) => (
-                  <MenuItem key={divisa} value={divisa}>
-                    {simbolo} | {divisa.toLocaleUpperCase()}
-                  </MenuItem>
-                ))}
-              </Select>
-            </ThemeProvider>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // Mostrar la descripción de la moneda
-  const displayDescription = () => {
-    return (
-      <div className="read-more-container">
-        <Collapsible
-          onTriggerOpening={openDescription}
-          onTriggerClosing={closeDescription}
-          trigger={descText}
-        >
-          <div className="description-container">
-            <div dangerouslySetInnerHTML={{ __html: description }}></div>
-          </div>
-        </Collapsible>
-      </div>
-    );
-  };
-
   // Función para cambiar al SI
   function convertToICS(labelValue) {
     return Math.abs(Number(labelValue)) >= 1.0e9
@@ -265,12 +144,12 @@ function Asset() {
       <div>
         <div className="row g-3 align-items-start">
           <div className="col-sm mktdata-container">
-            <label className="label">Rango:</label>
+            <label className="label-versus">Rango:</label>
             <br></br>
             <span className="mktdata-prop">{coin.market_cap_rank}</span>
           </div>
           <div className="col-sm mktdata-container">
-            <label className="label">Precio:</label>
+            <label className="label-versus">Precio:</label>
             <br></br>
             <span className="mktdata-prop">
               {simbolo}{" "}
@@ -280,14 +159,14 @@ function Asset() {
         </div>
         <div className="row g-3 align-items-start">
           <div className="col-sm mktdata-container">
-            <label className="label">Capitalización:</label>
+            <label className="label-versus">Capitalización:</label>
             <br></br>
             <span className="mktdata-prop">
               {simbolo} {convertToICS(coin.market_data.market_cap[currency])}
             </span>
           </div>
           <div className="col-sm mktdata-container">
-            <label className="label">Volumen total:</label>
+            <label className="label-versus">Volumen total:</label>
             <br></br>
             <span className="mktdata-prop">
               {simbolo} {convertToICS(coin.market_data.total_volume[currency])}
@@ -296,14 +175,14 @@ function Asset() {
         </div>
         <div className="row g-3 align-items-start">
           <div className="col-sm mktdata-container">
-            <label className="label">Suministro total:</label>
+            <label className="label-versus">Suministro total:</label>
             <br></br>
             <span className="mktdata-prop">
               {convertToICS(coin.market_data.total_supply)}
             </span>
           </div>
           <div className="col-sm mktdata-container">
-            <label className="label">Suministro en circulación:</label>
+            <label className="label-versus">Suministro en circulación:</label>
             <br></br>
             <span className="mktdata-prop">
               {convertToICS(coin.market_data.circulating_supply)}
@@ -312,7 +191,7 @@ function Asset() {
         </div>
         <div className="row g-3 align-items-start">
           <div className="col-sm mktdata-container">
-            <label className="label">Máximo 24h:</label>
+            <label className="label-versus">Máximo 24h:</label>
             <br></br>
             <span className="mktdata-prop">
               {simbolo}{" "}
@@ -320,7 +199,7 @@ function Asset() {
             </span>
           </div>
           <div className="col-sm mktdata-container">
-            <label className="label">Mínimo 24h:</label>
+            <label className="label-versus">Mínimo 24h:</label>
             <br></br>
             <span className="mktdata-prop">
               {simbolo}{" "}
@@ -330,7 +209,7 @@ function Asset() {
         </div>
         <div className="row g-3 align-items-start">
           <div className="col-sm mktdata-container-pte">
-            <label className="label">Cambio en el precio (24h):</label>
+            <label className="label-versus">Cambio en el precio (24h):</label>
             <br></br>
             <span className={`${isPositive[7] ? "pte-success" : "pte-danger"}`}>
               {simbolo}{" "}
@@ -340,7 +219,7 @@ function Asset() {
             </span>
           </div>
           <div className="col-sm mktdata-container-pte">
-            <label className="label">Pte. cambio (24h):</label>
+            <label className="label-versus">Pte. cambio (24h):</label>
             <br></br>
             <span className={`${isPositive[0] ? "pte-success" : "pte-danger"}`}>
               {coin.market_data.price_change_percentage_24h_in_currency[
@@ -352,7 +231,7 @@ function Asset() {
         </div>
         <div className="row g-3 align-items-start">
           <div className="col-sm mktdata-container-pte">
-            <label className="label">Pte. cambio (7d):</label>
+            <label className="label-versus">Pte. cambio (7d):</label>
             <br></br>
             <span className={`${isPositive[1] ? "pte-success" : "pte-danger"}`}>
               {coin.market_data.price_change_percentage_7d_in_currency[
@@ -362,7 +241,7 @@ function Asset() {
             </span>
           </div>
           <div className="col-sm mktdata-container-pte">
-            <label className="label">Pte. cambio (14d):</label>
+            <label className="label-versus">Pte. cambio (14d):</label>
             <br></br>
             <span className={`${isPositive[2] ? "pte-success" : "pte-danger"}`}>
               {coin.market_data.price_change_percentage_14d_in_currency[
@@ -372,7 +251,7 @@ function Asset() {
             </span>
           </div>
           <div className="col-sm mktdata-container-pte">
-            <label className="label">Pte. cambio (30d):</label>
+            <label className="label-versus">Pte. cambio (30d):</label>
             <br></br>
             <span className={`${isPositive[3] ? "pte-success" : "pte-danger"}`}>
               {coin.market_data.price_change_percentage_30d_in_currency[
@@ -384,7 +263,7 @@ function Asset() {
         </div>
         <div className="row g-3 align-items-start">
           <div className="col-sm mktdata-container-pte">
-            <label className="label">Pte. cambio (60d):</label>
+            <label className="label-versus">Pte. cambio (60d):</label>
             <br></br>
             <span className={`${isPositive[4] ? "pte-success" : "pte-danger"}`}>
               {coin.market_data.price_change_percentage_60d_in_currency[
@@ -394,7 +273,7 @@ function Asset() {
             </span>
           </div>
           <div className="col-sm mktdata-container-pte">
-            <label className="label">Pte. cambio (200d):</label>
+            <label className="label-versus">Pte. cambio (200d):</label>
             <br></br>
             <span className={`${isPositive[5] ? "pte-success" : "pte-danger"}`}>
               {coin.market_data.price_change_percentage_200d_in_currency[
@@ -404,7 +283,7 @@ function Asset() {
             </span>
           </div>
           <div className="col-sm mktdata-container-pte">
-            <label className="label">Pte. cambio (1y):</label>
+            <label className="label-versus">Pte. cambio (1y):</label>
             <br></br>
             <span className={`${isPositive[6] ? "pte-success" : "pte-danger"}`}>
               {coin.market_data.price_change_percentage_1y_in_currency[
@@ -421,30 +300,15 @@ function Asset() {
   return (
     <>
       {loading === false ? (
-        <div className="div-asset-container">
-          <div className="asset-container">
-            <div className="sidebar_l">
-              <div className="title">
-                {displayTitle()}
-                {displayDescription()}
-                {displayMarket()}
-              </div>
-            </div>
-          </div>
-          <div className="chart-container">
-            <div className="sidebar_r">
-              <CoinChart coin={coin} />
-            </div>
-          </div>
-          <div className="return-container">
-            <ReturnButton />
-          </div>
+        <div className="mktData_cont">
+          <div className="title-mktdata">DATOS DE MERCADO</div>{" "}
+          {displayMarket()}
         </div>
       ) : (
         <Loading />
       )}
     </>
   );
-}
+};
 
-export default Asset;
+export default VersusData;
