@@ -538,13 +538,6 @@ function Coins() {
               </button>
             )}
             <p></p>
-            <button
-              type="button"
-              className="btn btn-warn-top"
-              onClick={scrollToTop}
-            >
-              <FaAngleDoubleUp />
-            </button>
           </div>
         </div>
       ) : (
