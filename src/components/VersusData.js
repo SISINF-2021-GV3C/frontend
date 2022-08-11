@@ -15,12 +15,10 @@ const VersusData = ({ coin }) => {
   // Opciones de formato de número (USD)
   const numberFormat = new Intl.NumberFormat("en-US");
 
-  // eslint-disable-next-line
   useEffect(() => {
     setMarket_Data(coin.market_data);
     setTimeout(() => setLoading(false), 100);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [coin.market_data]);
 
   // Funciones para comprobar el porcentaje de cambio para aplicar CSS
   // Comprobar porcentaje de cambio en 24h
