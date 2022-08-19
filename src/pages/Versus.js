@@ -22,7 +22,7 @@ function Versus() {
 
   // Descargar datos a través de la API de CoinGecko
   useEffect(() => {
-    const fetchFirstCoin = async () => {
+    /*const fetchFirstCoin = async () => {
       await axios
         .get(SingleCoin(firstCoin))
         .then((response) => {
@@ -44,7 +44,7 @@ function Versus() {
         });
     };
     fetchSecondCoin();
-    setTimeout(() => setLoading(false), 1500);
+    setTimeout(() => setLoading(false), 1500);*/
   });
 
   return (
