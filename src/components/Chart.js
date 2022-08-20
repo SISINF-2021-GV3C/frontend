@@ -36,17 +36,17 @@ const CoinChart = ({ coin }) => {
   // Constante para cargar la divisa
   const loadCurrency = localStorage.getItem("currencyNew");
 
+  const fetchHistoricData = async () => {
+    const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
+    setHistoricData(data.prices);
+  };
+
   // Extraer datos del gráfico a través de la API de CoinGecko
   useEffect(() => {
-    const fetchHistoricData = async () => {
-      const { data } = await axios.get(
-        HistoricalChart(coin.id, days, currency)
-      );
-      setHistoricData(data.prices);
-    };
     fetchHistoricData();
     setCurrency(loadCurrency);
-    setTimeout(() => setLoading(false), 100);
+    setLoading(false);
+    // eslint-disable-next-line
   }, [coin.id, days, currency, loadCurrency]);
 
   // Tema oscuro

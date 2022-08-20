@@ -6,7 +6,7 @@ import { SingleCoin } from "../data/CoinGecko_API";
 import { Link } from "react-router-dom";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import CoinChart from "../components/Chart";
-import VersusData from "../components/VersusData";
+//import VersusData from "../components/VersusData";
 import AssetTitle from "../components/AssetTitle";
 import Loading from "../components/Loader";
 
@@ -22,30 +22,20 @@ function Versus() {
 
   // Descargar datos a través de la API de CoinGecko
   useEffect(() => {
-    /*const fetchFirstCoin = async () => {
-      await axios
-        .get(SingleCoin(firstCoin))
-        .then((response) => {
-          setCoinL(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    const fetchFirstCoin = async () => {
+      const { data } = await axios.get(SingleCoin(firstCoin));
+      setCoinL(data);
+      console.log(data);
+    };
+    const fetchSecondCoin = async () => {
+      const { data } = await axios.get(SingleCoin(secondCoin));
+      setCoinR(data);
+      console.log(data);
     };
     fetchFirstCoin();
-    const fetchSecondCoin = async () => {
-      await axios
-        .get(SingleCoin(secondCoin))
-        .then((response) => {
-          setCoinR(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
     fetchSecondCoin();
-    setTimeout(() => setLoading(false), 1500);*/
-  });
+    setTimeout(() => setLoading(false), 1500);
+  }, [firstCoin, secondCoin]);
 
   return (
     <>
@@ -57,9 +47,7 @@ function Versus() {
               <div className="graph_container">
                 <CoinChart coin={coinL} />
               </div>
-              <div className="graph_container">
-                <VersusData coin={coinL} />
-              </div>
+              <div className="graph_container"></div>
             </div>
           </div>
           <div className="right-coin-container">
@@ -68,9 +56,7 @@ function Versus() {
               <div className="graph_container">
                 <CoinChart coin={coinR} />
               </div>
-              <div className="graph_container">
-                <VersusData coin={coinR} />
-              </div>
+              <div className="graph_container"></div>
             </div>
           </div>
           <div className="return-container-vs">

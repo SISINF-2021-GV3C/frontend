@@ -57,12 +57,13 @@ function Coins() {
     },
   });
 
+  const fetchCoins = async () => {
+    const { data } = await axios.get(CoinList(currency));
+    setCoin(data);
+  };
+
   // Descargar datos a través de la API de CoinGecko
   useEffect(() => {
-    const fetchCoins = async () => {
-      const { data } = await axios.get(CoinList(currency));
-      setCoin(data);
-    };
     fetchCoins();
     localStorage.setItem("currency", currency);
     localStorage.setItem("simbolo", simbolo);

@@ -17,12 +17,13 @@ function CompareCoins() {
   const [closeVisibilityFirst, setCloseVisibilityFirst] = useState(false);
   const [closeVisibilitySecond, setCloseVisibilitySecond] = useState(false);
 
+  const fetchCoins = async () => {
+    const { data } = await axios.get(CoinList(currency));
+    setCoin(data);
+  };
+
   // Descargar datos a través de la API de CoinGecko
   useEffect(() => {
-    const fetchCoins = async () => {
-      const { data } = await axios.get(CoinList(currency));
-      setCoin(data);
-    };
     fetchCoins();
   }, []);
 

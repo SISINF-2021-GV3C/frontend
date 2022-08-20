@@ -18,9 +18,10 @@ const VersusData = ({ coin }) => {
   // eslint-disable-next-line
   useEffect(() => {
     setMarket_Data(coin.market_data);
-    setTimeout(() => setLoading(false), 100);
+    setTimeout(() => setLoading(false), 1500);
+    console.log(coin.market_data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coin.market_data]);
+  }, []);
 
   // Funciones para comprobar el porcentaje de cambio para aplicar CSS
   // Comprobar porcentaje de cambio en 24h
