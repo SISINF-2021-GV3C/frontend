@@ -6,7 +6,7 @@ import { SingleCoin } from "../data/CoinGecko_API";
 import { Link } from "react-router-dom";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import CoinChart from "../components/Chart";
-//import VersusData from "../components/VersusData";
+import VersusData from "../components/VersusData";
 import AssetTitle from "../components/AssetTitle";
 import Loading from "../components/Loader";
 
@@ -25,12 +25,10 @@ function Versus() {
     const fetchFirstCoin = async () => {
       const { data } = await axios.get(SingleCoin(firstCoin));
       setCoinL(data);
-      console.log(data);
     };
     const fetchSecondCoin = async () => {
       const { data } = await axios.get(SingleCoin(secondCoin));
       setCoinR(data);
-      console.log(data);
     };
     fetchFirstCoin();
     fetchSecondCoin();
@@ -47,7 +45,9 @@ function Versus() {
               <div className="graph_container">
                 <CoinChart coin={coinL} />
               </div>
-              <div className="graph_container"></div>
+              <div className="graph_container">
+                <VersusData coin={coinL} />
+              </div>
             </div>
           </div>
           <div className="right-coin-container">
@@ -56,7 +56,9 @@ function Versus() {
               <div className="graph_container">
                 <CoinChart coin={coinR} />
               </div>
-              <div className="graph_container"></div>
+              <div className="graph_container">
+                <VersusData coin={coinR} />
+              </div>
             </div>
           </div>
           <div className="return-container-vs">
