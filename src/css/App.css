@@ -28,3 +28,19 @@
 .App-link {
   color: #61dafb;
 }
+
+.col-err {
+  position: relative;
+  padding-top: 100px;
+  text-align: start;
+}
+
+.col-img {
+  position: relative;
+  min-width: 100vh;
+}
+
+.text-err {
+  font-size: 90%;
+  font-weight: 300;
+}

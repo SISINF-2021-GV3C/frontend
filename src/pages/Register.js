@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { DatePicker } from "@mantine/dates";
+import { Select } from "@mantine/core";
+import { countryList } from "../data/Countries";
 import "../css/userForm.css";
 
 // Expresión regular para validar formato de correo electrónico
@@ -141,6 +144,23 @@ function Register() {
                   onChange={({ target }) => setTlf(target.value)}
                 />
                 <p className="reg-warning">{errors.tlf?.message}</p>
+              </div>
+            </div>
+            <div className="row g-3">
+              <div className="col">
+                <label>País de residencia</label>
+                <Select
+                  searchable
+                  nothingFound="Sin opciones"
+                  style={{ zIndex: 2 }}
+                  data={countryList}
+                  placeholder="Selecciona tu país de residencia"
+                />
+                <p />
+              </div>
+              <div className="col">
+                <label>Fecha de nacimiento</label>
+                <DatePicker placeholder="¿Qué día naciste?" clearable={false} />
               </div>
             </div>
             <div className="form-group">

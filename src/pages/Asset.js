@@ -52,11 +52,12 @@ function Asset() {
       setDescription(data.description.en);
     };
     fetchSingleCoin();
-    localStorage.clear();
     localStorage.setItem("currencyNew", currency);
     localStorage.setItem("simboloNew", simbolo);
     setTimeout(() => setLoading(false), 1500);
   }, [id, loadCurrency, loadSymbol, currency, simbolo]);
+
+  console.log(market_data);
 
   // Añadir moneda a favotitos
   const addCoin = () => {

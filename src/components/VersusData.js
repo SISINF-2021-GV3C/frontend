@@ -6,10 +6,14 @@ import "../css/versus.css";
 const VersusData = ({ coin }) => {
   const [market_data, setMarket_Data] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currency, setCurrency] = useState("usd");
+  const [simbolo, setSimbolo] = useState("$");
+
+  // Constantes para cargar la divisa y el símbolo
+  const loadCurrency = localStorage.getItem("currencyNewVs");
+  const loadSymbol = localStorage.getItem("symbolNewVs");
 
   // Constantes de manejo de datos
-  const currency = "usd";
-  const simbolo = "$";
   var isPositive = [];
 
   // Opciones de formato de número (USD)
@@ -17,11 +21,12 @@ const VersusData = ({ coin }) => {
 
   // eslint-disable-next-line
   useEffect(() => {
+    setCurrency(loadCurrency);
+    setSimbolo(loadSymbol);
     setMarket_Data(coin.market_data);
     setTimeout(() => setLoading(false), 100);
-    console.log(coin.market_data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [coin.market_data]);
+  }, [coin.market_data, currency, simbolo, loadCurrency, loadSymbol]);
 
   // Funciones para comprobar el porcentaje de cambio para aplicar CSS
   // Comprobar porcentaje de cambio en 24h

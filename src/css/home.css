@@ -14,8 +14,14 @@
   overflow-x: hidden;
 }
 
-.title {
-  margin-top: 20px;
+.home-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  min-height: 100vh;
 }
 
 .header {
@@ -69,4 +75,20 @@
 
 .ReturnButton {
   font-size: 75%;
+}
+
+.col-homeText {
+  position: relative;
+  text-align: start;
+  transform: scale(1.12);
+}
+
+.col-homeImg {
+  position: relative;
+  transform: scale(0.8);
+}
+
+.text-home {
+  font-size: 90%;
+  font-weight: 300;
 }

@@ -25,6 +25,7 @@
   align-items: stretch;
   gap: 2rem;
   padding: 0 1.5rem;
+  z-index: 900;
 }
 
 .site-title {

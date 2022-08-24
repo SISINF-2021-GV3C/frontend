@@ -26,15 +26,15 @@ ChartJS.register(
   Legend
 );
 
-const CoinChart = ({ coin }) => {
+const VersusChart = ({ coin }) => {
   // Constantes para manejar los datos extraídos
   const [historicData, setHistoricData] = useState([]);
   const [days, setDays] = useState(1);
-  const [currency, setCurrency] = useState("usd");
   const [loading, setLoading] = useState(false);
+  const [currency, setCurrency] = useState("usd");
 
   // Constante para cargar la divisa
-  const loadCurrency = localStorage.getItem("currencyNew");
+  const loadCurrency = localStorage.getItem("currencyNewVs");
 
   // Extraer datos del gráfico a través de la API de CoinGecko
   useEffect(() => {
@@ -46,7 +46,7 @@ const CoinChart = ({ coin }) => {
     };
     fetchHistoricData();
     setCurrency(loadCurrency);
-    setLoading(false);
+    setTimeout(() => setLoading(false), 100);
     // eslint-disable-next-line
   }, [coin.id, days, currency, loadCurrency]);
 
@@ -125,4 +125,4 @@ const CoinChart = ({ coin }) => {
   );
 };
 
-export default CoinChart;
+export default VersusChart;
