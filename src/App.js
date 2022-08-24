@@ -8,10 +8,13 @@ import Register from "./pages/Register";
 import CoinList from "./pages/CoinList";
 import Asset from "./pages/Asset";
 import Profile from "./pages/Profile";
+import AdminProfile from "./pages/AdminProfile";
 import NotFound from "./components/NotFound";
 import Loading from "./components/Loader";
 import Compare from "./pages/CompareCoins";
 import Versus from "./pages/Versus";
+import Management from "./pages/Management";
+import UserManagement from "./components/UserManagement";
 import "./css/App.css";
 
 function App() {
@@ -31,8 +34,14 @@ function App() {
         <Route path="/coins/:id" element={<Asset />} />
         <Route path="/loading" element={<Loading />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin-profile" element={<AdminProfile />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/compare/versus" element={<Versus />} />
+        <Route path="/management" element={<Management />} />
+        <Route
+          path="/management/user-management"
+          element={<UserManagement />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

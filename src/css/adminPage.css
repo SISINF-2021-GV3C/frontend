@@ -1,0 +1,78 @@
+.admin-container {
+  user-select: none;
+  background: linear-gradient(220.55deg, #c73068 0%, #03132e 100%);
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.ui.grid.container.admin {
+  width: 1200px;
+  margin-top: 44px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.top-index-users {
+  user-select: none;
+  margin-top: 20px;
+  padding-top: 50px;
+}
+
+.body-text {
+  font-size: 65%;
+  text-align: center;
+}
+
+.btn-compare-go {
+  color: white;
+  border-color: rgb(76, 127, 111);
+  background-color: rgb(76, 127, 111);
+  border-radius: 7px;
+  padding-bottom: 9px;
+  padding-top: 7px;
+  margin-top: 7px;
+}
+
+.btn-compare-go:hover {
+  color: white;
+  border-color: rgb(16, 81, 60);
+  background-color: rgb(16, 81, 60);
+}
+
+.close-btn-visible {
+  position: relative;
+}
+
+.close-btn-hidden {
+  visibility: hidden;
+  position: relative;
+}
+
+.inline {
+  user-select: none;
+  width: 530px;
+}
+
+.textVs {
+  text-align: center;
+}
+
+.table {
+  font-size: 70%;
+  width: 105;
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-alignment {
+  text-align: left;
+}

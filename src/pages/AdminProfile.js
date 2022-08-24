@@ -3,7 +3,7 @@ import { ButtonUnstyled } from "@mui/base";
 import { useNavigate } from "react-router-dom";
 import "../css/profile.css";
 
-function Profile() {
+function AdminProfile() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [tlf, setTlf] = useState("");
@@ -11,6 +11,12 @@ function Profile() {
   const [lastName, setLastName] = useState("");
 
   const navigate = useNavigate();
+
+  // Función para gestionar la pestaña de administración
+  const handleAdminPage = () => {
+    window.location.href = "/management";
+    localStorage.clear();
+  };
 
   // Función para gestionar el cierre de sesión
   const handleLogout = () => {
@@ -104,6 +110,12 @@ function Profile() {
             <br></br>
             <div className="d-grid gap-2">
               <ButtonUnstyled
+                onClick={handleAdminPage}
+                className="btn btn-secondary btn-block btn-lg"
+              >
+                Administrar
+              </ButtonUnstyled>
+              <ButtonUnstyled
                 onClick={() => navigate(-1)}
                 className="btn btn-primary btn-block btn-lg"
               >
@@ -123,4 +135,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default AdminProfile;

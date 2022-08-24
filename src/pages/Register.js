@@ -35,6 +35,8 @@ function Register() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [tlf, setTlf] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [country, setCountry] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");

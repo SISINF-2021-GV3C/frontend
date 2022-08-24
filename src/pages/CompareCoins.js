@@ -136,8 +136,8 @@ function CompareCoins() {
     <div className="compare-container">
       <h1>Compara dos monedas aquí</h1>
       <h2 className="body-text">
-        Introduce el símbolo de dos monedas para obtener información<br></br>
-        detallada de ellas junto con un gráfico del historial de mercado.
+        Selecciona dos monedas para obtener información detallada<br></br>
+        de ellas junto con un gráfico del historial de mercado.
       </h2>
       <br></br>
       <div className="inline">
