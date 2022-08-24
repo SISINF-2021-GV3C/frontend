@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { DatePicker } from "@mantine/dates";
-import { Select } from "@mantine/core";
+import { createStyles, Select } from "@mantine/core";
 import { countryList } from "../data/Countries";
 import "../css/userForm.css";
 
@@ -43,6 +43,25 @@ function Register() {
   const [typeCPass, setTypeCPass] = useState("password");
   const [iconPass, setIconPass] = useState(faEyeSlash);
   const [iconCPass, setIconCPass] = useState(faEyeSlash);
+
+  // Estilo para los inputs de las monedas
+  const useStyles = createStyles((theme) => ({
+    root: {
+      position: "relative",
+      alignItems: "center",
+      color: "#00000000",
+      fontFamily: "Poppins",
+    },
+    input: {
+      border: "1px solid #c0d0d0",
+      fontFamily: "Poppins",
+      borderRadius: "7px",
+      fontSize: "0.8rem",
+      color: theme.black,
+    },
+  }));
+
+  const { classes } = useStyles();
 
   // Mostrar contraseña
   const handleToggle = () => {
@@ -155,12 +174,17 @@ function Register() {
                   style={{ zIndex: 2 }}
                   data={countryList}
                   placeholder="Selecciona tu país de residencia"
+                  classNames={classes}
                 />
                 <p />
               </div>
               <div className="col">
                 <label>Fecha de nacimiento</label>
-                <DatePicker placeholder="¿Qué día naciste?" clearable={false} />
+                <DatePicker
+                  placeholder="¿Qué día naciste?"
+                  clearable={false}
+                  classNames={classes}
+                />
               </div>
             </div>
             <div className="form-group">

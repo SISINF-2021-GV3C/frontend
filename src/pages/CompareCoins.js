@@ -53,6 +53,8 @@ function CompareCoins() {
     },
   }));
 
+  const { classes } = useStyles();
+
   // Descargar datos a través de la API de CoinGecko
   useEffect(() => {
     const fetchCoins = async () => {
@@ -63,8 +65,6 @@ function CompareCoins() {
     localStorage.setItem("currencyVs", currency);
     localStorage.setItem("symbolVs", simbolo);
   }, []);
-
-  const { classes } = useStyles();
 
   // Función para gestionar la búsqueda de dos monedas
   const handleSearch = () => {
