@@ -14,6 +14,7 @@ import Loading from "./components/Loader";
 import Compare from "./pages/CompareCoins";
 import Versus from "./pages/Versus";
 import Management from "./pages/Management";
+import Dashboard from "./components/Dashboard";
 import UserManagement from "./components/UserManagement";
 import "./css/App.css";
 
@@ -42,6 +43,7 @@ function App() {
           path="/management/user-management"
           element={<UserManagement />}
         />
+        <Route path="/management/dashboard" element={<Dashboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

@@ -76,3 +76,45 @@
 .table-alignment {
   text-align: left;
 }
+
+.grid-box {
+  color: rgb(0, 0, 0);
+  border-color: grey;
+  background-color: whitesmoke;
+  border-radius: 7px;
+  padding-bottom: 9px;
+  padding-top: 7px;
+  margin-top: 7px;
+  margin-right: 7px;
+}
+
+.btn-top-admin {
+  color: var(--yellow);
+  border-radius: 15px;
+  padding-bottom: 9px;
+  padding-top: 7px;
+  position: fixed;
+  right: 10px;
+  bottom: 55px;
+}
+
+.btn-back-admin {
+  color: var(--yellow);
+  border-radius: 15px;
+  padding-bottom: 9px;
+  padding-top: 7px;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+}
+
+.btn-del-usr {
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+.btn-del-usr:hover {
+  color: rgb(194, 31, 31);
+}

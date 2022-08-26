@@ -3,17 +3,16 @@ import { Link } from "react-router-dom";
 import "../css/adminPage.css";
 
 function Management() {
-  const handleUserMgmt = () => {
-    window.location.href = "/management/user-management";
-  };
-
   return (
     <div className="admin-container">
       <h1>Management</h1>
-      <button className="btn btn-primary" onClick={handleUserMgmt}>
+      <Link to={`/management/user-management`} className="btn btn-primary">
         Administrar Usuarios
-      </button>
-      <button className="btn btn-primary">Mostrar estadísticas</button>
+      </Link>
+      <p />
+      <Link to={`/management/dashboard`} className="btn btn-primary">
+        Mostrar estadísticas
+      </Link>
     </div>
   );
 }

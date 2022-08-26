@@ -8,7 +8,13 @@ import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { DatePicker } from "@mantine/dates";
 import { createStyles, Select } from "@mantine/core";
 import { countryList } from "../data/Countries";
+import Swal from "sweetalert2";
+import dayjs from "dayjs";
 import "../css/userForm.css";
+
+// Formato de fecha en español
+require("dayjs/locale/es");
+dayjs.locale("es");
 
 // Expresión regular para validar formato de correo electrónico
 const regExpMail = RegExp(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/);
@@ -32,10 +38,14 @@ function Register() {
 
   const onSubmit = (data) => console.log(data);
 
+  const genres = ["Hombre", "Mujer"];
+
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [tlf, setTlf] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [genre, setGenre] = useState("");
+  const [formatBD, setFormatBD] = useState("");
   const [country, setCountry] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -86,6 +96,64 @@ function Register() {
       setTypeCPass("password");
     }
   };
+
+  const formatBirthday = (birthday) => {
+    var newBirthday = birthday.toString().split(" ");
+    var dia = newBirthday[2];
+    var mes = newBirthday[1];
+    var anyo = newBirthday[3];
+    // Convertir cada fecha en formato numérico
+    if (mes === "Jan") {
+      mes = "01";
+    } else if (mes === "Feb") {
+      mes = "02";
+    } else if (mes === "Mar") {
+      mes = "03";
+    } else if (mes === "Apr") {
+      mes = "04";
+    } else if (mes === "May") {
+      mes = "05";
+    } else if (mes === "Jun") {
+      mes = "06";
+    } else if (mes === "Jul") {
+      mes = "07";
+    } else if (mes === "Aug") {
+      mes = "08";
+    } else if (mes === "Sep") {
+      mes = "09";
+    } else if (mes === "Oct") {
+      mes = "10";
+    } else if (mes === "Nov") {
+      mes = "11";
+    } else if (mes === "Dec") {
+      mes = "12";
+    }
+    setFormatBD(dia + "/" + mes + "/" + anyo);
+  };
+
+  const checkPassword = () => {
+    if (password !== cPassword) {
+      Swal.fire({
+        title: "¡Error!",
+        text: "Las contraseñas no coinciden.",
+        icon: "error",
+        showConfirmButton: true,
+      });
+    }
+  };
+
+  console.log(
+    firstName,
+    lastName,
+    userName,
+    tlf,
+    country,
+    formatBD,
+    country,
+    genre,
+    password,
+    cPassword
+  );
 
   return (
     <div className="userform-container">
@@ -177,35 +245,55 @@ function Register() {
                   data={countryList}
                   placeholder="Selecciona tu país de residencia"
                   classNames={classes}
+                  onSelect={(e) => setCountry(e.target.value)}
                 />
                 <p />
               </div>
               <div className="col">
                 <label>Fecha de nacimiento</label>
                 <DatePicker
+                  value={birthday}
                   placeholder="¿Qué día naciste?"
                   clearable={false}
                   classNames={classes}
+                  onChange={setBirthday}
+                  locale="es"
+                  labelFormat="MMMM YYYY"
+                  onDropdownClose={() => formatBirthday(birthday)}
                 />
               </div>
             </div>
-            <div className="form-group">
-              <label>Correo electrónico</label>
-              <input
-                {...register("email", {
-                  required: "Campo obligatorio.",
-                  pattern: {
-                    value: regExpMail,
-                    message: "Correo electrónico no válido.",
-                  },
-                })}
-                type="text"
-                className="form-control"
-                name="email"
-                placeholder="Introduce tu correo electrónico"
-                onChange={({ target }) => setEmail(target.value)}
-              />
-              <p className="reg-warning">{errors.email?.message}</p>
+            <div className="row g-3">
+              <div className="col">
+                <label>Correo electrónico</label>
+                <input
+                  {...register("email", {
+                    required: "Campo obligatorio.",
+                    pattern: {
+                      value: regExpMail,
+                      message: "Correo electrónico no válido.",
+                    },
+                  })}
+                  type="text"
+                  className="form-control form-control-mail"
+                  name="email"
+                  placeholder="Introduce tu correo electrónico"
+                  onChange={({ target }) => setEmail(target.value)}
+                />
+                <p className="reg-warning">{errors.email?.message}</p>
+              </div>
+              <div className="col">
+                <label>Género</label>
+                <Select
+                  searchable
+                  nothingFound="Sin opciones"
+                  style={{ zIndex: 2 }}
+                  data={genres}
+                  placeholder="Selecciona tu género"
+                  classNames={classes}
+                  onSelect={(e) => setGenre(e.target.value)}
+                />
+              </div>
             </div>
             <div className="row g-3">
               <div className="col">
@@ -262,6 +350,7 @@ function Register() {
               <button
                 type="submit"
                 className="btn btn-primary btn-block btn-lg"
+                onClick={checkPassword}
               >
                 Registrar
               </button>
