@@ -7,14 +7,14 @@ Supossing that you already have nvm, npm and create-react-app installed on your 
 2. Install all the dependencies:
 
     `npm install`
-    
+
 3. Build your react app:
 
     `npm run build`
 
 4. Run your react app, once its finishes it will open automatically a new window with your app in your browser:
     
-    `npm start`
+    ```npm start```
 
 ## Deploy this thing with Docker
 1. Install [Docker](https://docs.docker.com/get-docker/). 
