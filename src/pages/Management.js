@@ -10,7 +10,10 @@ function Management() {
     <div className="admin-container">
       <Grid justify="space-between">
         <Grid.Col span={6}>
-          <Link to={`/management/user-management`} className="btn btn-primary">
+          <Link
+            to={`/management/user-management`}
+            className="btn btn-primary btn-primary-admin"
+          >
             <img
               src={userIcon}
               width="300px"
@@ -23,7 +26,10 @@ function Management() {
         </Grid.Col>
         <Grid.Col span={6}>
           {" "}
-          <Link to={`/management/dashboard`} className="btn btn-primary">
+          <Link
+            to={`/management/dashboard`}
+            className="btn btn-primary btn-primary-admin"
+          >
             <img
               src={dashboardIcon}
               width="300px"
