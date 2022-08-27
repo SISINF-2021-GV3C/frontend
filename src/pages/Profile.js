@@ -1,21 +1,52 @@
 import React, { useState } from "react";
 import { ButtonUnstyled } from "@mui/base";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../css/profile.css";
+import { useEffect } from "react";
+
+// URLs para manejo de datos en la BD
+const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
 
 function Profile() {
+  // Constantes para cargar el login y el usuario
+  const loadUserName = localStorage.getItem("nickName");
+  const loadLogin = localStorage.getItem("loggedIn");
+
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [tlf, setTlf] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [country, setCountry] = useState("");
+  const [genre, setGenre] = useState("");
+  const [birthday, setBirthday] = useState("");
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const { data } = await axios.get(usersURL);
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].nickname === loadUserName) {
+          setUserName(data[i].nickname);
+          setEmail(data[i].email);
+          setTlf(data[i].telefono);
+          setFirstName(data[i].nombre);
+          setLastName(data[i].apellido);
+          setBirthday(data[i].anyo_nac);
+          setCountry(data[i].pais);
+          setGenre(data[i].genero);
+        }
+      }
+    };
+    fetchUsers();
+  }, [userName, loadLogin, loadUserName]);
+
   // Función para gestionar el cierre de sesión
   const handleLogout = () => {
-    window.location.href = "/";
     localStorage.clear();
+    window.location.href = "/";
   };
 
   return (
@@ -28,21 +59,21 @@ function Profile() {
               <div className="col">
                 <label>Nombre</label>
                 <input
-                  disabled="true"
+                  disabled={true}
                   type="text"
                   className="form-control"
                   name="firstName"
-                  placeholder="Nombre"
+                  placeholder={firstName}
                 />
               </div>
               <div className="col">
                 <label>Apellido</label>
                 <input
-                  disabled="true"
+                  disabled={true}
                   type="text"
                   className="form-control"
                   name="lastName"
-                  placeholder="Apellido"
+                  placeholder={lastName}
                 />
               </div>
             </div>
@@ -50,21 +81,21 @@ function Profile() {
               <div className="col">
                 <label>Nombre de usuario</label>
                 <input
-                  disabled="true"
+                  disabled={true}
                   type="text"
                   className="form-control"
                   name="userName"
-                  placeholder="Nombre de usuario"
+                  placeholder={userName}
                 />
               </div>
               <div className="col">
                 <label>Teléfono</label>
                 <input
-                  disabled="true"
+                  disabled={true}
                   type="text"
                   className="form-control"
                   name="tlf"
-                  placeholder="Número de teléfono"
+                  placeholder={tlf}
                 />
               </div>
             </div>
@@ -72,34 +103,45 @@ function Profile() {
               <div className="col">
                 <label>Fecha de nacimiento</label>
                 <input
-                  disabled="true"
+                  disabled={true}
                   type="text"
                   className="form-control"
                   name="userName"
-                  placeholder="Fecha de nacimiento"
+                  placeholder={birthday}
                 />
               </div>
               <div className="col">
-                <label>Nacionalidad</label>
+                <label>País de residencia</label>
                 <input
-                  disabled="true"
+                  disabled={true}
                   type="text"
                   className="form-control"
                   name="tlf"
-                  placeholder="Nacionalidad"
+                  placeholder={country}
                 />
               </div>
             </div>
-            <p></p>
-            <div className="form-group">
-              <label>Correo electrónico</label>
-              <input
-                disabled="true"
-                type="text"
-                className="form-control"
-                name="email"
-                placeholder="Correo electrónico"
-              />
+            <div className="row g-3">
+              <div className="col">
+                <label>Correo electrónico</label>
+                <input
+                  disabled={true}
+                  type="text"
+                  className="form-control"
+                  name="email"
+                  placeholder={email}
+                />
+              </div>
+              <div className="col">
+                <label>Género</label>
+                <input
+                  disabled={true}
+                  type="text"
+                  className="form-control"
+                  name="tlf"
+                  placeholder={genre}
+                />
+              </div>
             </div>
             <br></br>
             <div className="d-grid gap-2">

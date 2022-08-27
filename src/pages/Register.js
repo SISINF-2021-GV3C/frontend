@@ -8,6 +8,7 @@ import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { DatePicker } from "@mantine/dates";
 import { createStyles, Select } from "@mantine/core";
 import { countryList } from "../data/Countries";
+import axios from "axios";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import "../css/userForm.css";
@@ -16,11 +17,17 @@ import "../css/userForm.css";
 require("dayjs/locale/es");
 dayjs.locale("es");
 
+// URLs para manejo de datos en la BD
+const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
+const registerURL =
+  "http://ec2-18-206-137-85.compute-1.amazonaws.com/register/";
+
 // Expresión regular para validar formato de correo electrónico
 const regExpMail = RegExp(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/);
 
 // Expresión regular para validar seguridad de la contraseña
 const regExpPass = RegExp(
+  // eslint-disable-next-line
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#\$%\^&\*])(?=.{8,})/
 );
 
@@ -30,13 +37,12 @@ const regExpTlf = RegExp(/^\(?([0-9]{3})\)?[-]?([0-9]{3})[-]?([0-9]{3})$/);
 function Register() {
   const {
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm({
     mode: "all",
   });
 
-  const onSubmit = (data) => console.log(data);
+  //const onSubmit = (data) => console.log(data);
 
   const genres = ["Hombre", "Mujer"];
 
@@ -128,38 +134,103 @@ function Register() {
     } else if (mes === "Dec") {
       mes = "12";
     }
-    setFormatBD(dia + "/" + mes + "/" + anyo);
+    setFormatBD(dia + "-" + mes + "-" + anyo);
   };
 
-  const checkPassword = () => {
-    if (password !== cPassword) {
+  // Comprobar si hay campos vacíos
+  const checkNullForm = () => {
+    console.log("Llego a comprobar los campos vacíos");
+    if (
+      firstName === "" ||
+      lastName === "" ||
+      userName === "" ||
+      password === "" ||
+      email === "" ||
+      country === "" ||
+      genre === "" ||
+      tlf === ""
+    ) {
       Swal.fire({
         title: "¡Error!",
-        text: "Las contraseñas no coinciden.",
+        text: "Los campos no pueden estar vacíos.",
         icon: "error",
-        showConfirmButton: true,
+        timer: 2000,
       });
+    } else {
+      fetchUsers();
     }
   };
 
-  console.log(
-    firstName,
-    lastName,
-    userName,
-    tlf,
-    country,
-    formatBD,
-    country,
-    genre,
-    password,
-    cPassword
-  );
+  // Comprobar usuarios y correos existentes
+  const fetchUsers = async () => {
+    const { data } = await axios.get(usersURL);
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].nickname === userName) {
+        Swal.fire({
+          title: "Error en el registro",
+          text: "Ya existe un usuario con ese nombre.",
+          icon: "error",
+          timer: 2000,
+        });
+      } else if (data[i].email === email) {
+        Swal.fire({
+          title: "Error en el registro",
+          text: "Correo electrónico asociado a una cuenta existente.",
+          icon: "error",
+          timer: 2000,
+        });
+      } else {
+        checkPassword();
+      }
+    }
+  };
+
+  // Función para compronar si las contraseñas son iguales
+  const checkPassword = () => {
+    if (password !== cPassword) {
+      Swal.fire({
+        title: "Error en el registro",
+        text: "Las contraseñas no coinciden.",
+        icon: "error",
+        timer: 2000,
+      });
+    } else {
+      registerUser();
+    }
+  };
+
+  const registerUser = async () => {
+    await axios
+      .post(registerURL, {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        username: userName,
+        password: password,
+        country: country,
+        date: formatBD,
+        genero: genre,
+        telefono: tlf,
+      })
+      .then(() => {
+        Swal.fire({
+          title: "Te has registrado correctamente.",
+          text: "Inicia sesión ahora!",
+          icon: "success",
+          timer: 1000,
+        }).then(() => {
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 1500);
+        });
+      });
+  };
 
   return (
     <div className="userform-container">
       <div className="reg-wrapper">
         <div className="reg-inner">
-          <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+          <form autoComplete="off">
             <h3>Registra tu cuenta</h3>
             <div className="row g-3">
               <div className="col">
@@ -348,9 +419,9 @@ function Register() {
             <br></br>
             <div className="d-grid gap-2">
               <button
-                type="submit"
+                type="button"
+                onClick={checkNullForm}
                 className="btn btn-primary btn-block btn-lg"
-                onClick={checkPassword}
               >
                 Registrar
               </button>

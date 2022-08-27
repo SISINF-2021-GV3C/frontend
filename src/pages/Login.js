@@ -4,10 +4,15 @@ import { ButtonUnstyled } from "@mui/base";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
+import axios from "axios";
 import "../css/userForm.css";
 
+// URLs para manejo de datos en la BD
+const loginURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/login/";
+
 function Login() {
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [type, setType] = useState("password");
   const [icon, setIcon] = useState(faEyeSlash);
@@ -15,6 +20,38 @@ function Login() {
   // Función de inicio de sesión
   const handleLogin = (event) => {
     event.preventDefault();
+    loginUser();
+  };
+
+  // Petición a la API de Cryptoaholic para realizar login
+  const loginUser = async () => {
+    await axios
+      .post(loginURL, { username: userName, password: password })
+      .then((response) => {
+        console.log(response.status);
+        if (response.status === 200) {
+          localStorage.setItem("nickName", userName);
+          localStorage.setItem("loggedIn", true);
+          setTimeout(() => {
+            window.location.href = "/profile";
+          }, 500);
+        } else {
+          Swal.fire({
+            title: "Usuario o contraseña incorrecto!",
+            text: "Inténtalo de nuevo",
+            icon: "error",
+            timer: 2000,
+          });
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Usuario o contraseña incorrecto!",
+          text: "Inténtalo de nuevo",
+          icon: "error",
+          timer: 2000,
+        });
+      });
   };
 
   // Mostrar contraseña
@@ -32,7 +69,7 @@ function Login() {
     <div className="userform-container">
       <div className="log-wrapper">
         <div className="log-inner">
-          <form onSubmit={handleLogin} autoComplete="off">
+          <form autoComplete="off">
             <h3>Inicia sesión con tu cuenta</h3>
             <div className="form-group">
               <label>Nombre de usuario</label>
@@ -64,7 +101,8 @@ function Login() {
             <br></br>
             <div className="d-grid gap-2">
               <button
-                type="submit"
+                type="button"
+                onClick={handleLogin}
                 className="btn btn-primary btn-block btn-lg"
               >
                 Iniciar sesión
