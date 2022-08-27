@@ -10,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 import { Close } from "@mui/icons-material";
 import axios from "axios";
 import Loading from "../components/Loader";
-import UsersList from "../data/UsersList.json";
+import moment from "moment/moment";
 import Swal from "sweetalert2";
 import "../css/adminPage.css";
 
+// URLs para manejo de datos en la BD
 const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
 const userDelURL =
   "http://ec2-18-206-137-85.compute-1.amazonaws.com/deleteUser/";
@@ -31,10 +32,14 @@ function Management() {
   // Constantes de dirección del orden en la tabla
   const [directionName, setDirectionName] = useState("ASC");
   const [directionCountry, setDirectionCountry] = useState("ASC");
+  const [directionGender, setDirectionGender] = useState("ASC");
+  const [directionAge, setDirectionAge] = useState("ASC");
 
   // Constantes de iconos del orden en la tabla
   const [iconName, setIconName] = useState(faSort);
   const [iconCountry, setIconCountry] = useState(faSort);
+  const [iconGender, setIconGender] = useState(faSort);
+  const [iconAge, setIconAge] = useState(faSort);
 
   // Descargar usuarios a través de la API de Cryptoaholic
   const fetchUsers = async () => {
@@ -75,8 +80,6 @@ function Management() {
   };
 
   const handleDeleteUser = (user) => {
-    const nickUser = user.nickname;
-    console.log(nickUser);
     Swal.fire({
       title: "¿Deseas eliminar el usuario?",
       text: "¡Los cambios serán irreversibles!",
@@ -89,47 +92,141 @@ function Management() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios.post(userDelURL, { username: user.nickname });
-        Swal.fire(
-          "¡Éxito!",
-          "El usuario ha sido eliminado de la base de datos.",
-          "success"
-        );
-        fetchUsers();
-        //window.location.href = "/management/user-management";
+        Swal.fire({
+          title: "¡Éxito!",
+          text: "El usuario se ha eliminado correctamente.",
+          icon: "success",
+          timer: 1000,
+        }).then(() => {
+          fetchUsers();
+        });
       }
     });
   };
 
   // Ordenar por nombre
   const sortByName = () => {
-    /*if (directionName === "ASC") {
-      setCoin(
-        coin.sort((a, b) =>
-          a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
+    if (directionName === "ASC") {
+      setUser(
+        user.sort((a, b) =>
+          a.nombre.toLowerCase() > b.nombre.toLowerCase() ? 1 : -1
         )
       );
       setIconName(faSortUp);
       setDirectionName("DESC");
     } else if (directionName === "DESC") {
-      setCoin(
-        coin.sort((a, b) =>
-          a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1
+      setUser(
+        user.sort((a, b) =>
+          a.nombre.toLowerCase() < b.nombre.toLowerCase() ? 1 : -1
         )
       );
       setIconName(faSortDown);
       setDirectionName("ASC");
     } else {
-      return coin;
+      return user;
     }
 
     // Resetear los iconos y direcciones de las columnas restantes
     setDirectionCountry("ASC");
     setIconCountry(faSort);
-    */
+    setDirectionGender("ASC");
+    setIconGender(faSort);
+    setDirectionAge("ASC");
+    setIconAge(faSort);
   };
 
-  // Ordenar por nombre
-  const sortByCountry = () => {};
+  // Ordenar por país
+  const sortByCountry = () => {
+    if (directionCountry === "ASC") {
+      setUser(
+        user.sort((a, b) =>
+          a.pais.toLowerCase() > b.pais.toLowerCase() ? 1 : -1
+        )
+      );
+      setIconCountry(faSortUp);
+      setDirectionCountry("DESC");
+    } else if (directionCountry === "DESC") {
+      setUser(
+        user.sort((a, b) =>
+          a.pais.toLowerCase() < b.pais.toLowerCase() ? 1 : -1
+        )
+      );
+      setIconCountry(faSortDown);
+      setDirectionCountry("ASC");
+    } else {
+      return user;
+    }
+
+    // Resetear los iconos y direcciones de las columnas restantes
+    setDirectionName("ASC");
+    setIconName(faSort);
+    setDirectionAge("ASC");
+    setIconAge(faSort);
+    setDirectionGender("ASC");
+    setIconGender(faSort);
+  };
+
+  // Ordenar por género
+  const sortByGender = () => {
+    if (directionGender === "ASC") {
+      setUser(
+        user.sort((a, b) =>
+          a.anyo_nac.toLowerCase() > b.anyo_nac.toLowerCase() ? 1 : -1
+        )
+      );
+      setIconGender(faSortUp);
+      setDirectionGender("DESC");
+    } else if (directionGender === "DESC") {
+      setUser(
+        user.sort((a, b) =>
+          a.anyo_nac.toLowerCase() < b.anyo_nac.toLowerCase() ? 1 : -1
+        )
+      );
+      setIconGender(faSortDown);
+      setDirectionGender("ASC");
+    } else {
+      return user;
+    }
+
+    // Resetear los iconos y direcciones de las columnas restantes
+    setDirectionName("ASC");
+    setIconName(faSort);
+    setDirectionAge("ASC");
+    setIconAge(faSort);
+    setDirectionCountry("ASC");
+    setIconCountry(faSort);
+  };
+
+  // Ordenar por edad
+  const sortByAge = () => {
+    if (directionAge === "ASC") {
+      setUser(
+        user.sort((a, b) =>
+          a.anyo_nac.toLowerCase() > b.anyo_nac.toLowerCase() ? 1 : -1
+        )
+      );
+      setIconAge(faSortUp);
+      setDirectionAge("DESC");
+    } else if (directionAge === "DESC") {
+      setUser(
+        user.sort((a, b) =>
+          a.anyo_nac.toLowerCase() < b.anyo_nac.toLowerCase() ? 1 : -1
+        )
+      );
+      setIconAge(faSortDown);
+      setDirectionAge("ASC");
+    } else {
+      return user;
+    }
+
+    // Resetear los iconos y direcciones de las columnas restantes
+    setDirectionName("ASC");
+    setIconName(faSort);
+    setDirectionCountry("ASC");
+    setIconCountry(faSort);
+    setDirectionGender("ASC");
+    setIconGender(faSort);
+  };
 
   // Mostrar cabecera
   const displayHeader = () => {
@@ -137,13 +234,21 @@ function Management() {
       <table className="table table-striped table-dark table-bordered align-middle">
         <thead>
           <tr>
-            <th onClick={sortByName} width="33%" scope="col">
+            <th onClick={sortByName} width="20%" scope="col">
               Nombre
               <FontAwesomeIcon className="sort" icon={iconName} />
             </th>
-            <th onClick={sortByCountry} width="33%" scope="col">
+            <th onClick={sortByGender} width="20%" scope="col">
+              Género
+              <FontAwesomeIcon className="sort" icon={iconGender} />
+            </th>
+            <th onClick={sortByAge} width="20%" scope="col">
+              Edad
+              <FontAwesomeIcon className="sort" icon={iconAge} />
+            </th>
+            <th onClick={sortByCountry} width="20%" scope="col">
               País
-              <FontAwesomeIcon className="sort" icon={iconName} />
+              <FontAwesomeIcon className="sort" icon={iconCountry} />
             </th>
             <th width="10%" scope="col">
               Acción
@@ -167,16 +272,20 @@ function Management() {
     })
     .slice(0, paginate)
     .map((userItem) => {
-      const { nickname, pais } = userItem;
+      const { nickname, genero, pais, anyo_nac } = userItem;
       return (
         <div key={nickname}>
           <table className="table table-striped table-dark table-bordered table-hover align-middle">
             <tbody>
               <tr>
-                <th width="33%" scope="row">
+                <th width="20%" scope="row">
                   {nickname}
                 </th>
-                <td width="33%">{pais}</td>
+                <td width="20%">{genero}</td>
+                <td width="20%">
+                  {moment(anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]}
+                </td>
+                <td width="20%">{pais}</td>
                 <td width="10%">
                   <button
                     className="btn-del-usr"

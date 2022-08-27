@@ -168,9 +168,6 @@ function Coins() {
 
   // Ordenar por capitalización
   const sortByCap = () => {
-    coin.forEach((coin) => {
-      console.log(coin.symbol);
-    });
     if (directionCap === "ASC") {
       setCoin(
         coin.sort((a, b) => {

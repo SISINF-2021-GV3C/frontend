@@ -118,3 +118,22 @@
 .btn-del-usr:hover {
   color: rgb(194, 31, 31);
 }
+
+.btn-primary {
+  background: linear-gradient(220.55deg, #fff6eb 0%, #dfd1c5 100%);
+  border: 5px solid rgb(26, 26, 26);
+  border-radius: 15px;
+  color: black;
+  font-size: 120%;
+  font-weight: 900;
+  width: 70vh;
+  transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(220.55deg, #c5edf5 0%, #4a879a 100%);
+  color: white;
+  border: 5px solid white;
+  transform: scale(1.02);
+  font-weight: 900;
+}

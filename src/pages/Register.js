@@ -44,13 +44,13 @@ function Register() {
 
   //const onSubmit = (data) => console.log(data);
 
-  const genres = ["Hombre", "Mujer"];
+  const genders = ["Hombre", "Mujer"];
 
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [tlf, setTlf] = useState("");
   const [birthday, setBirthday] = useState("");
-  const [genre, setGenre] = useState("");
+  const [gender, setGender] = useState("");
   const [formatBD, setFormatBD] = useState("");
   const [country, setCountry] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -147,7 +147,7 @@ function Register() {
       password === "" ||
       email === "" ||
       country === "" ||
-      genre === "" ||
+      gender === "" ||
       tlf === ""
     ) {
       Swal.fire({
@@ -209,7 +209,7 @@ function Register() {
         password: password,
         country: country,
         date: formatBD,
-        genero: genre,
+        genero: gender,
         telefono: tlf,
       })
       .then(() => {
@@ -359,10 +359,10 @@ function Register() {
                   searchable
                   nothingFound="Sin opciones"
                   style={{ zIndex: 2 }}
-                  data={genres}
+                  data={genders}
                   placeholder="Selecciona tu género"
                   classNames={classes}
-                  onSelect={(e) => setGenre(e.target.value)}
+                  onSelect={(e) => setGender(e.target.value)}
                 />
               </div>
             </div>
