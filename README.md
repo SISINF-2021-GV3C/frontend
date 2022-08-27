@@ -1,33 +1,45 @@
 # Getting Started with Create React App
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Deploy this thing without Docker
-Supossing that you already have nvm, npm and create-react-app installed on your system, let's proceed with this steps:
+## Deploy the React App without Docker
+Supossing that you already have [nvm](https://github.com/nvm-sh/nvm), npm and create-react-app installed on your system, let's proceed with the next steps:
 1. Move to the root folder of your react-app.
+    ```
+    cd <wherever_your_github_proyect_is>/frontend
+    ```
+    
 2. Install all the dependencies:
-
-    `npm install`
+    ```
+    npm install
+    ```
 
 3. Build your react app:
-
-    `npm run build`
+    ```
+    npm run build
+    ```
 
 4. Run your react app, once its finishes it will open automatically a new window with your app in your browser:
-    
-    ```npm start```
+    ```
+    npm start
+    ```
 
-## Deploy this thing with Docker
-1. Install [Docker](https://docs.docker.com/get-docker/). 
+## Deploy the React App with Docker
+1. Install [Docker](https://docs.docker.com/get-docker/). It is not recommended to use Docker in Windows, **may be problematic**.
+
 2. Once you have installed docker, you have to build your container image. Note that this image will be built locally:
+    ```
+    docker build -t <your_username>/<whatever_image_name> .
+    ```
+    - `-t`: gives name (tag) to the image. In this case we are specifying to Docker that the built image has to be saved under the name `<whatever_image_name>` in the `<your_username>` local repository. 
+    - A image built locally means that this image cannot be accesed from other computers, because the image is not published in your online repository, it's only on your local computer.
 
-    `docker build -t <your_username>/<whatever_image_name> .`
-3. Wait until is builded, then you can run your reactapp:
-    
-    `docker run -d -p <port_to_forward_to>:80 <your_username>/<whatever_image_name>`
-    - `-d, --detach`: runs the container in background.
-    - `-p <port_to_forward_to>:<port_to_forward>`: indicates the service ports. The <port_to_forward> port is where the container
-    is listening, this port was defined in the nginx.conf. The <port_to_forward_to> port is the port that we want our app to be
-    accessible in.
+3. Once is built, then you can run your reactapp:
+    ```
+    docker run -d -p <port_to_forward_to>:80 <your_username>/<whatever_image_name>
+    ```
+    - `-d`: runs the container in background.
+    - `-p <port_to_forward_to>:<port_to_forward>`: indicates the service ports. The `<port_to_forward>` port is where the container is listening, this port was defined in the nginx.conf. The `<port_to_forward_to>` port is the port that we want our app to be accessible in.
+
 4. As the image has been built locally, access your app through localhost:<port_to_forward_to> in your browser.
 
 <!--
