@@ -294,7 +294,7 @@ function Register() {
                     pattern: {
                       value: regExpTlf,
                       message:
-                        "Correo electrónico no válido: formato XXX-XXX-XXX ó XXXXXXXXX.",
+                        "Número de teléfono no válido: formato XXX-XXX-XXX ó XXXXXXXXX.",
                     },
                   })}
                   type="text"
