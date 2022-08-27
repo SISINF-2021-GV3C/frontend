@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Grid } from "@mantine/core";
 import { FaAngleDoubleUp } from "react-icons/fa";
 import { FaArrowCircleLeft } from "react-icons/fa";
