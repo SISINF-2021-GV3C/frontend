@@ -1,23 +1,29 @@
 # Getting Started with Create React App
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Deploy this thing without Docker
+Supossing that you already have nvm, npm and create-react-app installed on your system, let's proceed with this steps:
+1. Move to the root folder of your react-app.
+2. Install all the dependencies:
+    `npm install`
+3. Build your react app:
+    `npm run build`
+4. Run your react app, once its finishes it will open automatically a new window with your app in your browser:
+    `npm start`
 
-Instala el paquete *react-scripts* primero en caso de ser necesario para arrancar la aplicación, mediante:
+## Deploy this thing with Docker
+1. Install [Docker](https://docs.docker.com/get-docker/). 
+2. Once you have installed docker, you have to build your container image. Note that this image will be built locally:  
+    `docker build -t <your_username>/<whatever_image_name> .`
+3. Wait until is builded, then you can run your reactapp:
+    `docker run -d -p <port_to_forward_to>:80 <your_username>/<whatever_image_name>`
+    - `-d, --detach`: runs the container in background.
+    - `-p <port_to_forward_to>:<port_to_forward>`: indicates the service ports. The <port_to_forward> port is where the container
+    is listening, this port was defined in the nginx.conf. The <port_to_forward_to> port is the port that we want our app to be
+    accessible in.
+4. As the image has been built locally, access your app through localhost:<port_to_forward_to> in your browser.
 
-### `npm install react-scripts`
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
+<!--
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.\
@@ -71,4 +77,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
