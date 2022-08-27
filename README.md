@@ -1,23 +1,48 @@
 # Getting Started with Create React App
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Deploy the React App without Docker
+Supossing that you already have [nvm](https://github.com/nvm-sh/nvm), npm and create-react-app installed on your system, let's proceed with the next steps:
+1. Move to the root folder of your react-app.
+    ```
+    cd <wherever_your_github_proyect_is>/frontend
+    ```
+    
+2. Install all the dependencies:
+    ```
+    npm install
+    ```
 
-Instala el paquete *react-scripts* primero en caso de ser necesario para arrancar la aplicación, mediante:
+3. Build your react app:
+    ```
+    npm run build
+    ```
 
-### `npm install react-scripts`
+4. Run your react app, once its finishes it will open automatically a new window with your app in your browser:
+    ```
+    npm start
+    ```
 
-In the project directory, you can run:
+## Deploy the React App with Docker
+1. Install [Docker](https://docs.docker.com/get-docker/). It is not recommended to use Docker in Windows, **may be problematic**.
 
-### `npm start`
+2. Once you have installed docker, you have to build your container image. Note that this image will be built locally:
+    ```
+    docker build -t <your_username>/<whatever_image_name> .
+    ```
+    - `-t`: gives name (tag) to the image. In this case we are specifying to Docker that the built image has to be saved under the name `<whatever_image_name>` in the `<your_username>` local repository. 
+    - A image built locally means that this image cannot be accesed from other computers, because the image is not published in your online repository, it's only on your local computer.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. Once is built, then you can run your reactapp:
+    ```
+    docker run -d -p <port_to_forward_to>:80 <your_username>/<whatever_image_name>
+    ```
+    - `-d`: runs the container in background.
+    - `-p <port_to_forward_to>:<port_to_forward>`: indicates the service ports. The `<port_to_forward>` port is where the container is listening, this port was defined in the nginx.conf. The `<port_to_forward_to>` port is the port that we want our app to be accessible in.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+4. As the image has been built locally, access your app through localhost:<port_to_forward_to> in your browser.
 
+<!--
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.\
@@ -71,4 +96,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 ### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify) -->
