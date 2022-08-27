@@ -5,17 +5,24 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Supossing that you already have nvm, npm and create-react-app installed on your system, let's proceed with this steps:
 1. Move to the root folder of your react-app.
 2. Install all the dependencies:
+
     `npm install`
+    
 3. Build your react app:
+
     `npm run build`
+
 4. Run your react app, once its finishes it will open automatically a new window with your app in your browser:
+    
     `npm start`
 
 ## Deploy this thing with Docker
 1. Install [Docker](https://docs.docker.com/get-docker/). 
-2. Once you have installed docker, you have to build your container image. Note that this image will be built locally:  
+2. Once you have installed docker, you have to build your container image. Note that this image will be built locally:
+
     `docker build -t <your_username>/<whatever_image_name> .`
 3. Wait until is builded, then you can run your reactapp:
+    
     `docker run -d -p <port_to_forward_to>:80 <your_username>/<whatever_image_name>`
     - `-d, --detach`: runs the container in background.
     - `-p <port_to_forward_to>:<port_to_forward>`: indicates the service ports. The <port_to_forward> port is where the container
