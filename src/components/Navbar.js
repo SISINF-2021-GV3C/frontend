@@ -4,7 +4,7 @@ import logo from "../images/logo_white.png";
 import "../css/navBar.css";
 
 export default function Navbar() {
-  const loadLoggedIn = localStorage.getItem("loggedIn");
+  const loadLoggedIn = sessionStorage.getItem("loggedIn");
   const [login, setLogin] = useState(false);
 
   useEffect(() => {

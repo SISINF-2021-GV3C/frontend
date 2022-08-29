@@ -10,8 +10,8 @@ const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
 
 function Profile() {
   // Constantes para cargar el login y el usuario
-  const loadUserName = localStorage.getItem("nickName");
-  const loadLogin = localStorage.getItem("loggedIn");
+  const loadUserName = sessionStorage.getItem("nickName");
+  const loadLogin = sessionStorage.getItem("loggedIn");
 
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,7 +45,7 @@ function Profile() {
 
   // Función para gestionar el cierre de sesión
   const handleLogout = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = "/";
   };
 

@@ -23,13 +23,17 @@ function FavCoins() {
   // Constantes de manejo de datos y paginación
   const coinsPerPage = 25;
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line
   const [coin, setCoin] = useState([]);
+  // eslint-disable-next-line
+  const [favCoin, setFavCoin] = useState([]);
+  const [matchingCoins, setMatchingCoins] = useState([]);
   const [paginate, setPaginate] = useState(coinsPerPage);
   const [query, setQuery] = useState("");
   const [currency, setCurrency] = useState("usd");
   const [simbolo, setSimbolo] = useState("$");
   const [closeVisibility, setCloseVisibility] = useState(false);
-  const loadUserName = localStorage.getItem("nickName");
+  const loadUserName = sessionStorage.getItem("nickName");
   var isPositive = [];
 
   // Constantes de dirección del orden en la tabla
@@ -61,22 +65,39 @@ function FavCoins() {
     },
   });
 
-  // Cargar monedas favoritas del usuario
-  const fetchFavCoins = async () => {
-    const { data } = await axios.get(
-      getFavCoinURL + "?username=" + loadUserName
+  // Descargar datos a través de la API de CoinGecko
+  // + Obtener monedas favoritas a travñes de la API de Cryptoaholic
+  // + Buscar valores correspondientes de monedas en ambos arrays.
+  const fetchCoins = async () => {
+    // Variables temporales que se actualizan en el mismo render
+    // (a diferencia del hook useState).
+    let getCoins = [];
+    let getFavCoins = [];
+    // Obtener monedas de la base de datos de CoinGecko
+    await axios
+      .get(CoinList(currency))
+      .then((response) => {
+        getCoins = response.data;
+        setCoin(response.data);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
+    // Obtener monedas favoritas de la base de datos de Cryptoaholic.
+    await axios
+      .get(getFavCoinURL + "?username=" + loadUserName)
+      .then((response) => {
+        getFavCoins = response.data;
+        setFavCoin(response.data);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
+    // Buscar valores correspondientes de monedas en un array y otro.
+    const matching = getCoins.filter((o1) =>
+      getFavCoins.some((o2) => o1.symbol === o2.simbolo)
     );
-    console.log(data);
+    setMatchingCoins(matching);
   };
 
-  // Descargar datos a través de la API de CoinGecko
   useEffect(() => {
-    const fetchCoins = async () => {
-      const { data } = await axios.get(CoinList(currency));
-      setCoin(data);
-    };
     fetchCoins();
-    fetchFavCoins();
     localStorage.removeItem("favedCoin");
     localStorage.removeItem("favedCoinCN");
     localStorage.setItem("currency", currency);
@@ -115,23 +136,23 @@ function FavCoins() {
   // Ordenar por nombre
   const sortByName = () => {
     if (directionName === "ASC") {
-      setCoin(
-        coin.sort((a, b) =>
+      setMatchingCoins(
+        matchingCoins.sort((a, b) =>
           a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
         )
       );
       setIconName(faSortUp);
       setDirectionName("DESC");
     } else if (directionName === "DESC") {
-      setCoin(
-        coin.sort((a, b) =>
+      setMatchingCoins(
+        matchingCoins.sort((a, b) =>
           a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1
         )
       );
       setIconName(faSortDown);
       setDirectionName("ASC");
     } else {
-      return coin;
+      return matchingCoins;
     }
 
     // Resetear los iconos y direcciones de las columnas restantes
@@ -150,23 +171,23 @@ function FavCoins() {
   // Ordenar por precio
   const sortByPrice = () => {
     if (directionPrice === "ASC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return a.current_price - b.current_price;
         })
       );
       setIconPrice(faSortUp);
       setDirectionPrice("DESC");
     } else if (directionPrice === "DESC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return b.current_price - a.current_price;
         })
       );
       setIconPrice(faSortDown);
       setDirectionPrice("ASC");
     } else {
-      return coin;
+      return matchingCoins;
     }
 
     // Resetear los iconos y direcciones de las columnas restantes
@@ -185,23 +206,23 @@ function FavCoins() {
   // Ordenar por capitalización
   const sortByCap = () => {
     if (directionCap === "ASC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return a.market_cap - b.market_cap;
         })
       );
       setIconCap(faSortUp);
       setDirectionCap("DESC");
     } else if (directionCap === "DESC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return b.market_cap - a.market_cap;
         })
       );
       setIconCap(faSortDown);
       setDirectionCap("ASC");
     } else {
-      return coin;
+      return matchingCoins;
     }
 
     // Resetear los iconos y direcciones de las columnas restantes
@@ -220,23 +241,23 @@ function FavCoins() {
   // Ordenar por cambio en 24h
   const sortByChange = () => {
     if (directionChange === "ASC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return a.price_change_percentage_24h - b.price_change_percentage_24h;
         })
       );
       setIconChange(faSortUp);
       setDirectionChange("DESC");
     } else if (directionChange === "DESC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return b.price_change_percentage_24h - a.price_change_percentage_24h;
         })
       );
       setIconChange(faSortDown);
       setDirectionChange("ASC");
     } else {
-      return coin;
+      return matchingCoins;
     }
 
     // Resetear los iconos y direcciones de las columnas restantes
@@ -255,23 +276,23 @@ function FavCoins() {
   // Ordenar por volumen total
   const sortByVolume = () => {
     if (directionVol === "ASC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return a.total_volume - b.total_volume;
         })
       );
       setIconVol(faSortUp);
       setDirectionVol("DESC");
     } else if (directionVol === "DESC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return b.total_volume - a.total_volume;
         })
       );
       setIconVol(faSortDown);
       setDirectionVol("ASC");
     } else {
-      return coin;
+      return matchingCoins;
     }
 
     // Resetear los iconos y direcciones de las columnas restantes
@@ -290,23 +311,23 @@ function FavCoins() {
   // Ordenar por suminstro
   const sortBySupply = () => {
     if (directionSupply === "ASC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return a.circulating_supply - b.circulating_supply;
         })
       );
       setIconSupply(faSortUp);
       setDirectionSupply("DESC");
     } else if (directionSupply === "DESC") {
-      setCoin(
-        coin.sort((a, b) => {
+      setMatchingCoins(
+        matchingCoins.sort((a, b) => {
           return b.circulating_supply - a.circulating_supply;
         })
       );
       setIconSupply(faSortDown);
       setDirectionSupply("ASC");
     } else {
-      return coin;
+      return matchingCoins;
     }
 
     // Resetear los iconos y direcciones de las columnas restantes
@@ -413,7 +434,7 @@ function FavCoins() {
   };
 
   // Mostrar monedas
-  const displayCoins = coin
+  const displayCoins = matchingCoins
     // eslint-disable-next-line
     .filter((value) => {
       if (query === "") {
@@ -543,7 +564,7 @@ function FavCoins() {
             <br></br>
             {displayHeader()}
             {displayCoins}
-            {paginate < coin?.length && (
+            {paginate < matchingCoins?.length && (
               <button type="button" className="btn btn-warn" onClick={loadMore}>
                 <FaPlus />
               </button>

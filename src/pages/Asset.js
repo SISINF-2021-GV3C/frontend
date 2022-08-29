@@ -24,9 +24,9 @@ function Asset() {
   // Constantes para cargar valores predeterminados
   const loadCurrency = localStorage.getItem("currency");
   const loadSymbol = localStorage.getItem("simbolo");
-  const loadUserName = localStorage.getItem("nickName");
   const loadFav = localStorage.getItem("favedCoin");
   const loadFavCN = localStorage.getItem("favedCoinCN");
+  const loadUserName = sessionStorage.getItem("nickName");
 
   // Constantes de manejo de datos
   const { id } = useParams();

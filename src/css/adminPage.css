@@ -79,13 +79,16 @@
 
 .grid-box {
   color: rgb(0, 0, 0);
-  border-color: grey;
+  border: 3px solid grey;
   background-color: whitesmoke;
   border-radius: 7px;
   padding-bottom: 9px;
   padding-top: 7px;
   margin-top: 7px;
-  margin-right: 7px;
+  font-size: 90%;
+  font-weight: 600;
+  text-align: center;
+  width: 30vh;
 }
 
 .btn-top-admin {

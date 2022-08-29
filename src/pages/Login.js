@@ -39,8 +39,8 @@ function Login() {
       .post(loginURL, { username: userName, password: password })
       .then((response) => {
         if (response.status === 200) {
-          localStorage.setItem("nickName", userName);
-          localStorage.setItem("loggedIn", true);
+          sessionStorage.setItem("nickName", userName);
+          sessionStorage.setItem("loggedIn", true);
           setTimeout(() => {
             window.location.href = "/profile";
           }, 500);
