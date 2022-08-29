@@ -12,10 +12,21 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import "../css/asset.css";
 
+// URLs para manejo de datos en la BD
+const addCoinURL =
+  "http://ec2-18-206-137-85.compute-1.amazonaws.com/addFavCoin/";
+const delCoinURL =
+  "http://ec2-18-206-137-85.compute-1.amazonaws.com/deleteFavCoin/";
+const getFavCoinURL =
+  "http://ec2-18-206-137-85.compute-1.amazonaws.com/getFavCoin";
+
 function Asset() {
-  // Constantes para cargar la divisa y el símbolo
+  // Constantes para cargar valores predeterminados
   const loadCurrency = localStorage.getItem("currency");
   const loadSymbol = localStorage.getItem("simbolo");
+  const loadUserName = localStorage.getItem("nickName");
+  const loadFav = localStorage.getItem("favedCoin");
+  const loadFavCN = localStorage.getItem("favedCoinCN");
 
   // Constantes de manejo de datos
   const { id } = useParams();
@@ -24,8 +35,8 @@ function Asset() {
   const [descText, setDescText] = useState("Leer descripción");
   const [description, setDescription] = useState("");
   const [market_data, setMarket_Data] = useState([]);
-  const [fav, setFav] = useState("NO");
-  const [favCN, setFavCN] = useState("bi-star");
+  const [fav, setFav] = useState(loadFav);
+  const [favCN, setFavCN] = useState(loadFavCN);
   const [currency, setCurrency] = useState(loadCurrency);
   const [simbolo, setSimbolo] = useState(loadSymbol);
   var isPositive = [];
@@ -43,6 +54,32 @@ function Asset() {
     },
   });
 
+  // Cargar monedas favoritas del usuario
+  const fetchFavCoins = async () => {
+    const { data } = await axios.get(
+      getFavCoinURL + "?username=" + loadUserName
+    );
+    // Buscar la moneda dentro de las favoritas
+    const foundCoin = data.find((e) => e.simbolo === coin.symbol);
+    if (foundCoin) {
+      // Si la moneda existe, like puesto
+      setFav("YES");
+      setFavCN("bi-star-fill");
+      localStorage.removeItem("favedCoin");
+      localStorage.removeItem("favedCoinCN");
+      localStorage.setItem("favedCoin", "YES");
+      localStorage.setItem("favedCoinCN", "bi-star-fill");
+    } else {
+      // Si no existe la moneda, lista para darle like
+      setFav("NO");
+      setFavCN("bi-star");
+      localStorage.removeItem("favedCoin");
+      localStorage.removeItem("favedCoinCN");
+      localStorage.setItem("favedCoin", "NO");
+      localStorage.setItem("favedCoinCN", "bi-star");
+    }
+  };
+
   // Descargar datos a través de la API de CoinGecko
   useEffect(() => {
     const fetchSingleCoin = async () => {
@@ -51,22 +88,61 @@ function Asset() {
       setMarket_Data(data.market_data);
       setDescription(data.description.en);
     };
+    fetchFavCoins();
     fetchSingleCoin();
+    localStorage.setItem("favedCoin", fav);
+    localStorage.setItem("favedCoinCN", favCN);
     localStorage.setItem("currencyNew", currency);
     localStorage.setItem("simboloNew", simbolo);
     setTimeout(() => setLoading(false), 1500);
-  }, [id, loadCurrency, loadSymbol, currency, simbolo]);
+    //eslint-disable-next-line
+  }, [
+    id,
+    loadCurrency,
+    loadSymbol,
+    loadUserName,
+    loadFav,
+    loadFavCN,
+    currency,
+    simbolo,
+    fav,
+    favCN,
+  ]);
 
-  console.log(market_data);
-
-  // Añadir moneda a favotitos
-  const addCoin = () => {
+  // Función para dar o quitar Like
+  const addCoin = async (coin) => {
     if (fav === "NO") {
+      // Si no se ha dado like...
+      localStorage.removeItem("favedCoin");
+      localStorage.removeItem("favedCoinCN");
+      localStorage.setItem("favedCoin", "YES");
+      localStorage.setItem("favedCoinCN", "bi-star-fill");
       setFavCN("bi-star-fill");
       setFav("YES");
+      await axios
+        .post(addCoinURL, {
+          username: loadUserName,
+          coin: coin.symbol,
+        })
+        .then(() => {
+          fetchFavCoins();
+        });
     } else if (fav === "YES") {
+      // Si se ha dado like...
+      localStorage.removeItem("favedCoin");
+      localStorage.removeItem("favedCoinCN");
+      localStorage.setItem("favedCoin", "NO");
+      localStorage.setItem("favedCoinCN", "bi-star");
       setFavCN("bi-star");
       setFav("NO");
+      await axios
+        .post(delCoinURL, {
+          username: loadUserName,
+          coin: coin.symbol,
+        })
+        .then(() => {
+          fetchFavCoins();
+        });
     } else {
       return fav;
     }
@@ -187,9 +263,7 @@ function Asset() {
           | {coin.name} |
           <span className="crypto-symbol">{coin.symbol.toUpperCase()}</span>
           <i
-            onMouseOver={addCoin}
-            onMouseOut={addCoin}
-            onClick={addCoin}
+            onClick={() => addCoin(coin)}
             className={`bi ${favCN} star-icon`}
           ></i>
           <div className="btn-currency">

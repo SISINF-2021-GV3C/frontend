@@ -42,8 +42,6 @@ function Register() {
     mode: "all",
   });
 
-  //const onSubmit = (data) => console.log(data);
-
   const genders = ["Hombre", "Mujer"];
 
   const [userName, setUserName] = useState("");
@@ -139,7 +137,6 @@ function Register() {
 
   // Comprobar si hay campos vacíos
   const checkNullForm = () => {
-    console.log("Llego a comprobar los campos vacíos");
     if (
       firstName === "" ||
       lastName === "" ||

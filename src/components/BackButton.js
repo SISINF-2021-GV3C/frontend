@@ -1,11 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaArrowCircleLeft } from "react-icons/fa";
 
 const ReturnButton = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="ReturnButton">
-      <Link className="btn btn-warn-back" to="/coins">
+      <Link
+        onClick={() => navigate(-1)}
+        className="btn btn-warn-back"
+        to="/coins"
+      >
         <FaArrowCircleLeft />
       </Link>
     </div>

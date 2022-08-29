@@ -20,7 +20,17 @@ function Login() {
   // Función de inicio de sesión
   const handleLogin = (event) => {
     event.preventDefault();
-    loginUser();
+    // Comprobar si hay campos vacíos
+    if (userName === "" || password === "") {
+      Swal.fire({
+        title: "¡Error!",
+        text: "Los campos no pueden estar vacíos.",
+        icon: "error",
+        timer: 2000,
+      });
+    } else {
+      loginUser();
+    }
   };
 
   // Petición a la API de Cryptoaholic para realizar login
@@ -28,7 +38,6 @@ function Login() {
     await axios
       .post(loginURL, { username: userName, password: password })
       .then((response) => {
-        console.log(response.status);
         if (response.status === 200) {
           localStorage.setItem("nickName", userName);
           localStorage.setItem("loggedIn", true);

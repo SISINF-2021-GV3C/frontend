@@ -75,3 +75,8 @@
 .logo-pic {
   margin-right: 7px;
 }
+
+.icon-hidden {
+  visibility: hidden;
+  transform: translateX(15px);
+}

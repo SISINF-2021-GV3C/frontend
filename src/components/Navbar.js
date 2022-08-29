@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import logo from "../images/logo_white.png";
 import "../css/navBar.css";
 
 export default function Navbar() {
+  const loadLoggedIn = localStorage.getItem("loggedIn");
+  const [login, setLogin] = useState(false);
+
+  useEffect(() => {
+    setLogin(loadLoggedIn);
+  }, [loadLoggedIn]);
+
   return (
     <nav className="nav">
       <Link to="/" className="site-title">
@@ -18,10 +25,15 @@ export default function Navbar() {
         Cryptoaholic{" "}
       </Link>
       <ul className="link-title">
+        <CustomLink to={`${login ? "/my-coins" : "/login"}`}>
+          <i
+            className={`bi bi-bookmark-star ${login ? "icon" : "icon-hidden"}`}
+          ></i>
+        </CustomLink>
         <CustomLink to="/coins">
           <i className="bi bi-currency-bitcoin icon"></i>
         </CustomLink>
-        <CustomLink to="/login">
+        <CustomLink to={`${login ? "/profile" : "/login"}`}>
           <i className="bi bi-person-circle icon"></i>
         </CustomLink>
       </ul>

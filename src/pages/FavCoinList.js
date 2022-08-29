@@ -8,7 +8,6 @@ import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { CoinList } from "../data/CoinGecko_API";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { MdCompareArrows } from "react-icons/md";
 import { Close } from "@mui/icons-material";
 import currencyTable from "../data/Currencies.json";
 import Loading from "../components/Loader";
@@ -16,7 +15,11 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import "../css/coinList.css";
 
-function Coins() {
+// URLs para manejo de datos en la BD
+const getFavCoinURL =
+  "http://ec2-18-206-137-85.compute-1.amazonaws.com/getFavCoin";
+
+function FavCoins() {
   // Constantes de manejo de datos y paginación
   const coinsPerPage = 25;
   const [loading, setLoading] = useState(true);
@@ -26,6 +29,7 @@ function Coins() {
   const [currency, setCurrency] = useState("usd");
   const [simbolo, setSimbolo] = useState("$");
   const [closeVisibility, setCloseVisibility] = useState(false);
+  const loadUserName = localStorage.getItem("nickName");
   var isPositive = [];
 
   // Constantes de dirección del orden en la tabla
@@ -57,6 +61,14 @@ function Coins() {
     },
   });
 
+  // Cargar monedas favoritas del usuario
+  const fetchFavCoins = async () => {
+    const { data } = await axios.get(
+      getFavCoinURL + "?username=" + loadUserName
+    );
+    console.log(data);
+  };
+
   // Descargar datos a través de la API de CoinGecko
   useEffect(() => {
     const fetchCoins = async () => {
@@ -64,11 +76,13 @@ function Coins() {
       setCoin(data);
     };
     fetchCoins();
+    fetchFavCoins();
     localStorage.removeItem("favedCoin");
     localStorage.removeItem("favedCoinCN");
     localStorage.setItem("currency", currency);
     localStorage.setItem("simbolo", simbolo);
     setTimeout(() => setLoading(false), 1500);
+    // eslint-disable-next-line
   }, [currency, simbolo]);
 
   // Función para introducir la búsqueda en la barra
@@ -435,7 +449,7 @@ function Coins() {
       }
       return (
         <div key={id}>
-          <Link className="link-deco" to={`/coins/${id}`}>
+          <Link className="link-deco" to={`/my-coins/${id}`}>
             <table className="table table-striped table-dark table-bordered table-hover align-middle">
               <tbody>
                 <tr>
@@ -481,11 +495,6 @@ function Coins() {
       {loading === false ? (
         <div className="coinlist-container">
           <div className="ui grid container">
-            <Link to="/compare">
-              <button type="button" className="btn btn-compare">
-                Comparar <MdCompareArrows />
-              </button>
-            </Link>
             <div className="btn-currency">
               <ThemeProvider theme={darkTheme}>
                 <Select
@@ -507,7 +516,7 @@ function Coins() {
               </ThemeProvider>
             </div>
             <div id="top-index" className="top-index">
-              <h1>Crypto Prices</h1>
+              <h1>Mi seguimiento</h1>
               <p></p>
               <div className="inline-coinlist">
                 <input
@@ -556,4 +565,4 @@ function Coins() {
   );
 }
 
-export default Coins;
+export default FavCoins;
