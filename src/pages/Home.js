@@ -1,17 +1,12 @@
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import HomeImg from "../images/amlexa-blockchain.svg";
 import "../css/home.css";
 
 function Home() {
-  function CustomLink({ to, children, ...props }) {
-    return (
-      <Link to={to} {...props}>
-        {children}
-      </Link>
-    );
-  }
+  const handleExplore = () => {
+    window.location.href = "/coins";
+  };
 
   return (
     <div className="home-container">
@@ -35,9 +30,13 @@ function Home() {
               <strong className="word-bonita"> bonita </strong>.
             </h2>
             <p></p>
-            <CustomLink className="btn btn-explore" to="/coins">
+            <button
+              type="button"
+              onClick={handleExplore}
+              className="btn btn-explore"
+            >
               Comenzar a explorar <FaArrowRight />
-            </CustomLink>
+            </button>
           </div>
           <div className="col col-homeImg">
             <img src={HomeImg} alt="BlockChain" />

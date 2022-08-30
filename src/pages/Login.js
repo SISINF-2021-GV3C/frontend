@@ -42,7 +42,7 @@ function Login() {
           sessionStorage.setItem("nickName", userName);
           sessionStorage.setItem("loggedIn", true);
           setTimeout(() => {
-            window.location.replace("/profile");
+            window.location.href = "/profile";
           }, 500);
         } else {
           Swal.fire({
