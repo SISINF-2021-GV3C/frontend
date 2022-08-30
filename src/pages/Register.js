@@ -217,7 +217,7 @@ function Register() {
           timer: 1000,
         }).then(() => {
           setTimeout(() => {
-            window.location.href = "/login";
+            window.location.replace("/login");
           }, 1500);
         });
       });
