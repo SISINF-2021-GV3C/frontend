@@ -70,7 +70,7 @@ function App() {
           }
         />
         <Route path="/compare" element={<Compare />} />
-        <Route path="/compare/versus" element={<Versus />} />
+        <Route path="/versus" element={<Versus />} />
         <Route
           path="/management"
           element={

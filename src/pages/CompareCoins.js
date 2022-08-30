@@ -127,7 +127,7 @@ function CompareCoins() {
       });
 
       setTimeout(() => {
-        window.location.replace("/compare/versus");
+        window.location.replace("/versus");
       }, 1500);
     }
   };
