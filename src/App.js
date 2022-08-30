@@ -15,7 +15,7 @@ import Loading from "./components/Loader";
 import Compare from "./pages/CompareCoins";
 import Versus from "./pages/Versus";
 import Management from "./pages/Management";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./components/Dashboard";
 import UserManagement from "./components/UserManagement";
 import "./css/App.css";
 
