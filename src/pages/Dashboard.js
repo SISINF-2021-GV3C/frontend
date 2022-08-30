@@ -21,9 +21,10 @@ const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
 
 function Dashboard() {
   const navigate = useNavigate();
+
+  // Datos para gestionar la obtención y almacenamiento de las monedas.
   const currency = "usd";
   const [coin, setCoin] = useState([]);
-  var getCoins = [];
 
   // Constante para almacenar las estadísticas
   const [countries, setCountries] = useState([]);
@@ -40,12 +41,15 @@ function Dashboard() {
   const [rango41_45, setRango41_45] = useState(0);
   const [rangoMas45, setRangoMas45] = useState(0);
 
+  // Función para extraer monedas a través de la API de CoinGecko.
   const fetchCoins = async () => {
-    const { data } = await axios.get(CoinList(currency));
-    setCoin(data);
+    await axios
+      .get(CoinList(currency))
+      .then((response) => {
+        setCoin(response.data);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
   };
-
-  console.log(getCoins, coin);
 
   // Función para buscar usuarios en la BD y sus estadísticas.
   const fetchUsers = async () => {
@@ -169,6 +173,8 @@ function Dashboard() {
   }, []);
 
   const displayCountries = countries.map((country, index) => {
+    // Se busca el país cuyo nombre es el mismo que el de alguno
+    // del top 3 y se almacenan todos sus datos en la variable.
     const { pais } = country;
     let flagFound = countryCodeISO.find((flag) => flag.name === pais);
     return (
@@ -184,10 +190,20 @@ function Dashboard() {
     );
   });
 
-  const displayFavCoins = favCoins.map((coin, index) => {
+  const displayFavCoins = favCoins.map((coinItem, index) => {
+    const { simbolo } = coinItem;
+    // Se busca la moneda cuyo símbolo es el mismo que el de alguna
+    // del top 3 y se almacenan todos sus datos en la variable.
+    let coinFound = coin.find((elem) => elem.symbol === simbolo);
     return (
-      <div key={coin.simbolo}>
-        {index + 1}. {coin.simbolo.toUpperCase()}
+      <div key={coinItem.simbolo}>
+        {index + 1}. {coinItem.simbolo.toUpperCase()}{" "}
+        <img
+          src={`${coinFound.image}`}
+          alt=""
+          width="30px"
+          style={{ marginRight: "10px" }}
+        />
       </div>
     );
   });

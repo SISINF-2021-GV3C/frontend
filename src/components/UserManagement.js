@@ -5,7 +5,6 @@ import { FaArrowCircleLeft } from "react-icons/fa";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faSortUp } from "@fortawesome/free-solid-svg-icons";
-import { Delete } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Close } from "@mui/icons-material";
 import countryCodeISO from "../data/countryCodeISO.json";
@@ -25,6 +24,7 @@ const userDelURL =
 
 function Management() {
   const navigate = useNavigate();
+
   // Constantes de manejo de datos y paginación
   const usersPerPage = 10;
   const [user, setUser] = useState([]);
@@ -93,28 +93,36 @@ function Management() {
   };
 
   const handleDeleteUser = (user) => {
-    Swal.fire({
-      title: "¿Deseas eliminar el usuario?",
-      text: "¡Los cambios serán irreversibles!",
-      icon: "warning",
-      showCancelButton: true,
-      cancelButtonText: "Cancelar",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, ¡elimínalo!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios.post(userDelURL, { username: user.nickname });
-        Swal.fire({
-          title: "¡Éxito!",
-          text: "El usuario se ha eliminado correctamente.",
-          icon: "success",
-          timer: 1000,
-        }).then(() => {
-          fetchUsers();
-        });
-      }
-    });
+    if (user.nickname === "admin") {
+      Swal.fire({
+        title: "¡Acción denegada!",
+        text: "No puedes eliminar a este usuario...",
+        icon: "error",
+      });
+    } else {
+      Swal.fire({
+        title: "¿Deseas eliminar el usuario?",
+        text: "¡Los cambios serán irreversibles!",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, ¡elimínalo!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.post(userDelURL, { username: user.nickname });
+          Swal.fire({
+            title: "¡Éxito!",
+            text: "El usuario se ha eliminado correctamente.",
+            icon: "success",
+            timer: 1000,
+          }).then(() => {
+            fetchUsers();
+          });
+        }
+      });
+    }
   };
 
   // Ordenar por nombre
@@ -315,7 +323,11 @@ function Management() {
                     className="btn-del-usr"
                     onClick={() => handleDeleteUser(userItem)}
                   >
-                    <Delete />
+                    <i
+                      className={`${
+                        nickname !== "admin" ? "bi bi-person-dash-fill" : ""
+                      }`}
+                    ></i>
                   </button>
                 </td>
               </tr>

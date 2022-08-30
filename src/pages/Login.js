@@ -39,11 +39,20 @@ function Login() {
       .post(loginURL, { username: userName, password: password })
       .then((response) => {
         if (response.status === 200) {
-          sessionStorage.setItem("nickName", userName);
-          sessionStorage.setItem("loggedIn", true);
-          setTimeout(() => {
-            window.location.replace("/profile");
-          }, 500);
+          if (userName === "admin") {
+            sessionStorage.setItem("nickName", userName);
+            sessionStorage.setItem("loggedIn", true);
+            sessionStorage.setItem("adminLogin", true);
+            setTimeout(() => {
+              window.location.replace("/management");
+            }, 500);
+          } else {
+            sessionStorage.setItem("nickName", userName);
+            sessionStorage.setItem("loggedIn", true);
+            setTimeout(() => {
+              window.location.replace("/my-coins");
+            }, 500);
+          }
         } else {
           Swal.fire({
             title: "Usuario o contraseña incorrecto!",

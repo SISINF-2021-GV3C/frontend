@@ -60,17 +60,29 @@ function Asset() {
       getFavCoinURL + "?username=" + loadUserName
     );
     // Buscar la moneda dentro de las favoritas
-    const foundCoin = data.find((e) => e.simbolo === coin.symbol);
-    if (foundCoin) {
-      // Si la moneda existe, like puesto
-      setFav("YES");
-      setFavCN("bi-star-fill");
-      localStorage.removeItem("favedCoin");
-      localStorage.removeItem("favedCoinCN");
-      localStorage.setItem("favedCoin", "YES");
-      localStorage.setItem("favedCoinCN", "bi-star-fill");
+    let emptyFavs = data === false; // Comprobar si la lista está vacía
+    if (!emptyFavs) {
+      // Si no lo está...
+      let foundCoin = data.find((e) => e.simbolo === coin.symbol);
+      if (foundCoin) {
+        // Si la moneda existe, like puesto.
+        setFav("YES");
+        setFavCN("bi-star-fill");
+        localStorage.removeItem("favedCoin");
+        localStorage.removeItem("favedCoinCN");
+        localStorage.setItem("favedCoin", "YES");
+        localStorage.setItem("favedCoinCN", "bi-star-fill");
+      } else {
+        // Si no existe la moneda, lista para darle like.
+        setFav("NO");
+        setFavCN("bi-star");
+        localStorage.removeItem("favedCoin");
+        localStorage.removeItem("favedCoinCN");
+        localStorage.setItem("favedCoin", "NO");
+        localStorage.setItem("favedCoinCN", "bi-star");
+      }
     } else {
-      // Si no existe la moneda, lista para darle like
+      // Si lo está...
       setFav("NO");
       setFavCN("bi-star");
       localStorage.removeItem("favedCoin");

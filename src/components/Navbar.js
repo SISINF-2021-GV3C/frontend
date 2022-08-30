@@ -5,11 +5,14 @@ import "../css/navBar.css";
 
 export default function Navbar() {
   const loadLoggedIn = sessionStorage.getItem("loggedIn");
+  const loadIsAdmin = sessionStorage.getItem("adminLogin");
+  const [admin, setAdmin] = useState(false);
   const [login, setLogin] = useState(false);
 
   useEffect(() => {
     setLogin(loadLoggedIn);
-  }, [loadLoggedIn]);
+    setAdmin(loadIsAdmin);
+  }, [loadLoggedIn, loadIsAdmin]);
 
   return (
     <nav className="nav">
@@ -25,6 +28,13 @@ export default function Navbar() {
         Cryptoaholic{" "}
       </Link>
       <ul className="link-title">
+        <CustomLink to={`${admin ? "/management" : "/login"}`}>
+          <i
+            className={`bi bi-gear-wide-connected ${
+              admin ? "icon" : "icon-hidden"
+            }`}
+          ></i>
+        </CustomLink>
         <CustomLink to={`${login ? "/my-coins" : "/login"}`}>
           <i
             className={`bi bi-bookmark-star ${login ? "icon" : "icon-hidden"}`}
