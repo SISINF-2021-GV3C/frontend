@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/cryptoaholic.info/static/css/main.66e5d2c2.css",
-    "main.js": "/cryptoaholic.info/static/js/main.dc83e0c9.js",
-    "static/js/27.94cbc7bb.chunk.js": "/cryptoaholic.info/static/js/27.94cbc7bb.chunk.js",
-    "static/media/bg2.png": "/cryptoaholic.info/static/media/bg2.b54de8141a50dd7d35f0.png",
-    "static/media/amlexa-blockchain.svg": "/cryptoaholic.info/static/media/amlexa-blockchain.26968dc9fe42ba07146c6d085e0ce241.svg",
-    "static/media/user-management-icon.png": "/cryptoaholic.info/static/media/user-management-icon.49dadf0ece1297d30735.png",
-    "static/media/image.svg": "/cryptoaholic.info/static/media/image.766a90678570b1c6e4d7be01572022b8.svg",
-    "static/media/logo_white.png": "/cryptoaholic.info/static/media/logo_white.1ee322d3a41f4942c4a1.png",
-    "static/media/dashboard-icon.png": "/cryptoaholic.info/static/media/dashboard-icon.21842bb45482146be045.png",
-    "index.html": "/cryptoaholic.info/index.html"
+    "main.css": "./static/css/main.58bc4d4a.css",
+    "main.js": "./static/js/main.ad66bb77.js",
+    "static/js/27.94cbc7bb.chunk.js": "./static/js/27.94cbc7bb.chunk.js",
+    "static/media/bg2.png": "./static/media/bg2.b54de8141a50dd7d35f0.png",
+    "static/media/amlexa-blockchain.svg": "./static/media/amlexa-blockchain.26968dc9fe42ba07146c6d085e0ce241.svg",
+    "static/media/user-management-icon.png": "./static/media/user-management-icon.49dadf0ece1297d30735.png",
+    "static/media/image.svg": "./static/media/image.766a90678570b1c6e4d7be01572022b8.svg",
+    "static/media/logo_white.png": "./static/media/logo_white.1ee322d3a41f4942c4a1.png",
+    "static/media/dashboard-icon.png": "./static/media/dashboard-icon.21842bb45482146be045.png",
+    "index.html": "./index.html"
   },
   "entrypoints": [
-    "static/css/main.66e5d2c2.css",
-    "static/js/main.dc83e0c9.js"
+    "static/css/main.58bc4d4a.css",
+    "static/js/main.ad66bb77.js"
   ]
 }
