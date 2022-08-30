@@ -515,27 +515,27 @@ function FavCoins() {
     <>
       {loading === false ? (
         <div className="coinlist-container">
+          <div className="btn-currency">
+            <ThemeProvider theme={darkTheme}>
+              <Select
+                className="select-currency"
+                variant="outlined"
+                label="Cambiar divisa"
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={currency}
+                style={{ position: "relative", width: 140, height: 40 }}
+                onChange={setCurrencyNSymbol}
+              >
+                {currencyTable.map(({ divisa, simbolo }) => (
+                  <MenuItem key={divisa} value={divisa}>
+                    {simbolo} | {divisa.toLocaleUpperCase()}
+                  </MenuItem>
+                ))}
+              </Select>
+            </ThemeProvider>
+          </div>
           <div className="ui grid container">
-            <div className="btn-currency">
-              <ThemeProvider theme={darkTheme}>
-                <Select
-                  className="select-currency"
-                  variant="outlined"
-                  label="Cambiar divisa"
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={currency}
-                  style={{ position: "relative", width: 140, height: 40 }}
-                  onChange={setCurrencyNSymbol}
-                >
-                  {currencyTable.map(({ divisa, simbolo }) => (
-                    <MenuItem key={divisa} value={divisa}>
-                      {simbolo} | {divisa.toLocaleUpperCase()}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </ThemeProvider>
-            </div>
             <div id="top-index" className="top-index">
               <h1>Mi seguimiento</h1>
               <p></p>
@@ -570,14 +570,14 @@ function FavCoins() {
               </button>
             )}
             <p></p>
-            <button
-              type="button"
-              className="btn btn-warn-top"
-              onClick={scrollToTop}
-            >
-              <FaAngleDoubleUp />
-            </button>
           </div>
+          <button
+            type="button"
+            className="btn btn-warn-top"
+            onClick={scrollToTop}
+          >
+            <FaAngleDoubleUp />
+          </button>
         </div>
       ) : (
         <Loading />

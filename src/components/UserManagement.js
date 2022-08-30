@@ -376,17 +376,17 @@ function Management() {
               </button>
             )}
             <p></p>
-            <button
-              type="button"
-              className="btn btn-top-admin"
-              onClick={scrollToTop}
-            >
-              <FaAngleDoubleUp />
-            </button>
-            <button onClick={() => navigate(-1)} className="btn btn-back-admin">
-              <FaArrowCircleLeft />
-            </button>
           </div>
+          <button
+            type="button"
+            className="btn btn-top-admin"
+            onClick={scrollToTop}
+          >
+            <FaAngleDoubleUp />
+          </button>
+          <button onClick={() => navigate(-1)} className="btn btn-back-admin">
+            <FaArrowCircleLeft />
+          </button>
         </div>
       ) : (
         <Loading />
