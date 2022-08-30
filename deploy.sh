@@ -15,4 +15,4 @@ echo -e "\nYour application is available in ${GRN}http://localhost:8080/\n${NC}"
 echo -e "Do not close your terminal! If you want to quit first end the container process with ^C"
 
 docker run -p 8080:80 --name cryptoaholic-container $1/cryptohalic-app
-docker rm cryptoaholic-containerm
+docker rm cryptoaholic-container
