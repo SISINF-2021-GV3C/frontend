@@ -8,11 +8,15 @@ import { faSortUp } from "@fortawesome/free-solid-svg-icons";
 import { Delete } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { Close } from "@mui/icons-material";
+import countryCodeISO from "../data/countryCodeISO.json";
 import axios from "axios";
 import Loading from "../components/Loader";
 import moment from "moment/moment";
 import Swal from "sweetalert2";
 import "../css/adminPage.css";
+
+// URL para extraer las banderas de los países
+const flagsURL = "https://countryflagsapi.com/svg/";
 
 // URLs para manejo de datos en la BD
 const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
@@ -43,8 +47,17 @@ function Management() {
 
   // Descargar usuarios a través de la API de Cryptoaholic
   const fetchUsers = async () => {
-    const { data } = await axios.get(usersURL);
-    setUser(data);
+    // Variables temporales que se actualizan en el mismo render
+    // (a diferencia del hook useState).
+    let getCountries = [];
+    countryCodeISO.map((countryItem) => getCountries.push(countryItem));
+    // Obtener usuarios de la base de datos de CoinGecko
+    await axios
+      .get(usersURL)
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
   };
 
   useEffect(() => {
@@ -273,6 +286,9 @@ function Management() {
     .slice(0, paginate)
     .map((userItem) => {
       const { nickname, genero, pais, anyo_nac } = userItem;
+      let countryFound = countryCodeISO.find(
+        (country) => country.name === pais
+      );
       return (
         <div key={nickname}>
           <table className="table table-striped table-dark table-bordered table-hover align-middle">
@@ -285,7 +301,15 @@ function Management() {
                 <td width="20%">
                   {moment(anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]}
                 </td>
-                <td width="20%">{pais}</td>
+                <td width="20%" className="table-alignment">
+                  <img
+                    src={`${flagsURL}${countryFound.iso}`}
+                    alt=""
+                    width="30px"
+                    style={{ marginRight: "10px" }}
+                  />
+                  {pais}
+                </td>
                 <td width="10%">
                   <button
                     className="btn-del-usr"

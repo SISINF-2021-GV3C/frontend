@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Doughnut, Pie } from "react-chartjs-2";
-import { Grid } from "@mantine/core";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { CoinList } from "../data/CoinGecko_API";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import axios from "axios";
 import moment from "moment/moment";
+import countryCodeISO from "../data/countryCodeISO.json";
 import "../css/adminPage.css";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+// URL para extraer las banderas de los países
+const flagsURL = "https://countryflagsapi.com/svg/";
 
 // URLs para manejo de datos en la BD
 const statsURL =
@@ -17,6 +21,9 @@ const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
 
 function Dashboard() {
   const navigate = useNavigate();
+  const currency = "usd";
+  const [coin, setCoin] = useState([]);
+  var getCoins = [];
 
   // Constante para almacenar las estadísticas
   const [countries, setCountries] = useState([]);
@@ -33,8 +40,20 @@ function Dashboard() {
   const [rango41_45, setRango41_45] = useState(0);
   const [rangoMas45, setRangoMas45] = useState(0);
 
+  const fetchCoins = async () => {
+    const { data } = await axios.get(CoinList(currency));
+    setCoin(data);
+  };
+
+  console.log(getCoins, coin);
+
   // Función para buscar usuarios en la BD y sus estadísticas.
   const fetchUsers = async () => {
+    // Variables temporales que se actualizan en el mismo render
+    // (a diferencia del hook useState).
+    let getCountries = [];
+    countryCodeISO.map((countryItem) => getCountries.push(countryItem));
+
     // Extraer todo el listado de usuarios.
     const { data } = await axios.get(usersURL);
 
@@ -144,14 +163,23 @@ function Dashboard() {
       setCountries(data.pais);
       setFavCoins(data.favCoin);
     };
+    fetchCoins();
     fetchStats();
     fetchUsers();
   }, []);
 
   const displayCountries = countries.map((country, index) => {
+    const { pais } = country;
+    let flagFound = countryCodeISO.find((flag) => flag.name === pais);
     return (
       <div key={country.pais}>
-        {index + 1}. {country.pais}
+        {index + 1}. {country.pais}{" "}
+        <img
+          src={`${flagsURL}${flagFound.iso}`}
+          alt=""
+          width="30px"
+          style={{ marginRight: "10px" }}
+        />
       </div>
     );
   });
