@@ -9,13 +9,13 @@ import CoinList from "./pages/CoinList";
 import FavCoinList from "./pages/FavCoinList";
 import Asset from "./pages/Asset";
 import Profile from "./pages/Profile";
-import NotFound from "./components/NotFound";
+import NotFound from "./pages/NotFound";
 import Loading from "./components/Loader";
 import Compare from "./pages/CompareCoins";
 import Versus from "./pages/Versus";
 import Management from "./pages/Management";
 import Dashboard from "./pages/Dashboard";
-import UserManagement from "./components/UserManagement";
+import UserManagement from "./pages/UserManagement";
 import Protected from "./components/ProtectedRoute";
 import "./css/App.css";
 
