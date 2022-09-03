@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.49a9c456.css",
-    "main.js": "/static/js/main.510f5ac2.js",
+    "main.js": "/static/js/main.a40664a6.js",
     "static/js/27.94cbc7bb.chunk.js": "/static/js/27.94cbc7bb.chunk.js",
     "static/media/bg2.png": "/static/media/bg2.b54de8141a50dd7d35f0.png",
     "static/media/amlexa-blockchain.svg": "/static/media/amlexa-blockchain.b9dbb50837003586b30b4844cd96e0bd.svg",
@@ -13,6 +13,6 @@
   },
   "entrypoints": [
     "static/css/main.49a9c456.css",
-    "static/js/main.510f5ac2.js"
+    "static/js/main.a40664a6.js"
   ]
 }
