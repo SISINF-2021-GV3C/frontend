@@ -6,6 +6,7 @@ import { CoinList } from "../data/CoinGecko_API";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import axios from "axios";
 import moment from "moment/moment";
+import Loading from "../components/Loader";
 import countryCodeISO from "../data/countryCodeISO.json";
 import "../css/adminPage.css";
 
@@ -24,10 +25,14 @@ function Dashboard() {
 
   // Datos para gestionar la obtención y almacenamiento de las monedas.
   const currency = "usd";
+  // eslint-disable-next-line
   const [coin, setCoin] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [matchingCoins, setMatchingCoins] = useState([]);
 
   // Constante para almacenar las estadísticas
   const [countries, setCountries] = useState([]);
+  // eslint-disable-next-line
   const [favCoins, setFavCoins] = useState([]);
   const [numUsers, setNumUsers] = useState([]);
   const [totalAge, setTotalAge] = useState([]);
@@ -43,12 +48,29 @@ function Dashboard() {
 
   // Función para extraer monedas a través de la API de CoinGecko.
   const fetchCoins = async () => {
+    let getCoins = [];
+    let getFavCoins = [];
+
     await axios
       .get(CoinList(currency))
       .then((response) => {
+        getCoins = response.data;
         setCoin(response.data);
       })
       .catch((error) => console.error(`Error: ${error}`));
+
+    await axios
+      .get(statsURL)
+      .then((response) => {
+        getFavCoins = response.data.favCoin;
+        setFavCoins(response.data.favCoin);
+      })
+      .catch((error) => console.error(`Error: ${error}`));
+    // Buscar valores correspondientes de monedas en un array y otro.
+    const matching = getCoins.filter((o1) =>
+      getFavCoins.some((o2) => o1.symbol === o2.simbolo)
+    );
+    setMatchingCoins(matching);
   };
 
   // Función para buscar usuarios en la BD y sus estadísticas.
@@ -165,11 +187,11 @@ function Dashboard() {
     const fetchStats = async () => {
       const { data } = await axios.get(statsURL);
       setCountries(data.pais);
-      setFavCoins(data.favCoin);
     };
     fetchCoins();
     fetchStats();
     fetchUsers();
+    setTimeout(() => setLoading(false), 500);
   }, []);
 
   const displayCountries = countries.map((country, index) => {
@@ -190,16 +212,16 @@ function Dashboard() {
     );
   });
 
-  const displayFavCoins = favCoins.map((coinItem, index) => {
-    const { simbolo } = coinItem;
+  const displayFavCoins = matchingCoins.map((coinItem, index) => {
+    const { symbol, image } = coinItem;
     // Se busca la moneda cuyo símbolo es el mismo que el de alguna
     // del top 3 y se almacenan todos sus datos en la variable.
-    let coinFound = coin.find((elem) => elem.symbol === simbolo);
+
     return (
-      <div key={coinItem.simbolo}>
-        {index + 1}. {coinItem.simbolo.toUpperCase()}{" "}
+      <div key={symbol}>
+        {index + 1}. {symbol.toUpperCase()}{" "}
         <img
-          src={`${coinFound.image}`}
+          src={`${image}`}
           alt=""
           width="30px"
           style={{ marginRight: "10px" }}
@@ -209,101 +231,110 @@ function Dashboard() {
   });
 
   return (
-    <div className="admin-container">
-      <h1 className="title-dashboard">Estadísticas</h1>
-      <div>
-        <div className="row g-3">
-          <div className="col grid-box">
-            Top 3 países más registrados <br />
-            <div className="numberCircleTOP3">{displayCountries}</div>
-          </div>
+    <>
+      {loading === false ? (
+        <div className="admin-container">
+          <h1 className="title-dashboard">Estadísticas</h1>
+          <div>
+            <div className="row g-3">
+              <div className="col grid-box">
+                Top 3 países más registrados <br />
+                <div className="numberCircleTOP3">{displayCountries}</div>
+              </div>
 
-          <div className="col grid-box">
-            Top 3 monedas más seguidas <br />
-            <div className="numberCircleTOP3">{displayFavCoins}</div>
-          </div>
+              <div className="col grid-box">
+                Top 3 monedas más seguidas <br />
+                <div className="numberCircleTOP3">{displayFavCoins}</div>
+              </div>
 
-          <div className="col grid-box">
-            Número de usuarios registrados <br />
-            <div className="numberCircle">{numUsers}</div>
-          </div>
-        </div>
-        <div className="row g-3">
-          <div className="col grid-box">
-            Ratio hombres/mujeres (%)
-            <br />
-            <Pie
-              data={{
-                labels: ["Hombres", "Mujeres"],
-                datasets: [
-                  {
-                    label: "Ratio hombres/mujeres",
-                    data: [
-                      ((numMen / numUsers) * 100).toFixed(1),
-                      ((numWomen / numUsers) * 100).toFixed(1),
+              <div className="col grid-box">
+                Número de usuarios registrados <br />
+                <div className="numberCircle">{numUsers}</div>
+              </div>
+            </div>
+            <div className="row g-3">
+              <div className="col grid-box">
+                Ratio hombres/mujeres (%)
+                <br />
+                <Pie
+                  data={{
+                    labels: ["Hombres", "Mujeres"],
+                    datasets: [
+                      {
+                        label: "Ratio hombres/mujeres",
+                        data: [
+                          ((numMen / numUsers) * 100).toFixed(1),
+                          ((numWomen / numUsers) * 100).toFixed(1),
+                        ],
+                        backgroundColor: [
+                          "rgb(54, 162, 235)",
+                          "rgb(255, 99, 132)",
+                        ],
+                        hoverOffset: 4,
+                      },
                     ],
-                    backgroundColor: ["rgb(54, 162, 235)", "rgb(255, 99, 132)"],
-                    hoverOffset: 4,
-                  },
-                ],
-              }}
-            />
-          </div>
-          <div className="col grid-box">
-            Media de edad (años)
-            <br />
-            <div className="numberCircleAvg">
-              {Math.trunc(totalAge / numUsers)}
+                  }}
+                />
+              </div>
+              <div className="col grid-box">
+                Media de edad (años)
+                <br />
+                <div className="numberCircleAvg">
+                  {Math.trunc(totalAge / numUsers)}
+                </div>
+              </div>
+              <div className="col grid-box">
+                Usuarios por rango de edad (%)
+                <br />
+                <Doughnut
+                  data={{
+                    labels: [
+                      "16-20",
+                      "21-25",
+                      "26-30",
+                      "31-35",
+                      "36-40",
+                      "41-45",
+                      "+45",
+                    ],
+                    datasets: [
+                      {
+                        label: "Rangos de edad",
+                        data: [
+                          ((rango16_20 / numUsers) * 100).toFixed(1),
+                          ((rango21_25 / numUsers) * 100).toFixed(1),
+                          ((rango26_30 / numUsers) * 100).toFixed(1),
+                          ((rango31_35 / numUsers) * 100).toFixed(1),
+                          ((rango36_40 / numUsers) * 100).toFixed(1),
+                          ((rango41_45 / numUsers) * 100).toFixed(1),
+                          ((rangoMas45 / numUsers) * 100).toFixed(1),
+                        ],
+                        backgroundColor: [
+                          "rgb(54, 162, 235)",
+                          "rgb(255, 99, 132)",
+                          "rgb(235, 213, 52)",
+                          "rgb(72, 145, 44)",
+                          "rgb(26, 82, 143)",
+                          "rgb(76, 26, 156)",
+                          "rgb(156, 56, 26)",
+                        ],
+                        hoverOffset: 4,
+                      },
+                    ],
+                  }}
+                />
+              </div>
             </div>
           </div>
-          <div className="col grid-box">
-            Usuarios por rango de edad (%)
-            <br />
-            <Doughnut
-              data={{
-                labels: [
-                  "16-20",
-                  "21-25",
-                  "26-30",
-                  "31-35",
-                  "36-40",
-                  "41-45",
-                  "+45",
-                ],
-                datasets: [
-                  {
-                    label: "Rangos de edad",
-                    data: [
-                      ((rango16_20 / numUsers) * 100).toFixed(1),
-                      ((rango21_25 / numUsers) * 100).toFixed(1),
-                      ((rango26_30 / numUsers) * 100).toFixed(1),
-                      ((rango31_35 / numUsers) * 100).toFixed(1),
-                      ((rango36_40 / numUsers) * 100).toFixed(1),
-                      ((rango41_45 / numUsers) * 100).toFixed(1),
-                      ((rangoMas45 / numUsers) * 100).toFixed(1),
-                    ],
-                    backgroundColor: [
-                      "rgb(54, 162, 235)",
-                      "rgb(255, 99, 132)",
-                      "rgb(235, 213, 52)",
-                      "rgb(72, 145, 44)",
-                      "rgb(26, 82, 143)",
-                      "rgb(76, 26, 156)",
-                      "rgb(156, 56, 26)",
-                    ],
-                    hoverOffset: 4,
-                  },
-                ],
-              }}
-            />
-          </div>
+          <p></p>
+          <button onClick={() => navigate(-1)} className="btn btn-back-admin">
+            <FaArrowCircleLeft />
+          </button>
         </div>
-      </div>
-      <p></p>
-      <button onClick={() => navigate(-1)} className="btn btn-back-admin">
-        <FaArrowCircleLeft />
-      </button>
-    </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }
 
