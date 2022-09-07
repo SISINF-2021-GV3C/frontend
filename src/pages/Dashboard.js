@@ -249,7 +249,7 @@ function Dashboard() {
 
               <div className="col grid-box">
                 Número de usuarios registrados <br />
-                <div className="numberCircle">{numUsers - 1}</div>
+                <div className="numberCircle">{numUsers}</div>
               </div>
             </div>
             <div className="row g-3">
