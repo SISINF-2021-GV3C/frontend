@@ -16,9 +16,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const flagsURL = "https://countryflagsapi.com/svg/";
 
 // URLs para manejo de datos en la BD
-const statsURL =
-  "http://ec2-18-206-137-85.compute-1.amazonaws.com/estadisticas/";
-const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
+const statsURL = "https://localhost:3050/stats/";
+const usersURL = "https://cryptoaholic-api.vercel.app/users/";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -86,15 +85,15 @@ function Dashboard() {
     // Obtener el número de usuarios registrados.
     const num = data.length;
     // Obtener el número de hombres.
-    const man = data.filter((elem) => elem.genero === "Hombre").length;
+    const man = data.filter((elem) => elem.gender === "Hombre").length;
     // Obtener el número de mujeres.
-    const woman = data.filter((elem) => elem.genero === "Mujer").length;
+    const woman = data.filter((elem) => elem.gender === "Mujer").length;
 
     // Iteración para calcular la suma total de las edades
     // (valor necesario para calcular la media de edad).
     var edadTotal = 0;
     for (let i = 0; i < data.length; i++) {
-      const calcEdad = moment(data[i].anyo_nac, "DD-MM-YYYY")
+      const calcEdad = moment(data[i].birthday, "DD-MM-YYYY")
         .fromNow(true)
         .split(" ")[0];
       edadTotal += parseInt(calcEdad);
@@ -105,67 +104,67 @@ function Dashboard() {
     const r16_20 = data.filter(
       (elem) =>
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) >= 16 &&
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) <= 20
     ).length;
     // Rango 16-20 años.
     const r21_25 = data.filter(
       (elem) =>
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) >= 21 &&
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) <= 25
     ).length;
     // Rango 16-20 años.
     const r26_30 = data.filter(
       (elem) =>
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) >= 26 &&
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) <= 30
     ).length;
     // Rango 16-20 años.
     const r31_35 = data.filter(
       (elem) =>
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) >= 31 &&
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) <= 35
     ).length;
     // Rango 16-20 años.
     const r36_40 = data.filter(
       (elem) =>
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) >= 36 &&
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) <= 40
     ).length;
     // Rango 16-20 años.
     const r41_45 = data.filter(
       (elem) =>
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) >= 41 &&
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) <= 45
     ).length;
     // Rango 16-20 años.
     const rMas45 = data.filter(
       (elem) =>
         parseInt(
-          moment(elem.anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]
+          moment(elem.birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]
         ) > 45
     ).length;
 
@@ -186,7 +185,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       const { data } = await axios.get(statsURL);
-      setCountries(data.pais);
+      setCountries(data);
     };
     fetchCoins();
     fetchStats();
@@ -194,14 +193,14 @@ function Dashboard() {
     setTimeout(() => setLoading(false), 500);
   }, []);
 
-  const displayCountries = countries.map((country, index) => {
+  const displayCountries = countries.map((elem, index) => {
     // Se busca el país cuyo nombre es el mismo que el de alguno
     // del top 3 y se almacenan todos sus datos en la variable.
-    const { pais } = country;
-    let flagFound = countryCodeISO.find((flag) => flag.name === pais);
+    const { country } = elem;
+    let flagFound = countryCodeISO.find((flag) => flag.name === country);
     return (
-      <div key={country.pais}>
-        {index + 1}. {country.pais}{" "}
+      <div key={elem.country}>
+        {index + 1}. {elem.country}{" "}
         <img
           src={`${flagsURL}${flagFound.iso}`}
           alt=""

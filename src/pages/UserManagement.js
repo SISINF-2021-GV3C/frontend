@@ -92,7 +92,7 @@ function Management() {
   };
 
   const handleDeleteUser = (user) => {
-    if (user.nickname === "admin") {
+    if (user.nickName === "admin") {
       Swal.fire({
         title: "¡Acción denegada!",
         text: "No puedes eliminar a este usuario...",
@@ -129,7 +129,7 @@ function Management() {
     if (directionName === "ASC") {
       setUser(
         user.sort((a, b) =>
-          a.nombre.toLowerCase() > b.nombre.toLowerCase() ? 1 : -1
+          a.nickName.toLowerCase() > b.nickName.toLowerCase() ? 1 : -1
         )
       );
       setIconName(faSortUp);
@@ -137,7 +137,7 @@ function Management() {
     } else if (directionName === "DESC") {
       setUser(
         user.sort((a, b) =>
-          a.nombre.toLowerCase() < b.nombre.toLowerCase() ? 1 : -1
+          a.nickName.toLowerCase() < b.nickName.toLowerCase() ? 1 : -1
         )
       );
       setIconName(faSortDown);
@@ -160,7 +160,7 @@ function Management() {
     if (directionCountry === "ASC") {
       setUser(
         user.sort((a, b) =>
-          a.pais.toLowerCase() > b.pais.toLowerCase() ? 1 : -1
+          a.country.toLowerCase() > b.country.toLowerCase() ? 1 : -1
         )
       );
       setIconCountry(faSortUp);
@@ -168,7 +168,7 @@ function Management() {
     } else if (directionCountry === "DESC") {
       setUser(
         user.sort((a, b) =>
-          a.pais.toLowerCase() < b.pais.toLowerCase() ? 1 : -1
+          a.country.toLowerCase() < b.country.toLowerCase() ? 1 : -1
         )
       );
       setIconCountry(faSortDown);
@@ -191,7 +191,7 @@ function Management() {
     if (directionGender === "ASC") {
       setUser(
         user.sort((a, b) =>
-          a.anyo_nac.toLowerCase() > b.anyo_nac.toLowerCase() ? 1 : -1
+          a.gender.toLowerCase() > b.gender.toLowerCase() ? 1 : -1
         )
       );
       setIconGender(faSortUp);
@@ -199,7 +199,7 @@ function Management() {
     } else if (directionGender === "DESC") {
       setUser(
         user.sort((a, b) =>
-          a.anyo_nac.toLowerCase() < b.anyo_nac.toLowerCase() ? 1 : -1
+          a.gender.toLowerCase() < b.gender.toLowerCase() ? 1 : -1
         )
       );
       setIconGender(faSortDown);
@@ -222,7 +222,7 @@ function Management() {
     if (directionAge === "ASC") {
       setUser(
         user.sort((a, b) =>
-          a.anyo_nac.toLowerCase() > b.anyo_nac.toLowerCase() ? 1 : -1
+          a.birthday.toLowerCase() > b.birthday.toLowerCase() ? 1 : -1
         )
       );
       setIconAge(faSortUp);
@@ -230,7 +230,7 @@ function Management() {
     } else if (directionAge === "DESC") {
       setUser(
         user.sort((a, b) =>
-          a.anyo_nac.toLowerCase() < b.anyo_nac.toLowerCase() ? 1 : -1
+          a.birthday.toLowerCase() < b.birthday.toLowerCase() ? 1 : -1
         )
       );
       setIconAge(faSortDown);
@@ -285,28 +285,26 @@ function Management() {
       if (query === "") {
         return value;
       } else if (
-        value.nickname.toLowerCase().includes(query.toLocaleLowerCase())
+        value.nickName.toLowerCase().includes(query.toLocaleLowerCase())
       ) {
         return value;
       }
     })
     .slice(0, paginate)
     .map((userItem) => {
-      const { nickname, genero, pais, anyo_nac } = userItem;
-      let countryFound = countryCodeISO.find(
-        (country) => country.name === pais
-      );
+      const { idUser, nickName, gender, country, birthday } = userItem;
+      let countryFound = countryCodeISO.find((elem) => elem.name === country);
       return (
-        <div key={nickname}>
+        <div key={idUser}>
           <table className="table table-striped table-dark table-bordered table-hover align-middle">
             <tbody>
               <tr>
                 <th width="20%" scope="row">
-                  {nickname}
+                  {nickName}
                 </th>
-                <td width="20%">{genero}</td>
+                <td width="20%">{gender}</td>
                 <td width="20%">
-                  {moment(anyo_nac, "DD-MM-YYYY").fromNow(true).split(" ")[0]}
+                  {moment(birthday, "DD-MM-YYYY").fromNow(true).split(" ")[0]}
                 </td>
                 <td width="20%" className="table-alignment">
                   <img
@@ -315,7 +313,7 @@ function Management() {
                     width="30px"
                     style={{ marginRight: "10px" }}
                   />
-                  {pais}
+                  {country}
                 </td>
                 <td width="10%">
                   <button
@@ -324,7 +322,7 @@ function Management() {
                   >
                     <i
                       className={`${
-                        nickname !== "admin" ? "bi bi-person-dash-fill" : ""
+                        nickName !== "admin" ? "bi bi-person-dash-fill" : ""
                       }`}
                     ></i>
                   </button>

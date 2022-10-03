@@ -189,6 +189,49 @@ function Register() {
     }
   };
 
+  const checkUserNameLength = () => {
+    if (
+      errors.userName?.message ===
+        "El nombre debe tener al menos 3 caracteres." ||
+      errors.userName?.message ===
+        "El nombre debe tener como máximo 30 caracteres."
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const checkRegExpPhone = () => {
+    if (
+      errors.tlf?.message ===
+      "Número de teléfono no válido: formato XXX-XXX-XXX ó XXXXXXXXX."
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const checkRegExpEmail = () => {
+    if (errors.email?.message === "Correo electrónico no válido.") {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const checkRegExpPassword = () => {
+    if (
+      errors.password?.message ===
+      "La contraseña debe tener al menos 8 caracteres y contener una mayúscula, una minúscula, un número y un carácter especial."
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const registerUser = async () => {
     if (checkNullForm()) {
       Swal.fire({
@@ -204,6 +247,20 @@ function Register() {
         icon: "error",
         timer: 2000,
       });
+    } else if (checkUserNameLength()) {
+      Swal.fire({
+        title: "Error en el registro",
+        text: "Nombre de usuario no válido.",
+        icon: "error",
+        timer: 2000,
+      });
+    } else if (checkRegExpPhone()) {
+      Swal.fire({
+        title: "Error en el registro",
+        text: "Número de teléfono no válido.",
+        icon: "error",
+        timer: 2000,
+      });
     } else if (checkEmail()) {
       Swal.fire({
         title: "Error en el registro",
@@ -211,10 +268,24 @@ function Register() {
         icon: "error",
         timer: 2000,
       });
+    } else if (checkRegExpEmail()) {
+      Swal.fire({
+        title: "Error en el registro",
+        text: "Correo electrónico no válido.",
+        icon: "error",
+        timer: 2000,
+      });
     } else if (checkPassword()) {
       Swal.fire({
         title: "Error en el registro",
         text: "Las contraseñas no coinciden.",
+        icon: "error",
+        timer: 2000,
+      });
+    } else if (checkRegExpPassword()) {
+      Swal.fire({
+        title: "Error en el registro",
+        text: "La contraseña no es válida.",
         icon: "error",
         timer: 2000,
       });
