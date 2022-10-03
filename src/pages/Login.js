@@ -9,7 +9,7 @@ import axios from "axios";
 import "../css/userForm.css";
 
 // URLs para manejo de datos en la BD
-const loginURL = "https://cryptoaholic-api.vercel.app//login/";
+const loginURL = "https://cryptoaholic-api.vercel.app/login/";
 
 function Login() {
   const [nickName, setNickName] = useState("");
@@ -35,7 +35,6 @@ function Login() {
 
   // Petición a la API de Cryptoaholic para realizar login
   const loginUser = async () => {
-    console.log(nickName, password);
     await axios
       .post(loginURL, { nickName: nickName, password: password })
       .then((response) => {
