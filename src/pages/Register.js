@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ButtonUnstyled } from "@mui/base";
 import { useForm } from "react-hook-form";
@@ -18,9 +18,8 @@ require("dayjs/locale/es");
 dayjs.locale("es");
 
 // URLs para manejo de datos en la BD
-const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
-const registerURL =
-  "http://ec2-18-206-137-85.compute-1.amazonaws.com/register/";
+const usersURL = "https://localhost:3050/users/";
+const registerURL = "https://localhost:3050/register/";
 
 // Expresión regular para validar formato de correo electrónico
 const regExpMail = RegExp(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/);
@@ -42,6 +41,7 @@ function Register() {
     mode: "all",
   });
 
+  const [users, setUsers] = useState([]);
   const genders = ["Hombre", "Mujer"];
 
   const [userName, setUserName] = useState("");
@@ -78,6 +78,15 @@ function Register() {
   }));
 
   const { classes } = useStyles();
+
+  // Extraer usuarios de la BD
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const { data } = await axios.get(usersURL);
+      setUsers(data);
+    };
+    fetchUsers();
+  }, []);
 
   // Mostrar contraseña
   const handleToggle = () => {
@@ -147,44 +156,62 @@ function Register() {
       gender === "" ||
       tlf === ""
     ) {
-      Swal.fire({
-        title: "¡Error!",
-        text: "Los campos no pueden estar vacíos.",
-        icon: "error",
-        timer: 2000,
-      });
+      return true;
     } else {
-      fetchUsers();
+      return false;
     }
   };
 
-  // Comprobar usuarios y correos existentes
-  const fetchUsers = async () => {
-    const { data } = await axios.get(usersURL);
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].nickname === userName) {
-        Swal.fire({
-          title: "Error en el registro",
-          text: "Ya existe un usuario con ese nombre.",
-          icon: "error",
-          timer: 2000,
-        });
-      } else if (data[i].email === email) {
-        Swal.fire({
-          title: "Error en el registro",
-          text: "Correo electrónico asociado a una cuenta existente.",
-          icon: "error",
-          timer: 2000,
-        });
-      } else {
-        checkPassword();
-      }
+  // Comprobar nombre de usuario existente
+  const checkUserName = () => {
+    if (users.find((elem) => elem.nickName === userName)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // Comprobar correo electrónico existente
+  const checkEmail = () => {
+    if (users.find((elem) => elem.email === email)) {
+      return true;
+    } else {
+      return false;
     }
   };
 
   // Función para compronar si las contraseñas son iguales
   const checkPassword = () => {
     if (password !== cPassword) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const registerUser = async () => {
+    if (checkNullForm()) {
+      Swal.fire({
+        title: "¡Error!",
+        text: "Los campos no pueden estar vacíos.",
+        icon: "error",
+        timer: 2000,
+      });
+    } else if (checkUserName()) {
+      Swal.fire({
+        title: "Error en el registro",
+        text: "Ya existe un usuario con ese nombre.",
+        icon: "error",
+        timer: 2000,
+      });
+    } else if (checkEmail()) {
+      Swal.fire({
+        title: "Error en el registro",
+        text: "Correo electrónico asociado a una cuenta existente.",
+        icon: "error",
+        timer: 2000,
+      });
+    } else if (checkPassword()) {
       Swal.fire({
         title: "Error en el registro",
         text: "Las contraseñas no coinciden.",
@@ -192,35 +219,33 @@ function Register() {
         timer: 2000,
       });
     } else {
-      registerUser();
-    }
-  };
-
-  const registerUser = async () => {
-    await axios
-      .post(registerURL, {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        username: userName,
-        password: password,
-        country: country,
-        date: formatBD,
-        genero: gender,
-        telefono: tlf,
-      })
-      .then(() => {
-        Swal.fire({
-          title: "Te has registrado correctamente.",
-          text: "Inicia sesión ahora!",
-          icon: "success",
-          timer: 1000,
-        }).then(() => {
-          setTimeout(() => {
-            window.location.replace("/login");
-          }, 1500);
+      await axios
+        .post(registerURL, {
+          firstName: firstName,
+          lastName: lastName,
+          nickName: userName,
+          email: email,
+          password: password,
+          phone: tlf,
+          birthday: formatBD,
+          country: country,
+          gender: gender,
+        })
+        .then((response) => {
+          if (response.status === 201) {
+            Swal.fire({
+              title: "Te has registrado correctamente.",
+              text: "Inicia sesión ahora!",
+              icon: "success",
+              timer: 1000,
+            }).then(() => {
+              setTimeout(() => {
+                window.location.replace("/login");
+              }, 1500);
+            });
+          }
         });
-      });
+    }
   };
 
   return (
@@ -417,7 +442,7 @@ function Register() {
             <div className="d-grid gap-2">
               <button
                 type="button"
-                onClick={checkNullForm}
+                onClick={registerUser}
                 className="btn btn-primary btn-block btn-lg"
               >
                 Registrar

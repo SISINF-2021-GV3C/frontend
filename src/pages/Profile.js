@@ -6,7 +6,7 @@ import "../css/profile.css";
 import { useEffect } from "react";
 
 // URLs para manejo de datos en la BD
-const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
+const usersURL = "https://localhost:3050/users/";
 
 function Profile() {
   // Constantes para cargar el login y el usuario
@@ -25,22 +25,22 @@ function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const { data } = await axios.get(usersURL);
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].nickname === loadUserName) {
-          setUserName(data[i].nickname);
-          setEmail(data[i].email);
-          setTlf(data[i].telefono);
-          setFirstName(data[i].nombre);
-          setLastName(data[i].apellido);
-          setBirthday(data[i].anyo_nac);
-          setCountry(data[i].pais);
-          setGenre(data[i].genero);
-        }
+    const fetchUser = async () => {
+      const { data } = await axios.get(usersURL + loadUserName);
+      if (data.length > 0) {
+        setUserName(data[0].nickName);
+        setEmail(data[0].email);
+        setTlf(data[0].phone);
+        setFirstName(data[0].firstName);
+        setLastName(data[0].lastName);
+        setBirthday(data[0].birthday);
+        setCountry(data[0].country);
+        setGenre(data[0].gender);
+      } else {
+        console.log("Contenido no encontrado...");
       }
     };
-    fetchUsers();
+    fetchUser();
   }, [userName, loadLogin, loadUserName]);
 
   // Función para gestionar el cierre de sesión

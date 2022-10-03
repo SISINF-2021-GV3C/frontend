@@ -18,9 +18,8 @@ import "../css/adminPage.css";
 const flagsURL = "https://countryflagsapi.com/svg/";
 
 // URLs para manejo de datos en la BD
-const usersURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/getUsers/";
-const userDelURL =
-  "http://ec2-18-206-137-85.compute-1.amazonaws.com/deleteUser/";
+const usersURL = "http://localhost:3050/users/";
+const userDelURL = "http://localhost:3050/deleteUser/";
 
 function Management() {
   const navigate = useNavigate();

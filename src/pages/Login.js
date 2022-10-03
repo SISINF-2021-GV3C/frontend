@@ -9,10 +9,10 @@ import axios from "axios";
 import "../css/userForm.css";
 
 // URLs para manejo de datos en la BD
-const loginURL = "http://ec2-18-206-137-85.compute-1.amazonaws.com/login/";
+const loginURL = "https://localhost:3050/login/";
 
 function Login() {
-  const [userName, setUsername] = useState("");
+  const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const [type, setType] = useState("password");
   const [icon, setIcon] = useState(faEyeSlash);
@@ -21,7 +21,7 @@ function Login() {
   const handleLogin = (event) => {
     event.preventDefault();
     // Comprobar si hay campos vacíos
-    if (userName === "" || password === "") {
+    if (nickName === "" || password === "") {
       Swal.fire({
         title: "¡Error!",
         text: "Los campos no pueden estar vacíos.",
@@ -35,19 +35,20 @@ function Login() {
 
   // Petición a la API de Cryptoaholic para realizar login
   const loginUser = async () => {
+    console.log(nickName, password);
     await axios
-      .post(loginURL, { username: userName, password: password })
+      .post(loginURL, { nickName: nickName, password: password })
       .then((response) => {
         if (response.status === 200) {
-          if (userName === "admin") {
-            sessionStorage.setItem("nickName", userName);
+          if (nickName === "admin") {
+            sessionStorage.setItem("nickName", nickName);
             sessionStorage.setItem("loggedIn", true);
             sessionStorage.setItem("adminLogin", true);
             setTimeout(() => {
               window.location.replace("/management");
             }, 500);
           } else {
-            sessionStorage.setItem("nickName", userName);
+            sessionStorage.setItem("nickName", nickName);
             sessionStorage.setItem("loggedIn", true);
             setTimeout(() => {
               window.location.replace("/my-coins");
@@ -96,7 +97,7 @@ function Login() {
                 className="form-control"
                 name="Username"
                 placeholder="Introduce tu nombre de usuario"
-                onChange={({ target }) => setUsername(target.value)}
+                onChange={({ target }) => setNickName(target.value)}
               />
             </div>
             <p></p>
