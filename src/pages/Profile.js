@@ -6,7 +6,7 @@ import "../css/profile.css";
 import { useEffect } from "react";
 
 // URLs para manejo de datos en la BD
-const usersURL = "https://localhost:3050/users/";
+const usersURL = "https://cryptoaholic-api.vercel.app/users/";
 
 function Profile() {
   // Constantes para cargar el login y el usuario

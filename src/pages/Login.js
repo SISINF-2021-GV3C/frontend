@@ -9,7 +9,7 @@ import axios from "axios";
 import "../css/userForm.css";
 
 // URLs para manejo de datos en la BD
-const loginURL = "https://localhost:3050/login/";
+const loginURL = "https://cryptoaholic-api.vercel.app//login/";
 
 function Login() {
   const [nickName, setNickName] = useState("");

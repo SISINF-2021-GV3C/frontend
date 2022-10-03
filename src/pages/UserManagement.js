@@ -18,8 +18,8 @@ import "../css/adminPage.css";
 const flagsURL = "https://countryflagsapi.com/svg/";
 
 // URLs para manejo de datos en la BD
-const usersURL = "http://localhost:3050/users/";
-const userDelURL = "http://localhost:3050/deleteUser/";
+const usersURL = "https://cryptoaholic-api.vercel.app/users/";
+const userDelURL = "https://cryptoaholic-api.vercel.app/deleteUser/";
 
 function Management() {
   const navigate = useNavigate();

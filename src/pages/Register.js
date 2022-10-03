@@ -18,8 +18,8 @@ require("dayjs/locale/es");
 dayjs.locale("es");
 
 // URLs para manejo de datos en la BD
-const usersURL = "https://localhost:3050/users/";
-const registerURL = "https://localhost:3050/register/";
+const usersURL = "https://cryptoaholic-api.vercel.app/users/";
+const registerURL = "https://cryptoaholic-api.vercel.app/register/";
 
 // Expresión regular para validar formato de correo electrónico
 const regExpMail = RegExp(/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/);
