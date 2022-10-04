@@ -110,7 +110,7 @@ function Management() {
         confirmButtonText: "Sí, ¡elimínalo!",
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.post(userDelURL, { username: user.nickname });
+          axios.delete(userDelURL + user.nickName);
           Swal.fire({
             title: "¡Éxito!",
             text: "El usuario se ha eliminado correctamente.",

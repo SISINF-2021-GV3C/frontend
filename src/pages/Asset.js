@@ -13,12 +13,9 @@ import MenuItem from "@mui/material/MenuItem";
 import "../css/asset.css";
 
 // URLs para manejo de datos en la BD
-const addCoinURL =
-  "http://ec2-18-206-137-85.compute-1.amazonaws.com/addFavCoin/";
-const delCoinURL =
-  "http://ec2-18-206-137-85.compute-1.amazonaws.com/deleteFavCoin/";
-const getFavCoinURL =
-  "http://ec2-18-206-137-85.compute-1.amazonaws.com/getFavCoin";
+const addCoinURL = "https://cryptoaholic-api.vercel.app/addCoin/";
+const delCoinURL = "https://cryptoaholic-api.vercel.app/delCoin/";
+const getFavCoinURL = "https://cryptoaholic-api.vercel.app/portfolios/";
 
 function Asset() {
   // Constantes para cargar valores predeterminados
@@ -56,14 +53,12 @@ function Asset() {
 
   // Cargar monedas favoritas del usuario
   const fetchFavCoins = async () => {
-    const { data } = await axios.get(
-      getFavCoinURL + "?username=" + loadUserName
-    );
+    const { data } = await axios.get(getFavCoinURL + loadUserName);
     // Buscar la moneda dentro de las favoritas
-    let emptyFavs = data === false; // Comprobar si la lista está vacía
+    let emptyFavs = data.length === 0; // Comprobar si la lista está vacía
     if (!emptyFavs) {
       // Si no lo está...
-      let foundCoin = data.find((e) => e.simbolo === coin.symbol);
+      let foundCoin = data.find((e) => e.coinSymbol === coin.symbol);
       if (foundCoin) {
         // Si la moneda existe, like puesto.
         setFav("YES");
@@ -100,7 +95,7 @@ function Asset() {
       setMarket_Data(data.market_data);
       setDescription(data.description.en);
     };
-    fetchFavCoins();
+    //fetchFavCoins();
     fetchSingleCoin();
     localStorage.setItem("favedCoin", fav);
     localStorage.setItem("favedCoinCN", favCN);
@@ -133,11 +128,14 @@ function Asset() {
       setFav("YES");
       await axios
         .post(addCoinURL, {
-          username: loadUserName,
-          coin: coin.symbol,
+          nickName: loadUserName,
+          coinSymbol: coin.symbol,
         })
         .then(() => {
           fetchFavCoins();
+        })
+        .catch((error) => {
+          console.error("Ha habido un error!", error);
         });
     } else if (fav === "YES") {
       // Si se ha dado like...
@@ -149,11 +147,14 @@ function Asset() {
       setFav("NO");
       await axios
         .post(delCoinURL, {
-          username: loadUserName,
-          coin: coin.symbol,
+          nickName: loadUserName,
+          coinSymbol: coin.symbol,
         })
         .then(() => {
           fetchFavCoins();
+        })
+        .catch((error) => {
+          console.error("Ha habido un error!", error);
         });
     } else {
       return fav;

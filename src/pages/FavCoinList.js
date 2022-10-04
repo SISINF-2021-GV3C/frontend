@@ -16,8 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 import "../css/coinList.css";
 
 // URLs para manejo de datos en la BD
-const getFavCoinURL =
-  "http://ec2-18-206-137-85.compute-1.amazonaws.com/getFavCoin";
+const getFavCoinURL = "https://cryptoaholic-api.vercel.app/portfolios/";
 
 function FavCoins() {
   // Constantes de manejo de datos y paginación
@@ -83,7 +82,7 @@ function FavCoins() {
       .catch((error) => console.error(`Error: ${error}`));
     // Obtener monedas favoritas de la base de datos de Cryptoaholic.
     await axios
-      .get(getFavCoinURL + "?username=" + loadUserName)
+      .get(getFavCoinURL + loadUserName)
       .then((response) => {
         getFavCoins = response.data;
         setFavCoin(response.data);
@@ -91,7 +90,7 @@ function FavCoins() {
       .catch((error) => console.error(`Error: ${error}`));
     // Buscar valores correspondientes de monedas en un array y otro.
     const matching = getCoins.filter((o1) =>
-      getFavCoins.some((o2) => o1.symbol === o2.simbolo)
+      getFavCoins.some((o2) => o1.symbol === o2.coinSymbol)
     );
     setMatchingCoins(matching);
   };

@@ -16,7 +16,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const flagsURL = "https://countryflagsapi.com/svg/";
 
 // URLs para manejo de datos en la BD
-const statsURL = "https://localhost:3050/stats/";
+const countryStatsURL = "https://cryptoaholic-api.vercel.app/countryStats/";
+const coinStatsURL = "https://cryptoaholic-api.vercel.app/coinStats/";
 const usersURL = "https://cryptoaholic-api.vercel.app/users/";
 
 function Dashboard() {
@@ -59,15 +60,15 @@ function Dashboard() {
       .catch((error) => console.error(`Error: ${error}`));
 
     await axios
-      .get(statsURL)
+      .get(coinStatsURL)
       .then((response) => {
-        getFavCoins = response.data.favCoin;
-        setFavCoins(response.data.favCoin);
+        getFavCoins = response.data;
+        setFavCoins(response.data);
       })
       .catch((error) => console.error(`Error: ${error}`));
     // Buscar valores correspondientes de monedas en un array y otro.
     const matching = getCoins.filter((o1) =>
-      getFavCoins.some((o2) => o1.symbol === o2.simbolo)
+      getFavCoins.some((o2) => o1.symbol === o2.coinSymbol)
     );
     setMatchingCoins(matching);
   };
@@ -184,7 +185,7 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchStats = async () => {
-      const { data } = await axios.get(statsURL);
+      const { data } = await axios.get(countryStatsURL);
       setCountries(data);
     };
     fetchCoins();
