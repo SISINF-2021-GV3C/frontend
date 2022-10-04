@@ -98,8 +98,6 @@ function Coins() {
     });
   };
 
-  console.log(coin);
-
   // Ordenar por nombre
   const sortByName = () => {
     if (directionName === "ASC") {

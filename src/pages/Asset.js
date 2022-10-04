@@ -95,7 +95,7 @@ function Asset() {
       setMarket_Data(data.market_data);
       setDescription(data.description.en);
     };
-    //fetchFavCoins();
+    fetchFavCoins();
     fetchSingleCoin();
     localStorage.setItem("favedCoin", fav);
     localStorage.setItem("favedCoinCN", favCN);
@@ -146,10 +146,7 @@ function Asset() {
       setFavCN("bi-star");
       setFav("NO");
       await axios
-        .post(delCoinURL, {
-          nickName: loadUserName,
-          coinSymbol: coin.symbol,
-        })
+        .delete(delCoinURL + loadUserName + "/" + coin.symbol)
         .then(() => {
           fetchFavCoins();
         })
